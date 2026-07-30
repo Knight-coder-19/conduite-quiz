@@ -271,14 +271,56 @@
   }
   .grade-box .grade-value { font-size: 2.4rem; font-weight: 700; color: var(--primary); }
   .grade-box .grade-pct { color: var(--muted); font-size: 0.95rem; margin-top: 0.2rem; }
-  .review-item { padding: 0.8rem 0; border-bottom: 1px solid var(--border); }
+  .review-item { border-bottom: 1px solid var(--border); }
   .review-item:last-child { border-bottom: none; }
-  .review-item .badge {
+  .review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 0.6rem;
+    padding: 0.8rem 0.2rem;
+    cursor: pointer;
+  }
+  .review-header:hover { background: var(--body-bg); }
+  .review-header .review-q { flex: 1; }
+  .review-chevron {
+    flex-shrink: 0;
+    width: 1.1rem;
+    height: 1.1rem;
+    margin-top: 0.15rem;
+    transition: transform 0.2s ease;
+    color: var(--muted);
+  }
+  .review-item.open .review-chevron { transform: rotate(90deg); }
+  .review-answers {
+    font-size: 0.88rem;
+    color: var(--muted);
+    padding: 0 0.2rem 0.6rem;
+  }
+  .review-answers .your-answer { margin-bottom: 0.15rem; }
+  .review-answers .your-answer.wrong { color: var(--danger); }
+  .review-answers .correct-answer { color: var(--success); }
+  .review-explanation {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.25s ease, padding 0.25s ease;
+    background: var(--body-bg);
+    border-radius: 6px;
+    font-size: 0.9rem;
+    line-height: 1.45;
+  }
+  .review-item.open .review-explanation {
+    max-height: 400px;
+    padding: 0.7rem 0.9rem;
+    margin-bottom: 0.7rem;
+  }
+  .badge {
     font-size: 0.72rem;
     font-weight: 600;
     padding: 0.15rem 0.5rem;
     border-radius: 4px;
     margin-left: 0.4rem;
+    flex-shrink: 0;
   }
   .badge.ok { background: var(--success-bg); color: var(--success); }
   .badge.ko { background: var(--danger-bg); color: var(--danger); }
@@ -578,11 +620,28 @@ function finishQuiz() {
     const div = document.createElement("div");
     div.className = "review-item";
     const yourAnswer = r.ua === null ? "Aucune réponse" : r.q.options[r.ua];
-    div.innerHTML = `<div><strong>Question ${r.num}.</strong> ${r.q.q}
-      <span class="badge ${r.correct ? "ok" : "ko"}">${r.correct ? "Correct" : "Incorrect"}</span></div>
-      <div style="font-size:0.88rem; color:var(--muted); margin-top:0.25rem;">
-        Votre réponse : ${yourAnswer}${r.correct ? "" : " — Bonne réponse : " + r.q.options[r.q.answer]}
-      </div>`;
+
+    const header = document.createElement("div");
+    header.className = "review-header";
+    header.innerHTML = `<div class="review-q"><strong>Question ${r.num}.</strong> ${r.q.q}</div>
+      <svg class="review-chevron" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span class="badge ${r.correct ? "ok" : "ko"}">${r.correct ? "Correct" : "Incorrect"}</span>`;
+    header.addEventListener("click", () => div.classList.toggle("open"));
+
+    const answers = document.createElement("div");
+    answers.className = "review-answers";
+    answers.innerHTML = `<div class="your-answer ${r.correct ? "" : "wrong"}">Votre réponse : ${yourAnswer}</div>` +
+      (r.correct ? "" : `<div class="correct-answer">Bonne réponse : ${r.q.options[r.q.answer]}</div>`);
+
+    const explanation = document.createElement("div");
+    explanation.className = "review-explanation";
+    explanation.textContent = r.q.explanation || "";
+
+    div.appendChild(header);
+    div.appendChild(answers);
+    div.appendChild(explanation);
     reviewEl.appendChild(div);
   });
 }
