@@ -139,39 +139,9 @@ const QUESTIONS = [
     explanation: "On doit laisser au moins 1 mètre d'écart en passant devant ou derrière un piéton engagé sur le passage, qui est prioritaire."
   },
 
-  // Chapitre 2 — Catégories de permis de conduire (chiffres officiels : ANaTT / Présidence de la République du Bénin, 2020)
+  // Permis catégorie B (voitures de tourisme) et informations générales — chiffres officiels ANaTT / Présidence de la République du Bénin, 2020
   {
-    q: "Âge minimum pour passer le permis catégorie A1 (vélomoteur, cyclomoteur) ?",
-    options: ["16 ans", "18 ans", "21 ans"],
-    answer: 0,
-    explanation: "Le permis A1 (vélomoteur, cyclomoteur) peut être passé dès 16 ans."
-  },
-  {
-    q: "Le permis A1 concerne les véhicules à moteur thermique dont la cylindrée n'excède pas :",
-    options: ["50 cm³", "75 cm³", "125 cm³"],
-    answer: 1,
-    explanation: "Selon le document officiel de l'ANaTT, le permis A1 couvre les véhicules dont la cylindrée n'excède pas 75 cm³."
-  },
-  {
-    q: "Âge minimum pour passer le permis catégorie A2 (motocyclette, tricycle, quadricycle) ?",
-    options: ["16 ans", "18 ans", "21 ans"],
-    answer: 1,
-    explanation: "Le permis A2 se passe à partir de 18 ans."
-  },
-  {
-    q: "Le permis A2 concerne les véhicules dont la cylindrée est comprise entre 75 cm³ et :",
-    options: ["250 cm³", "400 cm³", "500 cm³"],
-    answer: 1,
-    explanation: "Le permis A2 couvre les motocyclettes, tricycles et quadricycles de plus de 75 cm³ n'excédant pas 400 cm³."
-  },
-  {
-    q: "Âge minimum pour passer le permis catégorie A3 (motocyclette de plus de 400 cm³) ?",
-    options: ["18 ans", "21 ans", "25 ans"],
-    answer: 1,
-    explanation: "Le permis A3 (motocyclettes de plus de 400 cm³) se passe à partir de 21 ans."
-  },
-  {
-    q: "Âge minimum pour passer le permis catégorie B ?",
+    q: "Âge minimum pour passer le permis catégorie B (voitures de tourisme) ?",
     options: ["16 ans", "18 ans", "21 ans"],
     answer: 1,
     explanation: "Le permis B (véhicule de tourisme) se passe à partir de 18 ans."
@@ -183,76 +153,16 @@ const QUESTIONS = [
     explanation: "Le permis B couvre les véhicules de moins de 10 places (conducteur compris) et un PTAC n'excédant pas 3 500 kg."
   },
   {
-    q: "Le permis catégorie C concerne les véhicules de transport de marchandises ou de matériels de plus de 3 500 kg et n'excédant pas :",
-    options: ["10 000 kg", "18 000 kg", "25 000 kg"],
-    answer: 1,
-    explanation: "Le permis C couvre les véhicules de transport de marchandises dont le PTAC est compris entre 3 500 kg et 18 000 kg."
-  },
-  {
-    q: "Âge minimum pour passer le permis catégorie C ?",
-    options: ["18 ans", "21 ans", "25 ans"],
-    answer: 1,
-    explanation: "Le permis C se passe à partir de 21 ans, et au moins un an après l'obtention du permis B."
-  },
-  {
-    q: "Le permis catégorie C1 concerne les poids lourds de plus de :",
-    options: ["3 500 kg", "10 000 kg", "18 tonnes"],
-    answer: 2,
-    explanation: "Le permis C1 concerne les poids lourds dont le PTAC dépasse 18 tonnes, au-delà du champ du permis C."
-  },
-  {
-    q: "Le permis catégorie DR (21 ans) concerne :",
-    options: ["Les minibus de 18 places et 3,5 tonnes", "Les poids lourds de plus de 18 tonnes", "Les véhicules à deux roues"],
-    answer: 0,
-    explanation: "Le permis DR est destiné aux minibus (18 places, 3,5 tonnes), une catégorie intermédiaire entre B et D."
-  },
-  {
-    q: "Le permis catégorie D (21 ans) concerne le transport en commun de personnes de plus de :",
-    options: ["9 places", "18 places", "30 places"],
-    answer: 1,
-    explanation: "Le permis D concerne les véhicules de transport en commun de personnes de plus de 18 places (grands bus)."
-  },
-  {
-    q: "Le permis catégorie E (21 ans) permet d'atteler des remorques de plus de :",
-    options: ["250 kg", "750 kg", "1 500 kg"],
-    answer: 1,
-    explanation: "Le permis E permet d'atteler des remorques ou caravanes de plus de 750 kg au véhicule tracteur."
-  },
-  {
-    q: "Âge minimum pour passer le permis catégorie F (véhicules aménagés pour handicapés) ?",
-    options: ["16 ans", "18 ans", "21 ans"],
-    answer: 1,
-    explanation: "Le permis F se passe à partir de 18 ans, comme le permis B dont il reprend les limites de poids et de places."
-  },
-  {
-    q: "Le permis catégorie F concerne les véhicules de moins de 10 places dont le poids total autorisé n'excède pas 3 500 kg et qui sont :",
-    options: ["Spécialement aménagés pour les personnes handicapées", "Réservés au transport scolaire", "Réservés aux taxis"],
-    answer: 0,
-    explanation: "Le permis F reprend le même gabarit que le permis B mais pour des véhicules aménagés afin de permettre aux personnes handicapées de conduire."
-  },
-  {
-    q: "Quelle est la durée de validité des permis des catégories A1, A2, A3, B et F ?",
+    q: "Quelle est la durée de validité du permis catégorie B ?",
     options: ["5 ans", "10 ans", "Indéterminée (pas de renouvellement)"],
     answer: 2,
-    explanation: "D'après le document officiel de l'ANaTT (2020), les catégories A1, A2, A3, B et F ont une durée de validité indéterminée : elles ne se renouvellent pas."
-  },
-  {
-    q: "Pour les catégories C, C1, DR et D, la durée de validité du permis :",
-    options: ["Est indéterminée comme pour le permis B", "Varie selon l'âge du titulaire", "Est toujours de 3 ans"],
-    answer: 1,
-    explanation: "Contrairement à A1/A2/A3/B/F, la validité des permis C, C1, DR et D varie selon l'âge du titulaire (renouvellement plus fréquent avec l'âge)."
+    explanation: "D'après le document officiel de l'ANaTT (2020), le permis B a une durée de validité indéterminée : il ne se renouvelle pas."
   },
   {
     q: "Quelle est la durée de validité d'un permis de conduire international délivré au Bénin ?",
     options: ["1 an", "3 ans", "5 ans"],
     answer: 1,
     explanation: "Le permis de conduire international délivré au Bénin est valable 3 ans."
-  },
-  {
-    q: "Pour passer les permis DR, C, C1 ou D, quelle condition doit être remplie au préalable ?",
-    options: ["Avoir plus de 30 ans", "Détenir le permis B depuis au moins un an", "Avoir déjà un permis international"],
-    answer: 1,
-    explanation: "Ces catégories nécessitent de détenir déjà le permis B depuis au moins un an avant de pouvoir les passer."
   },
   {
     q: "Pour obtenir le permis de conduire au Bénin, il faut réussir l'épreuve écrite du code avec au moins la note :",
@@ -528,5 +438,65 @@ const QUESTIONS = [
     ],
     answer: 1,
     explanation: "Des feux hors service ne comptent plus comme signalisation : on se rabat sur la règle par défaut, la priorité à droite, en abordant le carrefour avec prudence."
+  },
+
+  // Compléments issus du Manuel officiel du candidat à l'examen du permis de conduire (Bénin, Direction Générale des Transports Terrestres)
+  {
+    q: "À quelle distance avant la zone dangereuse un panneau de danger est-il placé en agglomération ?",
+    options: ["20 mètres", "50 mètres", "100 mètres"],
+    answer: 1,
+    explanation: "En agglomération, les panneaux de danger sont placés 50 mètres avant la zone dangereuse (150 mètres en rase campagne)."
+  },
+  {
+    q: "À quelle distance avant la zone dangereuse un panneau de danger est-il placé en rase campagne ?",
+    options: ["50 mètres", "100 mètres", "150 mètres"],
+    answer: 2,
+    explanation: "En rase campagne, où l'on roule plus vite, le panneau de danger est placé plus tôt : 150 mètres avant la zone dangereuse, contre 50 m en agglomération."
+  },
+  {
+    q: "Un panneau rond bleu barré de rouge signifie :",
+    options: ["Une interdiction", "Une obligation", "La fin d'une obligation", "Un danger"],
+    answer: 2,
+    explanation: "Le rond bleu barré de rouge annonce la fin d'une obligation (par exemple la fin d'une voie réservée ou d'une direction imposée)."
+  },
+  {
+    q: "Un panneau rond blanc barré de noir signifie :",
+    options: ["La fin d'une interdiction", "Une nouvelle interdiction", "Une obligation", "Un danger"],
+    answer: 0,
+    explanation: "Le rond blanc barré de noir signale la fin d'une interdiction précédemment imposée."
+  },
+  {
+    q: "Combien existe-t-il de types de balises le long des routes (virage, manche à air, intersection, délinéateur, passage à niveau, tête d'îlot...) ?",
+    options: ["5", "7", "9"],
+    answer: 1,
+    explanation: "Le manuel officiel dénombre 7 types de balises : virage, manche à air, virage dangereux/rétrécissement, intersection, délinéateur, passage à niveau, et tête d'îlot directionnel."
+  },
+  {
+    q: "Combien y a-t-il de pédales dans une voiture à boîte manuelle ?",
+    options: ["2", "3", "4"],
+    answer: 1,
+    explanation: "Une voiture à boîte manuelle a 3 pédales : l'embrayage, le frein et l'accélérateur."
+  },
+  {
+    q: "Selon le Manuel du candidat, le Code de la route a pour but :",
+    options: [
+      "D'indiquer ou de rappeler les diverses prescriptions aux usagers de la route",
+      "De fixer uniquement le prix des infractions",
+      "De remplacer la formation en auto-école",
+      "De s'appliquer uniquement aux poids lourds"
+    ],
+    answer: 0,
+    explanation: "Le Code de la route est l'ensemble des règles et signalisations à observer pour une circulation sûre et rapide, dont le but est d'indiquer/rappeler les prescriptions aux usagers."
+  },
+  {
+    q: "Quelle est la différence entre une route et une autoroute ?",
+    options: [
+      "Aucune, ce sont des synonymes",
+      "L'autoroute a deux chaussées séparées par un terre-plein central, sans intersections, réservée à la circulation rapide",
+      "La route est réservée aux poids lourds",
+      "L'autoroute est gratuite alors que la route est payante"
+    ],
+    answer: 1,
+    explanation: "L'autoroute est composée de deux chaussées séparées par un terre-plein central, sans intersections, accessible seulement à des points aménagés, contrairement à une route ordinaire."
   }
 ];
