@@ -498,5 +498,65 @@ const QUESTIONS = [
     ],
     answer: 1,
     explanation: "L'autoroute est composée de deux chaussées séparées par un terre-plein central, sans intersections, accessible seulement à des points aménagés, contrairement à une route ordinaire."
+  },
+
+  // Sécurité routière générale (règles universelles de conduite)
+  {
+    q: "Les panneaux d'indication sont généralement implantés :",
+    options: ["Très loin de ce qu'ils signalent", "À proximité de ce qu'ils signalent", "Uniquement sur autoroute"],
+    answer: 1,
+    explanation: "Contrairement aux panneaux de danger (placés en amont) ou d'interdiction, les panneaux d'indication sont placés près du lieu ou du service qu'ils signalent."
+  },
+  {
+    q: "Lors d'un dépassement, faut-il totalement quitter sa voie pour occuper la voie de gauche ?",
+    options: ["Oui, complètement", "Non, on peut rester à cheval sur les deux voies", "Seulement de nuit"],
+    answer: 0,
+    explanation: "Il faut quitter complètement sa voie lors d'un dépassement, pour respecter une distance de sécurité latérale suffisante avec le véhicule dépassé."
+  },
+  {
+    q: "Une ligne blanche discontinue peut être franchie :",
+    options: ["Jamais", "Uniquement si c'est prudent et nécessaire (bonne visibilité, pas de danger)", "Uniquement de nuit"],
+    answer: 1,
+    explanation: "La ligne discontinue autorise le franchissement (dépassement, changement de voie) sous réserve que ce soit fait prudemment et en sécurité."
+  },
+  {
+    q: "Utiliser son téléphone au volant (conversation ou manipulation) est-il considéré comme une infraction ?",
+    options: ["Non, seulement la manipulation", "Non, seulement la conversation", "Oui, les deux"],
+    answer: 2,
+    explanation: "Toute interaction avec le téléphone (parler ou manipuler l'appareil) détourne l'attention du conducteur et augmente le risque d'accident."
+  },
+  {
+    q: "Le temps de réaction du conducteur n'augmente qu'avec la consommation d'alcool.",
+    options: ["Vrai", "Faux : il augmente aussi avec la fatigue, les médicaments, les drogues ou la distraction"],
+    answer: 1,
+    explanation: "L'alcool n'est qu'un facteur parmi d'autres : fatigue, médicaments, drogues et distraction (téléphone, etc.) augmentent aussi le temps de réaction."
+  },
+  {
+    q: "Si vous coupez la route à un autre véhicule sans lui céder le passage, qui a la priorité ?",
+    options: ["Vous, puisque vous êtes passé en premier", "L'autre véhicule : couper le passage sans céder la priorité est interdit et dangereux"],
+    answer: 1,
+    explanation: "Couper le chemin d'un autre véhicule sans lui céder la priorité qui lui revient est une infraction, indépendamment de qui est passé en premier."
+  },
+  {
+    q: "Sur route mouillée, la distance d'arrêt par rapport à une route sèche est :",
+    options: ["La même", "Environ doublée", "Réduite de moitié"],
+    answer: 1,
+    explanation: "L'adhérence étant réduite sur route mouillée, la distance d'arrêt est environ doublée par rapport à une route sèche à la même vitesse."
+  },
+  {
+    q: "La largeur maximale autorisée pour un véhicule de moins de 3 500 kg est de :",
+    options: ["2,55 mètres", "3 mètres", "3,5 mètres"],
+    answer: 0,
+    explanation: "La largeur maximale autorisée (hors rétroviseurs) pour ce type de véhicule est de 2,55 mètres."
+  },
+  {
+    q: "Avant de traverser un passage à niveau sans barrière, le conducteur doit :",
+    options: [
+      "Accélérer pour dégager rapidement la voie",
+      "S'arrêter, observer et s'assurer qu'aucun train n'arrive avant de traverser",
+      "Klaxonner et continuer sans s'arrêter"
+    ],
+    answer: 1,
+    explanation: "En l'absence de barrière, la sécurité impose de s'arrêter, de regarder et d'écouter avant de s'engager sur la voie ferrée."
   }
 ];
