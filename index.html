@@ -400,7 +400,7 @@
       </div>
       <div class="mode-card">
         <h2>Examen blanc</h2>
-        <p class="muted">25 questions tirées au hasard, chronométré (25 minutes), comme un vrai examen. Seuil de réussite : 90%.</p>
+        <p class="muted">25 questions tirées au hasard. 60 secondes par question, passage automatique à la suivante, pas de retour en arrière — comme le vrai examen. Seuil de réussite : 90%.</p>
         <button class="btn-primary btn-block" id="startExam">Démarrer l'examen blanc</button>
       </div>
     </div>
@@ -425,9 +425,10 @@
     </div>
     <div class="quiz-side">
       <div class="panel hidden" id="timerPanel">
-        <div class="panel-header">Temps restant</div>
+        <div class="panel-header">Temps pour cette question</div>
         <div class="panel-body" style="text-align:center;">
-          <span class="timer-badge" id="timerText" style="font-size:1.3rem;">--:--</span>
+          <span class="timer-badge" id="timerText" style="font-size:1.6rem;">--</span>
+          <span style="font-size:0.85rem; color: var(--muted);"> s</span>
         </div>
       </div>
       <div class="panel" style="margin-top:0.9rem;">
@@ -484,7 +485,7 @@ const userInput = document.getElementById("username");
 const pwInput = document.getElementById("pw");
 
 const EXAM_QUESTION_COUNT = 25;
-const EXAM_DURATION_SECONDS = 25 * 60;
+const EXAM_SECONDS_PER_QUESTION = 60;
 const EXAM_PASS_THRESHOLD = 0.9;
 
 document.getElementById("unlock").addEventListener("click", tryUnlock);
@@ -525,8 +526,8 @@ let order = [];
 let userAnswers = [];
 let current = 0;
 let quizMode = "full";
-let examTimerInterval = null;
-let examSecondsLeft = 0;
+let questionTimerInterval = null;
+let questionSecondsLeft = 0;
 
 function shuffledIndices(n) {
   const arr = Array.from({length: n}, (_, i) => i);
@@ -553,33 +554,33 @@ function startQuiz(mode) {
   resultEl.classList.add("hidden");
 
   const timerPanel = document.getElementById("timerPanel");
-  clearInterval(examTimerInterval);
-  if (quizMode === "exam") {
-    timerPanel.classList.remove("hidden");
-    examSecondsLeft = EXAM_DURATION_SECONDS;
-    updateTimerDisplay();
-    examTimerInterval = setInterval(() => {
-      examSecondsLeft--;
-      updateTimerDisplay();
-      if (examSecondsLeft <= 0) {
-        clearInterval(examTimerInterval);
-        finishQuiz();
-      }
-    }, 1000);
-  } else {
-    timerPanel.classList.add("hidden");
-  }
+  clearInterval(questionTimerInterval);
+  timerPanel.classList.toggle("hidden", quizMode !== "exam");
 
   buildQnavGrid();
   showQuestion();
+  startQuestionTimer();
+}
+
+function startQuestionTimer() {
+  clearInterval(questionTimerInterval);
+  if (quizMode !== "exam") return;
+  questionSecondsLeft = EXAM_SECONDS_PER_QUESTION;
+  updateTimerDisplay();
+  questionTimerInterval = setInterval(() => {
+    questionSecondsLeft--;
+    updateTimerDisplay();
+    if (questionSecondsLeft <= 0) {
+      clearInterval(questionTimerInterval);
+      goToNextQuestion();
+    }
+  }, 1000);
 }
 
 function updateTimerDisplay() {
-  const m = Math.max(0, Math.floor(examSecondsLeft / 60));
-  const s = Math.max(0, examSecondsLeft % 60);
   const timerText = document.getElementById("timerText");
-  timerText.textContent = `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
-  timerText.classList.toggle("low", examSecondsLeft <= 60);
+  timerText.textContent = String(Math.max(0, questionSecondsLeft));
+  timerText.classList.toggle("low", questionSecondsLeft <= 10);
 }
 
 function buildQnavGrid() {
@@ -589,7 +590,11 @@ function buildQnavGrid() {
     const b = document.createElement("button");
     b.className = "qnav-btn";
     b.textContent = i + 1;
-    b.addEventListener("click", () => { current = i; showQuestion(); });
+    b.addEventListener("click", () => {
+      if (quizMode === "exam") return;
+      current = i;
+      showQuestion();
+    });
     grid.appendChild(b);
   });
   refreshQnavGrid();
@@ -634,10 +639,22 @@ function showQuestion() {
     optsEl.appendChild(row);
   });
 
-  document.getElementById("prevBtn").disabled = current === 0;
-  document.getElementById("nextBtn").textContent = current === order.length - 1 ? "Fin ►" : "Suivant ►";
+  document.getElementById("prevBtn").disabled = quizMode === "exam" || current === 0;
+  document.getElementById("nextBtn").textContent = current === order.length - 1
+    ? (quizMode === "exam" ? "Terminer ►" : "Fin ►")
+    : "Suivant ►";
 
   refreshQnavGrid();
+}
+
+function goToNextQuestion() {
+  if (current < order.length - 1) {
+    current++;
+    showQuestion();
+    startQuestionTimer();
+  } else {
+    finishQuiz();
+  }
 }
 
 function selectAnswer(i) {
@@ -646,9 +663,14 @@ function selectAnswer(i) {
 }
 
 document.getElementById("prevBtn").addEventListener("click", () => {
+  if (quizMode === "exam") return;
   if (current > 0) { current--; showQuestion(); }
 });
 document.getElementById("nextBtn").addEventListener("click", () => {
+  if (quizMode === "exam") {
+    goToNextQuestion();
+    return;
+  }
   if (current < order.length - 1) { current++; showQuestion(); }
 });
 document.getElementById("finishBtn").addEventListener("click", showSummary);
@@ -684,7 +706,7 @@ document.getElementById("backToAttempt").addEventListener("click", () => {
 document.getElementById("confirmSubmit").addEventListener("click", finishQuiz);
 
 function finishQuiz() {
-  clearInterval(examTimerInterval);
+  clearInterval(questionTimerInterval);
 
   let score = 0;
   const reviews = [];
@@ -747,7 +769,7 @@ function finishQuiz() {
 
 document.getElementById("restart").addEventListener("click", () => startQuiz(quizMode));
 document.getElementById("changeMode").addEventListener("click", () => {
-  clearInterval(examTimerInterval);
+  clearInterval(questionTimerInterval);
   resultEl.classList.add("hidden");
   modeSelectEl.classList.remove("hidden");
 });
