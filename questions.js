@@ -634,6 +634,7 @@ const QUESTIONS = [
     explanation: "D'après le Manuel officiel du candidat (Bénin) : Je ne peux ni circuler, ni stationner, ni m'arrêter."
   },
   {
+    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_C13a.svg",
     q: "A la vue du panneau C13a ?",
     options: ["je suis sur un chemin sans issue.", "je suis prioritaire à la prochaine intersection", "je dois aller tout droit seulement"],
     answer: 0,
@@ -646,6 +647,7 @@ const QUESTIONS = [
     explanation: "D'après le Manuel officiel du candidat (Bénin) : Je m'arrête après le panneau et je cède le passage aux usagers venant de gauche et de droite."
   },
   {
+    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_A15c.svg",
     q: "Que signifie le panneau A15c ?",
     options: ["voie réservée aux chevaux", "endroits fréquentés par les animaux domestiques", "passage de cavaliers."],
     answer: 2,
@@ -700,30 +702,35 @@ const QUESTIONS = [
     explanation: "D'après le Manuel officiel du candidat (Bénin) : Je ne peux ni m'arrêter ni stationner."
   },
   {
+    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_A21b.svg",
     q: "Quel danger signale le panneau A21b ?",
     options: ["Voie réservée aux cyclistes", "Voie interdite aux cyclistes", "Débouché de cyclistes venant de gauche seulement", "Débouché de cyclistes venant de gauche ou de droite"],
     answer: 2,
     explanation: "D'après le Manuel officiel du candidat (Bénin) : Débouché de cyclistes venant de gauche seulement."
   },
   {
+    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_A20.svg",
     q: "Quel danger signale le panneau A20 ?",
     options: ["Débouché sur un pont mobile", "Débouché sur un quai ou une berge", "Descente dangereuse"],
     answer: 1,
     explanation: "D'après le Manuel officiel du candidat (Bénin) : Débouché sur un quai ou une berge."
   },
   {
+    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_A16.svg",
     q: "Quel danger signale le panneau A16 ?",
     options: ["Débouché sur un quai ou une berge", "Descente dangereuse", "Débouché sur un pont mobile", "Descente dangereuse sur 10 km"],
     answer: 1,
     explanation: "D'après le Manuel officiel du candidat (Bénin) : Descente dangereuse."
   },
   {
+    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_A6.svg",
     q: "Quel danger signale le panneau A6 ?",
     options: ["Descente dangereuse", "Débouché sur un pont mobile", "Débouché sur un quai ou une berge"],
     answer: 1,
     explanation: "D'après le Manuel officiel du candidat (Bénin) : Débouché sur un pont mobile."
   },
   {
+    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_B6a1.svg",
     q: "Que signifie le panneau B6a1 ?",
     options: ["Stationnement interdit devant le panneau", "Arrêt et stationnement interdits", "Stationnement interdit à partir du panneau"],
     answer: 2,
@@ -736,12 +743,14 @@ const QUESTIONS = [
     explanation: "D'après le Manuel officiel du candidat (Bénin) : Je ne peux stationner nulle part dans la rue où se trouve le panneau."
   },
   {
+    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_B7a.svg",
     q: "Le panneau B7a :",
     options: ["Interdit aux motocyclistes de dépasser les voitures", "Interdit l'accès aux autos et aux motos", "Interdit le stationnement aux autos et aux motos", "Interdit l'accès aux véhicules à deux roues"],
     answer: 1,
     explanation: "D'après le Manuel officiel du candidat (Bénin) : Interdit l'accès aux autos et aux motos."
   },
   {
+    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_B21-1.svg",
     q: "Le panneau B21-1 m'oblige à :",
     options: ["Tourner à droite à la prochaine intersection", "Tourner à droite avant le panneau", "Tourner à droite après le panneau"],
     answer: 1,
@@ -754,48 +763,56 @@ const QUESTIONS = [
     explanation: "D'après le Manuel officiel du candidat (Bénin) : Rien de tout ce qui précède."
   },
   {
+    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_B15.svg",
     q: "Que signifie le panneau B15 ?",
     options: ["Chaussée à double sens", "Céder le passage aux usagers venant en sens inverse", "Circulation à sens unique"],
     answer: 1,
     explanation: "D'après le Manuel officiel du candidat (Bénin) : Céder le passage aux usagers venant en sens inverse."
   },
   {
+    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_A18.svg",
     q: "Quel danger signale le panneau A18 ?",
     options: ["Céder le passage aux usagers venant en sens inverse", "Circulation dangereuse dans les deux sens", "Chaussée rétrécie dans les deux sens"],
     answer: 1,
     explanation: "D'après le Manuel officiel du candidat (Bénin) : Circulation dangereuse dans les deux sens."
   },
   {
+    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_A18.svg",
     q: "A quelle distance du danger est implanté le panneau A18 ?",
     options: ["150m", "50m", "0m"],
     answer: 2,
     explanation: "D'après le Manuel officiel du candidat (Bénin) : 0m."
   },
   {
+    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_B15.svg",
     q: "A la rencontre du panneau B15, quel panneau l'usager venant en sens inverse aurait rencontré ?",
     options: ["Le panneau \"sens interdit\"", "Le panneau \"chaussée rétrécie\"", "Le panneau \"priorité par rapport à la circulation venant en sens inverse \""],
     answer: 2,
     explanation: "D'après le Manuel officiel du candidat (Bénin) : Le panneau \"priorité par rapport à la circulation venant en sens inverse \"."
   },
   {
+    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_B1.svg",
     q: "A la vue du panneau B1, quel panneau l'usager venant en sens inverse aurait rencontré ?",
     options: ["Le panneau \"priorité par rapport à la circulation venant en sens inverse\"", "Le panneau \"céder le passage à la circulation venant en sens inverse\"", "Le panneau \" circulation à sens unique\""],
     answer: 2,
     explanation: "D'après le Manuel officiel du candidat (Bénin) : Le panneau \" circulation à sens unique\"."
   },
   {
+    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_B8.svg",
     q: "Que signifie le panneau B8 ?",
     options: ["Voie réservée aux véhicules de transport de marchandises", "Voie réservée aux véhicules de transport en commun de personnes", "Accès interdit aux véhicules de transport de marchandises"],
     answer: 2,
     explanation: "D'après le Manuel officiel du candidat (Bénin) : Accès interdit aux véhicules de transport de marchandises."
   },
   {
+    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_B18a.svg",
     q: "Que signifie le panneau B18a ?",
     options: ["Accès interdit aux véhicules transportant plus d'une certaine quantité de produits explosifs ou facilement inflammables", "Accès interdit aux véhicules transportant plus d'une certaine quantité de produits de nature à polluer les eaux", "Accès interdit aux véhicules transportant"],
     answer: 0,
     explanation: "D'après le Manuel officiel du candidat (Bénin) : Accès interdit aux véhicules transportant plus d'une certaine quantité de produits explosifs ou facilement inflammables."
   },
   {
+    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_A1c.svg",
     q: "A la vue du panneau A1c, je ralentis ?",
     options: ["Avant chaque virage", "Dans chaque virage", "Après chaque virage"],
     answer: 0,
@@ -808,12 +825,14 @@ const QUESTIONS = [
     explanation: "D'après le Manuel officiel du candidat (Bénin) : Stationner avant le panneau."
   },
   {
+    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_B12.svg",
     q: "Que signifie le panneau B12 (1) ?",
     options: ["Accès interdit à 10km au véhicule dont la hauteur avec ou sans chargement dépasse 3,5m", "Accès interdit sur 10km aux véhicules dont la hauteur avec ou sans chargement dépasse 3,5m 10km", "Accès interdit aux véhicules dont la hauteur avec ou sans chargement dépasse 3,5m", "Vitesse limitée à 10km/h aux véhicules dont la hauteur avec ou sans chargement dépasse 3,5m"],
     answer: 0,
     explanation: "D'après le Manuel officiel du candidat (Bénin) : Accès interdit à 10km au véhicule dont la hauteur avec ou sans chargement dépasse 3,5m."
   },
   {
+    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_B34a.svg",
     q: "Que signifie le panneau B34a ?",
     options: ["Dépassement interdit au camion", "Fin d'interdiction de dépasser aux véhicules de transport de marchandises pesant plus de 3,5T", "Interdiction de dépasser tout véhicule", "Fin d'interdiction de dépasser"],
     answer: 1,
@@ -832,36 +851,42 @@ const QUESTIONS = [
     explanation: "D'après le Manuel officiel du candidat (Bénin) : Voie réservé aux autobus."
   },
   {
+    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_B9g.svg",
     q: "Que signifie le panneau B9g ?",
     options: ["Accès interdit aux cyclomoteurs", "Accès interdit aux motocyclettes", "Accès interdit aux cyclomoteurs et motocyclettes"],
     answer: 0,
     explanation: "D'après le Manuel officiel du candidat (Bénin) : Accès interdit aux cyclomoteurs."
   },
   {
+    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_B10a.svg",
     q: "Que signifie le panneau B10a ?",
     options: ["Accès interdit aux véhicules dont la longueur dépasse 10m avec ou sans chargement", "Accès interdit uniquement aux véhicules de transport de marchandises dont la longueur dépasse 10m", "Accès interdit uniquement aux véhicules de transport en commun de personnes dont"],
     answer: 0,
     explanation: "D'après le Manuel officiel du candidat (Bénin) : Accès interdit aux véhicules dont la longueur dépasse 10m avec ou sans chargement."
   },
   {
+    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_B14.svg",
     q: "Que signifie le panneau B14 (3) ?",
     options: ["Vitesse limitée à 60km/h pour les 2 roues", "Vitesse limitée à 60km/h pour les cyclomoteurs", "Vitesse limitée à 60km/h pour les motocyclettes", "Vitesse limitée à 60km/h pour les cyclomoteurs et les motocyclettes"],
     answer: 2,
     explanation: "D'après le Manuel officiel du candidat (Bénin) : Vitesse limitée à 60km/h pour les motocyclettes."
   },
   {
+    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_B29.svg",
     q: "Le panneau B29 (2) : VEHICULES ?",
     options: ["Ne concerne pas les motocyclettes LENTS roulant à moins de 60km/h", "Concerne tout véhicule à moteur roulant à moins de 60km/h", "Concerne seulement les véhicules automobiles roulant à moins de 60km/h"],
     answer: 1,
     explanation: "D'après le Manuel officiel du candidat (Bénin) : Concerne tout véhicule à moteur roulant à moins de 60km/h."
   },
   {
+    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_B13.svg",
     q: "Que signifie le panneau B13 ?",
     options: ["Accès interdit aux véhicules pesant 5,5T 5.5t", "Accès interdit aux véhicules pesant plus de 5,5T", "Accès interdit aux véhicules pesant moins de 5,5T"],
     answer: 1,
     explanation: "D'après le Manuel officiel du candidat (Bénin) : Accès interdit aux véhicules pesant plus de 5,5T."
   },
   {
+    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_B14.svg",
     q: "Le panneau B14 (4) concerne :",
     options: ["Les véhicules de transport en commun de personnes", "Les véhicules de transport de marchandises", "Tout véhicule de transport", "Tout véhicule de tourisme"],
     answer: 1,
@@ -874,72 +899,84 @@ const QUESTIONS = [
     explanation: "D'après le Manuel officiel du candidat (Bénin) : Ralentir, serrer sa droite et passer en faisant attention au danger."
   },
   {
+    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_A7.svg",
     q: "A la rencontre du panneau A7, que doit-on faire ?",
     options: ["Accélérer et passer", "Ralentir serrer sa droite et passer avec prudence", "Ralentir, serrer sa droite et klaxonner"],
     answer: 1,
     explanation: "D'après le Manuel officiel du candidat (Bénin) : Ralentir serrer sa droite et passer avec prudence."
   },
   {
+    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_A7.svg",
     q: "A quoi peut-on s'attendre à la vue du panneau A7 ?",
     options: ["A voir les rails", "A voir une barrière, des rails", "A voir une barrière automatique"],
     answer: 1,
     explanation: "D'après le Manuel officiel du candidat (Bénin) : A voir une barrière, des rails."
   },
   {
+    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_A8.svg",
     q: "A quoi peut-on s'attendre après le panneau A8 ?",
     options: ["A voir des rails, une barrière", "A voir un panneau de position", "A voir un panneau de position, des rails"],
     answer: 2,
     explanation: "D'après le Manuel officiel du candidat (Bénin) : A voir un panneau de position, des rails."
   },
   {
+    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_A8.svg",
     q: "Que doit-on faire à la vue du panneau A8 ?",
     options: ["Accélérer et passer en vérifiant la gauche et la droite", "Ralentir, regarder à gauche et à droite avant de traverser les rails", "Accélérer et passer tout simplement"],
     answer: 1,
     explanation: "D'après le Manuel officiel du candidat (Bénin) : Ralentir, regarder à gauche et à droite avant de traverser les rails."
   },
   {
+    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_A13a.svg",
     q: "Que doit-on faire à la rencontre du panneau A13a ?",
     options: ["Passer en utilisant son avertisseur sonore pour faire dégager les enfants qui se trouveraient sur la route", "Ralentir, faire attention aux enfants, s'arrêter au besoin pour les laisser passer", "Klaxonner et passer rapidement"],
     answer: 1,
     explanation: "D'après le Manuel officiel du candidat (Bénin) : Ralentir, faire attention aux enfants, s'arrêter au besoin pour les laisser passer."
   },
   {
+    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_A3.svg",
     q: "A la rencontre du panneau A3, que faire lorsqu'un véhicule arrive en sens inverse ?",
     options: ["S'arrêter et laisser le véhicule passer", "Poursuivre sa route", "Serrer sa droite, s'arrêter et laisser le véhicule passer"],
     answer: 2,
     explanation: "D'après le Manuel officiel du candidat (Bénin) : Serrer sa droite, s'arrêter et laisser le véhicule passer."
   },
   {
+    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_B3.svg",
     q: "A la vue du panneau B3 :",
     options: ["Un véhicule peut dépasser un autre véhicule", "Une voiture peut dépasser un camion", "Un camion peut dépasser un autre camion", "Aucun dépassement n'est autorisé"],
     answer: 3,
     explanation: "D'après le Manuel officiel du candidat (Bénin) : Aucun dépassement n'est autorisé."
   },
   {
+    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_B15.svg",
     q: "Que doit-on faire à la vue du panneau B15 ?",
     options: ["Passer sans prendre en compte, l'usager venant en sens inverse", "Passer en serrant sa droite", "S'arrêter pour laisser l'usager venant en sens inverse"],
     answer: 2,
     explanation: "D'après le Manuel officiel du candidat (Bénin) : S'arrêter pour laisser l'usager venant en sens inverse."
   },
   {
+    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_B21c1.svg",
     q: "Que doit-on faire à la vue du panneau B21c1 ?",
     options: ["Tourner immédiatement à droite", "Tourner à droite à la prochaine intersection", "Tourner à droite avant le panneau"],
     answer: 1,
     explanation: "D'après le Manuel officiel du candidat (Bénin) : Tourner à droite à la prochaine intersection."
   },
   {
+    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_B31.svg",
     q: "Que m'indique le panneau B31 ?",
     options: ["La fin de toutes les interdictions sauf le panneau \"STOP\"", "La fin de tous les panneaux", "La fin de tous les panneaux d'interdiction sauf ceux de stationnement et d'arrêt interdits"],
     answer: 2,
     explanation: "D'après le Manuel officiel du candidat (Bénin) : La fin de tous les panneaux d'interdiction sauf ceux de stationnement et d'arrêt interdits."
   },
   {
+    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_B34.svg",
     q: "Qu'indique le panneau B34 ?",
     options: ["Le dépassement est interdit à tous véhicules", "Il est mis fin à l'interdiction de dépasser à tous véhicules", "Il est mis fin à l'interdiction aux petits véhicules seuls de se dépasser"],
     answer: 1,
     explanation: "D'après le Manuel officiel du candidat (Bénin) : Il est mis fin à l'interdiction de dépasser à tous véhicules."
   },
   {
+    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_G1.svg",
     q: "Que doit-on faire à la rencontre du panneau G1 ?",
     options: ["Passer les rails très rapidement", "Ralentir pour passer les rails", "Ralentir, s'assurer qu'aucun train n'arrive ni de droite ni de gauche sur les rails avant de passer"],
     answer: 2,
@@ -1156,12 +1193,14 @@ const QUESTIONS = [
     explanation: "D'après le Manuel officiel du candidat (Bénin) : rien de tout ce qui précède."
   },
   {
+    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_A13b.svg",
     q: "A la vue du panneau A13b :",
     options: ["je passe toujours derrière le piéton en laissant un intervalle d’au moins 1m", "je passe toujours devant le piéton qui me voit bien, en laissant un intervalle d’au moins 1m", "je klaxonne pour obliger le piéton à vite traverser"],
     answer: 0,
     explanation: "D'après le Manuel officiel du candidat (Bénin) : je passe toujours derrière le piéton en laissant un intervalle d’au moins 1m."
   },
   {
+    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_C12.svg",
     q: "A la vue du panneau C12 quel panneau l’usager venant en sens inverse doit voir à l’autre bout de la voie ?",
     options: ["le panneau \"priorité par rapport à la circulation venant en sens inverse\"", "le panneau \"céder le passage à la circulation venant en sens inverse\"", "le panneau \"sens interdit\""],
     answer: 2,
@@ -1480,12 +1519,14 @@ const QUESTIONS = [
     explanation: "D'après le Manuel officiel du candidat (Bénin) : A partir du panneau."
   },
   {
+    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_B2b.svg",
     q: "Le panneau B2b :",
     options: ["interdit le stationnement du côté droit", "interdit de tourner à droite à la prochaine intersection", "oblige à tourner à droite à la prochaine intersection"],
     answer: 1,
     explanation: "D'après le Manuel officiel du candidat (Bénin) : interdit de tourner à droite à la prochaine intersection."
   },
   {
+    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_B2a.svg",
     q: "Le panneau B2a :",
     options: ["interdit de tourner à gauche à la prochaine intersection", "interdit de stationner à gauche dans cette rue", "oblige à tourner à gauche à la prochaine intersection"],
     answer: 0,
@@ -1516,12 +1557,14 @@ const QUESTIONS = [
     explanation: "D'après le Manuel officiel du candidat (Bénin) : 7 jours."
   },
   {
+    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_B7b.svg",
     q: "Le panneau B7b :",
     options: ["interdit le stationnement à tout véhicule à moteur sauf les camions", "interdit l’accès à tous les véhicules à moteurs", "interdit l’accès à tous les véhicules sauf les"],
     answer: 1,
     explanation: "D'après le Manuel officiel du candidat (Bénin) : interdit l’accès à tous les véhicules à moteurs."
   },
   {
+    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_B9c.svg",
     q: "Que signifie le panneau B9c ?",
     options: ["accès interdit aux chevaux", "accès interdit aux véhicules agricoles à moteur", "accès interdit aux véhicules à traction animale"],
     answer: 2,
@@ -1630,12 +1673,14 @@ const QUESTIONS = [
     explanation: "D'après le Manuel officiel du candidat (Bénin) : Rien de tout ce qui précède."
   },
   {
+    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_B2c.svg",
     q: "Que signifie le panneau B2c ?",
     options: ["interdit de tourner à gauche", "interdit de faire la marche arrière", "interdit de faire demi-tour jusqu’à la prochaine intersection incluse", "interdit de faire marche arrière jusqu’à la prochaine intersection incluse"],
     answer: 2,
     explanation: "D'après le Manuel officiel du candidat (Bénin) : interdit de faire demi-tour jusqu’à la prochaine intersection incluse."
   },
   {
+    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_B6a1.svg",
     q: "A la vue du panneau B6a1 :",
     options: ["je peux stationner avant ou après le panneau", "je peux stationner après le panneau", "je peux stationner devant le panneau", "je ne peux pas stationner avant ni après le panneau"],
     answer: 1,
@@ -1708,6 +1753,7 @@ const QUESTIONS = [
     explanation: "D'après le Manuel officiel du candidat (Bénin) : braquer calmement pour ramener le véhicule dans sa trajectoire."
   },
   {
+    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_C12.svg",
     q: "Que signifie le panneau C12 ?",
     options: ["obligation d’aller tout droit après le panneau", "obligation d’aller tout droit jusqu’à la prochaine intersection", "circulation à sens unique"],
     answer: 2,
