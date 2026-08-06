@@ -1,2416 +1,877 @@
+// Banque de questions officielles — Manuel du candidat à l'examen du permis de conduire
+// République du Bénin, Ministère des Travaux Publics et des Transports, Direction Générale des Transports Terrestres.
+// Chaque question reprend fidèlement l'énoncé, les options et la (les) réponse(s) officielle(s) du manuel.
+// `answer` est un index (choix unique) ou un tableau d'index (choix multiples), 0 = a, 1 = b, 2 = c, 3 = d, 4 = e.
+// Les questions reposant uniquement sur la reconnaissance visuelle d'une image (panneau à identifier parmi des
+// images, scène de carrefour avec véhicules colorés, gestes d'agent en image, etc.) ont été volontairement omises
+// car elles ne peuvent pas être posées fidèlement sans l'image d'origine.
+
 const QUESTIONS = [
-  // Chapitre 1 — Le véhicule et le conducteur
-  {
-    q: "Combien de roues possède un véhicule de tourisme, roue de secours comprise ?",
-    options: ["4", "5", "6"],
-    answer: 1,
-    explanation: "Un véhicule de tourisme a 4 roues de marche plus la roue de secours, soit 5 au total."
-  },
-  {
-    q: "La roue de secours est obligatoire :",
-    options: ["Seulement en agglomération", "Seulement pour un long voyage", "Pour tout déplacement"],
-    answer: 2,
-    explanation: "La roue de secours est obligatoire pour tout déplacement, quelle que soit la distance ou le lieu."
-  },
-  {
-    q: "Combien de rétroviseurs sont obligatoires sur un véhicule de tourisme (sur les 3 présents) ?",
-    options: ["1", "2", "3"],
-    answer: 1,
-    explanation: "Sur les 3 rétroviseurs (2 extérieurs + 1 intérieur), seuls l'intérieur et celui du côté conducteur (gauche) sont obligatoires."
-  },
-  {
-    q: "Les essuie-glaces servent à :",
-    options: ["Éclairer la route", "Essuyer le pare-brise", "Refroidir le moteur"],
-    answer: 1,
-    explanation: "Les essuie-glaces, avec le lave-glace, permettent d'essuyer le pare-brise (pluie, saleté) pour garder la visibilité."
-  },
-  {
-    q: "La ceinture de sécurité sert à :",
-    options: ["Attacher les bagages", "Maintenir le conducteur et les passagers en cas de choc", "Signaler un véhicule en panne"],
-    answer: 1,
-    explanation: "La ceinture maintient les occupants sur leur siège en cas d'arrêt brusque, de choc ou d'accident ; elle ne sert jamais à arrimer des bagages."
-  },
-  {
-    q: "Que ne doit-on JAMAIS utiliser pour éteindre un feu d'hydrocarbure ?",
-    options: ["L'extincteur à poudre", "Le sable", "L'eau"],
-    answer: 2,
-    explanation: "L'eau aggrave un feu d'hydrocarbure (essence, huile) car elle disperse le liquide enflammé ; on utilise poudre, sable, mousse, CO2 ou une bâche ignifugée."
-  },
-  {
-    q: "En cas de panne, à quelle distance faut-il placer les triangles de pré-signalisation ?",
-    options: ["10 m à l'avant et à l'arrière", "30 m à l'avant et à l'arrière", "100 m à l'avant et à l'arrière"],
-    answer: 1,
-    explanation: "En cas de panne, les triangles se placent à 30 m à l'avant et à l'arrière du véhicule, pour être visibles à 100 m."
-  },
-  {
-    q: "En cas d'accident, à quelle distance faut-il placer les triangles de pré-signalisation ?",
-    options: ["30 m de part et d'autre", "100 m de part et d'autre", "200 m de part et d'autre"],
-    answer: 2,
-    explanation: "En cas d'accident (situation plus dangereuse qu'une simple panne), les triangles se placent à 200 m de part et d'autre."
-  },
-  {
-    q: "Que ne doit-on jamais utiliser pour signaler un véhicule en panne ou accidenté ?",
-    options: ["Le triangle de pré-signalisation", "Les feux de détresse", "Des touffes d'herbe ou des branchages"],
-    answer: 2,
-    explanation: "Le code de la route ne reconnaît pas les touffes d'herbe ou branchages comme dispositif de signalisation ; seuls le triangle, les feux de détresse ou une lampe sont valables."
-  },
-  {
-    q: "Les feux de route (phares) éclairent à quelle distance ?",
-    options: ["30 mètres", "100 mètres", "150 mètres"],
-    answer: 1,
-    explanation: "Les feux de route (phares), de couleur jaune, éclairent à 100 mètres."
-  },
-  {
-    q: "Les feux de croisement (codes) éclairent à quelle distance ?",
-    options: ["30 mètres", "100 mètres", "150 mètres"],
-    answer: 0,
-    explanation: "Les feux de croisement (codes) éclairent à 30 mètres, moins loin que les feux de route pour ne pas éblouir les autres usagers."
-  },
-  {
-    q: "Les feux de position (veilleuses) sont visibles à quelle distance ?",
-    options: ["30 mètres", "100 mètres", "150 mètres"],
-    answer: 2,
-    explanation: "Les feux de position (veilleuses) n'éclairent pas mais sont visibles à 150 mètres ; ils signalent la présence du véhicule."
-  },
-  {
-    q: "Combien de sortes de feux trouve-t-on à l'arrière d'un véhicule de tourisme ?",
-    options: ["5", "6", "7"],
-    answer: 2,
-    explanation: "À l'arrière, il y a 7 sortes de feux : 5 obligatoires (position, stop, cataphotes, clignotants, plaque) et 2 facultatifs (recul, antibrouillard arrière)."
-  },
-  {
-    q: "Les dispositifs réfléchissants (cataphotes) à l'arrière du véhicule sont-ils obligatoires ?",
-    options: ["Oui", "Non"],
-    answer: 0,
-    explanation: "Les cataphotes (ou catadioptres) rouges à l'arrière sont obligatoires ; ils réfléchissent la lumière et sont visibles à 100 m."
-  },
-  {
-    q: "Quand peut-on allumer les feux de détresse ?",
-    options: ["Au milieu d'un convoi", "En cas de panne/accident, ou en tant que dernier véhicule d'un convoi", "Pour doubler un autre véhicule"],
-    answer: 1,
-    explanation: "Les feux de détresse (4 clignotants ensemble) s'utilisent en cas de panne/accident sans triangle disponible, ou pour signaler qu'on est le dernier véhicule d'un convoi — jamais au milieu ou en tête."
-  },
-  {
-    q: "La carte grise renseigne sur :",
-    options: ["L'identité du véhicule (propriétaire, poids, dimensions...)", "L'identité du conducteur", "Le code de la route"],
-    answer: 0,
-    explanation: "La carte grise est la carte d'identité du véhicule : propriétaire, dimensions, PTAC, charge utile, date de mise en circulation, etc."
-  },
-  {
-    q: "La vignette fiscale concerne :",
-    options: ["Tous les véhicules sans exception", "Les véhicules de transport de marchandises et de personnes", "Uniquement les véhicules administratifs"],
-    answer: 1,
-    explanation: "La vignette fiscale est prélevée sur les véhicules à moteur affectés au transport de marchandises ou de personnes, sauf les véhicules administratifs."
-  },
-  {
-    q: "Sans la visite technique, l'assurance est-elle valable ?",
-    options: ["Oui", "Non"],
-    answer: 1,
-    explanation: "La visite technique atteste du bon état du véhicule ; sans elle, l'assurance ne peut pas être mise en jeu valablement."
-  },
-  {
-    q: "Quel est le dépassement maximal autorisé à l'arrière du véhicule pour un chargement ?",
-    options: ["1 mètre", "3 mètres", "5 mètres"],
-    answer: 1,
-    explanation: "Un chargement peut dépasser au maximum 3 mètres à l'arrière du véhicule (jamais à l'avant)."
-  },
-  {
-    q: "À partir de quelle distance de dépassement le chargement doit-il être signalé par un dispositif réfléchissant rouge ?",
-    options: ["1 mètre", "2 mètres", "3 mètres"],
-    answer: 0,
-    explanation: "Dès 1 mètre de dépassement, il faut signaler le chargement par un dispositif réfléchissant rouge visible à 150 m (les chiffons ou sachets ne sont pas reconnus)."
-  },
-  {
-    q: "Peut-on mélanger passagers et marchandises dans un même véhicule ?",
-    options: ["Oui, sans restriction", "Non"],
-    answer: 1,
-    explanation: "Un véhicule affecté au transport de marchandises ne doit transporter que des marchandises, et inversement pour les personnes ; en cas d'accident, l'assurance ne couvre pas ce qui est hors de l'usage déclaré."
-  },
-  {
-    q: "Face à une flaque d'eau, le conducteur doit :",
-    options: ["Accélérer", "Ralentir pour ne pas éclabousser les autres usagers", "Klaxonner"],
-    answer: 1,
-    explanation: "Il faut ralentir avant une flaque d'eau pour ne pas éclabousser les piétons ou autres usagers."
-  },
-  {
-    q: "Quelle distance minimale doit-on laisser en doublant un piéton engagé sur le passage piéton ?",
-    options: ["0,5 mètre", "1 mètre", "2 mètres"],
-    answer: 1,
-    explanation: "On doit laisser au moins 1 mètre d'écart en passant devant ou derrière un piéton engagé sur le passage, qui est prioritaire."
-  },
 
-  // Permis catégorie B (voitures de tourisme) et informations générales — chiffres officiels ANaTT / Présidence de la République du Bénin, 2020
-  {
-    q: "Âge minimum pour passer le permis catégorie B (voitures de tourisme) ?",
-    options: ["16 ans", "18 ans", "21 ans"],
-    answer: 1,
-    explanation: "Le permis B (véhicule de tourisme) se passe à partir de 18 ans."
-  },
-  {
-    q: "Le permis B concerne les véhicules de moins de 10 places dont le poids total autorisé n'excède pas :",
-    options: ["2 500 kg", "3 500 kg", "7 500 kg"],
-    answer: 1,
-    explanation: "Le permis B couvre les véhicules de moins de 10 places (conducteur compris) et un PTAC n'excédant pas 3 500 kg."
-  },
-  {
-    q: "Quelle est la durée de validité du permis catégorie B ?",
-    options: ["5 ans", "10 ans", "Indéterminée (pas de renouvellement)"],
-    answer: 2,
-    explanation: "D'après le document officiel de l'ANaTT (2020), le permis B a une durée de validité indéterminée : il ne se renouvelle pas."
-  },
-  {
-    q: "Quelle est la durée de validité d'un permis de conduire international délivré au Bénin ?",
-    options: ["1 an", "3 ans", "5 ans"],
-    answer: 1,
-    explanation: "Le permis de conduire international délivré au Bénin est valable 3 ans."
-  },
-  {
-    q: "Pour obtenir le permis de conduire au Bénin, il faut réussir l'épreuve écrite du code avec au moins la note :",
-    options: ["10/20", "14/20", "16/20"],
-    answer: 1,
-    explanation: "La note minimale requise à l'épreuve écrite du code est de 14/20."
-  },
-  {
-    q: "Et réussir l'épreuve pratique de conduite avec la moyenne :",
-    options: ["10/20", "12/20", "15/20"],
-    answer: 1,
-    explanation: "La moyenne minimale requise à l'épreuve pratique de conduite est de 12/20."
-  },
-  {
-    q: "Quelle structure délivre le permis de conduire national au Bénin ?",
-    options: ["Le CNSR", "L'Agence Nationale des Transports Terrestres (ANaTT)", "Le Ministère de la Justice"],
-    answer: 1,
-    explanation: "C'est l'ANaTT (Agence Nationale des Transports Terrestres), via son service des permis de conduire, qui délivre les permis national et international."
-  },
-  {
-    q: "La durée moyenne de traitement d'un dossier de permis de conduire national est de :",
-    options: ["24 heures", "10 jours ouvrables", "1 mois"],
-    answer: 1,
-    explanation: "Le traitement d'un dossier de permis national prend environ 10 jours ouvrables (le permis international, lui, est traité en 24h)."
-  },
-  {
-    q: "La formation en auto-école pour le permis dure en moyenne :",
-    options: ["2 à 3 semaines", "2 à 3 mois", "1 an"],
-    answer: 1,
-    explanation: "La formation dure en moyenne 2 à 3 mois, soit environ 60 heures de code et 15 heures de conduite."
-  },
+// ===================== CHAPITRE II — SIGNALISATIONS (horizontale, verticale, lumineuse, agents) =====================
 
-  // Panneaux de signalisation (Bénin — conformes à la Convention de Vienne, base commune au code de la route français)
-  {
-    q: "Quelle est la forme et la couleur des panneaux de DANGER ?",
-    options: ["Triangle à bord rouge, fond blanc", "Cercle à fond rouge", "Cercle à fond bleu", "Rectangle bleu"],
-    answer: 0,
-    explanation: "Les panneaux de danger sont des triangles à fond blanc et bordure rouge, annonçant un danger précis par un symbole noir."
-  },
-  {
-    q: "Quelle est la forme des panneaux d'INTERDICTION ?",
-    options: ["Triangle", "Cercle à bord rouge", "Cercle à fond bleu", "Carré"],
-    answer: 1,
-    explanation: "Les panneaux d'interdiction sont des cercles à bordure rouge (fond blanc en général)."
-  },
-  {
-    q: "Quelle est la forme et la couleur des panneaux d'OBLIGATION ?",
-    options: ["Triangle rouge", "Cercle rouge", "Cercle à fond bleu", "Rectangle vert"],
-    answer: 2,
-    explanation: "Les panneaux d'obligation sont des cercles à fond bleu, imposant une action immédiate (direction, voie réservée...)."
-  },
-  {
-    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_AB4.svg",
-    q: "Que signifie ce panneau ?",
-    options: ["Cédez le passage", "Arrêt obligatoire à l'intersection (STOP)", "Sens interdit", "Fin de limitation de vitesse"],
-    answer: 1,
-    explanation: "Le panneau octogonal rouge STOP impose un arrêt complet à l'intersection avant de céder le passage."
-  },
-  {
-    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_AB3a.svg",
-    q: "Que signifie ce panneau ?",
-    options: ["Cédez le passage", "Priorité à droite", "Sens giratoire", "Arrêt obligatoire"],
-    answer: 0,
-    explanation: "Le triangle pointe en bas signifie 'Cédez le passage' : il faut laisser la priorité aux véhicules des autres voies."
-  },
-  {
-    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_B1.svg",
-    q: "Que signifie ce panneau ?",
-    options: ["Stationnement interdit", "Sens interdit", "Interdiction de dépasser", "Circulation interdite aux piétons"],
-    answer: 1,
-    explanation: "Le disque rouge avec une barre blanche horizontale signifie 'Sens interdit' : interdiction d'accès dans ce sens."
-  },
-  {
-    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_B3.svg",
-    q: "Que signifie ce panneau ?",
-    options: ["Interdiction de dépasser", "Sens interdit", "Fin d'interdiction de dépasser", "Route prioritaire"],
-    answer: 0,
-    explanation: "Ce panneau (deux voitures, une rouge une noire) interdit de dépasser les autres véhicules."
-  },
-  {
-    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_B14_(50).svg",
-    q: "Que signifie ce panneau ?",
-    options: ["Vitesse minimale de 50 km/h", "Limitation de vitesse à 50 km/h", "Fin de limitation à 50 km/h", "Numéro de route"],
-    answer: 1,
-    explanation: "Le disque rouge avec un chiffre indique la vitesse maximale autorisée, ici 50 km/h."
-  },
-  {
-    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_B6a1.svg",
-    q: "Que signifie ce panneau ?",
-    options: ["Arrêt interdit", "Stationnement interdit", "Sens interdit", "Passage interdit aux véhicules lourds"],
-    answer: 1,
-    explanation: "Ce panneau (disque rouge barré, lettre 'E' à l'intérieur en France) signifie stationnement interdit."
-  },
-  {
-    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_B21-1.svg",
-    q: "Que signifie ce panneau ?",
-    options: ["Direction obligatoire vers la droite", "Virage dangereux à droite", "Interdiction de tourner à droite", "Route à sens unique"],
-    answer: 0,
-    explanation: "Le cercle bleu avec une flèche blanche impose de tourner obligatoirement dans la direction indiquée, ici à droite."
-  },
-  {
-    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_A13b.svg",
-    q: "Que signifie ce panneau ?",
-    options: ["Passage piétons obligatoire", "Annonce d'un passage pour piétons (danger)", "Zone école", "Interdiction aux piétons"],
-    answer: 1,
-    explanation: "Ce triangle de danger annonce à l'avance la présence d'un passage pour piétons, pour inciter à la prudence."
-  },
+{ q: "Quelles sont les différentes signalisations routières ?", options: ["La signalisation verticale, horizontale, lumineuse et les signes des agents", "Les intersections en X, en Y et en T", "Les lignes continues, les lignes discontinues et les lignes mixtes"], answer: 0 },
+{ q: "La signalisation horizontale est :", options: ["L'ensemble des marques peintes sur la chaussée", "L'ensemble des signes des agents de sécurité", "L'ensemble des règles applicables en agglomération"], answer: 0 },
+{ q: "La ligne continue blanche centrale :", options: ["Autorise le dépassement", "Interdit le dépassement", "Est réservée pour l'arrêt des bus"], answer: 1 },
+{ q: "La ligne discontinue blanche centrale :", options: ["Interdit la circulation à droite", "Autorise le dépassement", "Est réservée pour l'arrêt des bus"], answer: 1 },
+{ q: "Les traits de la ligne discontinue blanche centrale hors agglomération ont une longueur de :", options: ["20 m", "1,33 m", "3 m"], answer: 2 },
+{ q: "La ligne mixte autorise le dépassement :", options: ["Si la ligne discontinue est plus proche du conducteur", "Si la ligne continue est plus proche du conducteur", "Si la chaussée est assez large"], answer: 0 },
+{ q: "La ligne jaune continue sur la bordure du trottoir :", options: ["Interdit le stationnement", "Autorise l'arrêt", "Indique une zone d'arrêt de bus"], answer: 0 },
+{ q: "L'intervalle entre deux traits d'une ligne discontinue blanche centrale est de :", options: ["10 m", "5 m", "15 m"], answer: 0 },
+{ q: "La ligne jaune discontinue sur la bordure du trottoir :", options: ["Interdit le stationnement", "Autorise l'arrêt", "Indique une zone d'arrêt de bus"], answer: [0, 1] },
+{ q: "La ligne jaune brisée en bordure de la chaussée :", options: ["Interdit le dépassement", "Autorise le dépassement", "Indique une zone d'arrêt de bus"], answer: 2 },
+{ q: "A la vue de la flèche de rabattement, je dois :", options: ["M'arrêter", "Serrer ma droite", "Rétrograder", "Dépasser"], answer: 1 },
+{ q: "La circulation sur les bandes d'arrêt d'urgence de l'autoroute est autorisée :", options: ["Aux ambulances effectuant un transport urgent de blessés", "A tous les véhicules en cas d'embouteillage", "Aux services d'entretien se rendant sur un lieu d'intervention", "Aux véhicules prioritaires en mission"], answer: [0, 2, 3] },
+{ q: "La bande rouge discontinue de blanc le long du trottoir interdit :", options: ["L'arrêt", "Le stationnement", "L'arrêt pour les véhicules légers"], answer: 1 },
+{ q: "Sur les lignes hachurées appelées zébras :", options: ["Je peux stationner", "Je peux circuler", "Je ne peux ni stationner, ni circuler, ni m'arrêter", "Je peux m'arrêter"], answer: 2 },
+{ q: "A la vue du panneau C13 (chemin sans issue), que dois-je comprendre ?", options: ["Je suis sur un chemin sans issue", "Je suis prioritaire à la prochaine intersection", "Je dois aller tout droit seulement"], answer: 0 },
+{ q: "A la rencontre du panneau « STOP », que dois-je faire ?", options: ["Je cède le passage à droite", "Je cède le passage à droite et à gauche", "Je m'arrête avant le panneau et je cède le passage aux usagers venant de ma droite et de ma gauche", "Je m'arrête après le panneau et je cède le passage aux usagers venant de ma gauche et de ma droite"], answer: 3 },
+{ q: "Que signifie le panneau A15c (passage de cavaliers) ?", options: ["Voie réservée aux chevaux", "Endroits fréquentés par les animaux domestiques", "Passage de cavaliers"], answer: 2 },
+{ q: "Que m'indique le panneau A19 ?", options: ["Chute de grêle", "Chute de neige", "Risque de chute de pierres sur la chaussée", "Présence de pierres sur la chaussée"], answer: [2, 3] },
+{ q: "Que signifie le panneau A21a ?", options: ["Voie réservée aux cyclistes", "Débouché de cyclistes ou cyclomotoristes venant de droite ou de gauche", "Débouché de cyclistes ou de cyclomotoristes venant de droite seulement"], answer: 1 },
+{ q: "Devant le panneau triangulaire pointe en bas, que dois-je faire ?", options: ["Je cède le passage à droite et à gauche", "Je cède le passage à droite seulement", "Je passe"], answer: 0 },
+{ q: "Qu'indique le panneau triangulaire portant une flèche barrée ?", options: ["Arrêt obligatoire", "Priorité à droite", "Priorité à gauche", "Priorité de passage"], answer: 3 },
+{ q: "A la vue du panneau AB6 (losange jaune), que dois-je faire à la prochaine intersection ?", options: ["Je m'arrête", "Je cède le passage à droite", "Je passe", "Je cède le passage à gauche"], answer: 2 },
+{ q: "Que m'indique le panneau A1d1 (succession de virages, 1er à droite, sur 5 km) ?", options: ["Succession de virages dont le 1er est à droite à 5 km", "Succession de virages sur 5 km dont le 1er est à gauche", "Succession de virages sur 5 km dont le 1er est à droite"], answer: 2 },
+{ q: "Que signifie le panneau A3a1 (chaussée rétrécie par la droite, 200 m) ?", options: ["Chaussée rétrécie par la gauche à 200 m", "Chaussée rétrécie par la droite sur 200 m", "Chaussée rétrécie par la gauche sur 200 m", "Chaussée rétrécie par la droite à 200 m"], answer: 3 },
+{ q: "A la vue du panneau triangulaire pointe en bas à une intersection, quel genre de panneau peuvent rencontrer les usagers venant de gauche et de droite ?", options: ["Panneau « STOP »", "Panneau losange fond jaune barré", "Panneau flèche barrée", "Panneau losange fond jaune"], answer: [2, 3] },
+{ q: "En agglomération, les panneaux de danger sont implantés à quelle distance du danger ?", options: ["150 m", "200 m", "50 m", "250 m"], answer: 2 },
+{ q: "En rase campagne, à quelle distance sont implantés les panneaux de danger ?", options: ["50 m", "150 m", "200 m", "250 m"], answer: 1 },
+{ q: "Que dois-je faire devant un panneau de danger ?", options: ["Augmenter ma vitesse", "Réduire ma vitesse", "Maintenir ma vitesse"], answer: 1 },
+{ q: "Devant un panneau de danger :", options: ["Je peux marquer un arrêt", "Je peux stationner", "Je ne peux ni m'arrêter ni stationner"], answer: 2 },
+{ q: "Quel danger signale le panneau A21b ?", options: ["Voie réservée aux cyclistes", "Voie interdite aux cyclistes", "Débouché de cyclistes venant de gauche seulement", "Débouché de cyclistes venant de gauche ou de droite"], answer: 2 },
+{ q: "Quel danger signale le panneau A20 ?", options: ["Débouché sur un pont mobile", "Débouché sur un quai ou une berge", "Descente dangereuse"], answer: 1 },
+{ q: "Quel danger signale le panneau A16 ?", options: ["Débouché sur un quai ou une berge", "Descente dangereuse", "Débouché sur un pont mobile"], answer: 1 },
+{ q: "Quel danger signale le panneau A6 ?", options: ["Descente dangereuse", "Débouché sur un pont mobile", "Débouché sur un quai ou une berge"], answer: 1 },
+{ q: "Que signifie le panneau B6a1 ?", options: ["Stationnement interdit avant le panneau", "Arrêt et stationnement interdits", "Stationnement interdit à partir du panneau"], answer: 2 },
+{ q: "A la vue du panneau B6a1 :", options: ["Je peux m'arrêter avant ou après le panneau", "Je peux stationner après le panneau", "Je peux stationner avant le panneau"], answer: [0, 2] },
+{ q: "A la vue du panneau B6b1 :", options: ["Je peux stationner dans la première rue à droite après le panneau", "Je peux stationner dans la rue où se trouve le panneau mais à gauche", "Je ne peux stationner nulle part dans la rue où se trouve le panneau"], answer: 2 },
+{ q: "Le panneau B0 :", options: ["M'interdit de circuler dans les deux sens", "M'interdit quelque chose qui sera indiqué après", "M'oblige à faire demi-tour si possible"], answer: [0, 2] },
+{ q: "Le panneau B7a :", options: ["Interdit aux motocyclistes de dépasser les voitures", "Interdit l'accès aux autos et aux motos", "Interdit l'accès aux deux roues"], answer: 1 },
+{ q: "A la vue du panneau B25 :", options: ["Je peux rouler à 25 km/h", "Je peux rouler à 40 km/h", "Je dois rouler au moins à 30 km/h"], answer: [1, 2] },
+{ q: "Le panneau B21-1 m'oblige à :", options: ["Tourner à droite à la prochaine intersection", "Tourner à droite avant le panneau", "Tourner à droite après le panneau"], answer: 1 },
+{ q: "La balise J4 annonce :", options: ["Un virage très dangereux", "Une déviation prochaine", "Un rétrécissement de la chaussée"], answer: [0, 2] },
+{ q: "Sur les bandes et les pistes cyclables :", options: ["Les automobilistes peuvent s'arrêter pour prendre un passager", "Les piétons peuvent circuler", "Les automobilistes peuvent stationner en cas de panne", "Rien de tout ce qui précède"], answer: 3 },
+{ q: "Le panneau A25 signifie :", options: ["Carrefour à sens giratoire", "Terre-plein à contourner par la droite", "Céder le passage aux usagers venant de droite", "Céder le passage aux usagers venant de gauche"], answer: [0, 1, 3] },
+{ q: "Que signifie le panneau B15 ?", options: ["Chaussée à double sens", "Céder le passage aux usagers venant en sens inverse", "Circulation à sens unique"], answer: 1 },
+{ q: "Quel danger signale le panneau A18 ?", options: ["Céder le passage aux usagers venant en sens inverse", "Circulation dangereuse dans les deux sens", "Chaussée rétrécie dans les deux sens"], answer: 1 },
+{ q: "A quelle distance du danger est implanté le panneau A18 ?", options: ["150 m", "50 m", "0 m"], answer: 2 },
+{ q: "A la rencontre du panneau B15, quel panneau l'usager venant en sens inverse aurait rencontré ?", options: ["Le panneau « sens interdit »", "Le panneau « chaussée rétrécie »", "Le panneau « priorité par rapport à la circulation venant en sens inverse »"], answer: 2 },
+{ q: "A la vue du panneau B1, quel panneau l'usager venant en sens inverse aurait rencontré ?", options: ["Le panneau « priorité par rapport à la circulation venant en sens inverse »", "Le panneau « céder le passage à la circulation venant en sens inverse »", "Le panneau « circulation à sens unique »"], answer: 2 },
+{ q: "Que signifie le panneau B8 ?", options: ["Voie réservée aux véhicules de transport de marchandises", "Voie réservée aux véhicules de transport en commun de personnes", "Accès interdit aux véhicules de transport de marchandises"], answer: 2 },
+{ q: "Que signifie le panneau B18a ?", options: ["Accès interdit aux véhicules transportant des produits explosifs ou facilement inflammables", "Accès interdit aux véhicules transportant des produits de nature à polluer les eaux", "Accès interdit aux véhicules transportant des matières dangereuses"], answer: 0 },
+{ q: "A la vue du panneau A1c, je ralentis :", options: ["Avant chaque virage", "Dans chaque virage", "Après chaque virage"], answer: 0 },
+{ q: "En présence du panneau « stationnement interdit », je suis autorisé à :", options: ["Stationner avant le panneau", "Stationner après le panneau", "Stationner avant la prochaine intersection"], answer: 0 },
+{ q: "Que signifie le panneau B12(1) ?", options: ["Accès interdit à 10 km au véhicule dont la hauteur avec ou sans chargement dépasse 3,5 m", "Accès interdit sur 10 km au véhicule dont la hauteur avec ou sans chargement dépasse 3,5 m", "Accès interdit au véhicule dont la hauteur avec ou sans chargement dépasse 3,5 m", "Vitesse limitée à 10 km/h aux véhicules dont la hauteur avec ou sans chargement dépasse 3,5 m"], answer: 0 },
+{ q: "Que signifie le panneau B34a ?", options: ["Dépassement interdit aux camions", "Fin d'interdiction de dépasser aux véhicules de transport de marchandise dont le PTAC excède 3,5T", "Interdiction de dépasser tout véhicule", "Fin d'interdiction de dépasser"], answer: 1 },
+{ q: "Que signifie le panneau B45 ?", options: ["Accès interdit aux véhicules de transport en commun de personnes", "Stationnement interdit aux véhicules de transport en commun de personnes", "Fin de voie réservée aux véhicules de transport en commun de personnes", "Arrêt interdit aux véhicules de transport en commun de personnes"], answer: 2 },
+{ q: "Que signifie le panneau B27 ?", options: ["Arrêt d'autobus", "Parking réservé aux autobus", "Voie réservée aux véhicules de transport en commun de personnes", "Arrêt obligatoire aux autobus"], answer: 2 },
+{ q: "Que signifie le panneau B9g ?", options: ["Accès interdit aux cyclomoteurs", "Accès interdit aux motocyclistes", "Accès interdit aux cyclomoteurs et aux motocyclistes", "Voie réservée aux cyclomoteurs"], answer: 0 },
+{ q: "Que signifie le panneau B10a ?", options: ["Accès interdit aux véhicules dont la longueur dépasse 10 m avec ou sans chargement", "Accès interdit uniquement aux véhicules de transport de marchandises dont la longueur dépasse 10 m", "Accès interdit uniquement aux véhicules de transport en commun de personnes dont la longueur dépasse 10 m"], answer: 0 },
+{ q: "Que signifie le panneau B14(3) ?", options: ["Vitesse limitée à 60 km/h pour les deux roues", "Vitesse limitée à 60 km/h pour les cyclomoteurs", "Vitesse limitée à 60 km/h pour les motocyclettes", "Vitesse limitée à 60 km/h pour les cyclomoteurs et les motocyclettes"], answer: 2 },
+{ q: "Le panneau B29(2) :", options: ["Ne concerne pas les motocyclettes roulant à moins de 60 km/h", "Concerne tout véhicule à moteur roulant à moins de 60 km/h", "Concerne seulement les véhicules automobiles roulant à moins de 60 km/h"], answer: 1 },
+{ q: "Le panneau B8 interdit l'accès :", options: ["A tout véhicule de transport de marchandises", "Aux véhicules de transport de marchandises dont le PTAC est supérieur à 3,5T", "A tout véhicule de transport"], answer: [0, 1] },
+{ q: "Que signifie le panneau B13 ?", options: ["Accès interdit aux véhicules pesant 5,5T", "Accès interdit aux véhicules pesant plus de 5,5T", "Accès interdit aux véhicules pesant moins de 5,5T"], answer: 1 },
+{ q: "Le panneau B14(4) concerne :", options: ["Les véhicules de transport en commun de personnes", "Les véhicules de transport de marchandises", "Tout véhicule de transport", "Tout véhicule de tourisme"], answer: 1 },
+{ q: "A la rencontre d'un panneau de danger, que dois-je faire ?", options: ["Accélérer et passer le danger signalé", "Ralentir, serrer sa droite et passer en faisant attention au danger", "Serrer sa droite, accélérer et passer", "Faire demi-tour"], answer: 1 },
+{ q: "A la rencontre du panneau A7 (passage à niveau, barrière/demi-barrière), que dois-je faire ?", options: ["Accélérer et passer", "Ralentir, serrer ma droite et passer avec prudence", "Ralentir, serrer ma droite et klaxonner"], answer: 1 },
+{ q: "A quoi peut-on s'attendre à la vue du panneau A7 ?", options: ["A voir les rails uniquement", "A voir une barrière et des rails", "A voir une barrière automatique"], answer: 1 },
+{ q: "A quoi peut-on s'attendre après le panneau A8 (passage à niveau sans barrière) ?", options: ["A voir des rails et une barrière", "A voir un panneau de position uniquement", "A voir un panneau de position et des rails"], answer: 2 },
+{ q: "Que doit-on faire à la vue du panneau A8 ?", options: ["Accélérer et passer en vérifiant la gauche et la droite", "Ralentir, regarder à gauche et à droite avant de traverser les rails", "Accélérer et passer tout simplement"], answer: 1 },
+{ q: "Que doit-on faire à la rencontre du panneau A13a (enfants) ?", options: ["Passer en utilisant son avertisseur sonore pour faire dégager les enfants qui se trouveraient sur la route", "Ralentir, faire attention aux enfants et s'arrêter au besoin pour les laisser passer", "Klaxonner et passer rapidement"], answer: 1 },
+{ q: "A la rencontre du panneau A3 (chaussée rétrécie), que faire lorsqu'un véhicule arrive en sens inverse ?", options: ["S'arrêter et laisser le véhicule passer", "Poursuivre sa route", "Serrer sa droite, s'arrêter et laisser le véhicule passer"], answer: 2 },
+{ q: "Que peut-on faire à la vue du panneau B1 (sens interdit) ?", options: ["Poursuivre sa route en ralentissant", "Garer son véhicule", "Changer de direction", "Faire demi-tour"], answer: [1, 2, 3] },
+{ q: "A la vue du panneau B3 (interdiction de dépasser) :", options: ["Un véhicule peut dépasser un autre véhicule", "Une voiture peut dépasser un camion", "Un camion peut dépasser un autre camion", "Aucun dépassement n'est autorisé"], answer: 3 },
+{ q: "A la rencontre du panneau B3-3 (interdiction de dépasser pour poids lourds), il est interdit :", options: ["A un véhicule poids lourd de dépasser une voiture", "A un véhicule poids lourd de dépasser un autre véhicule poids lourd", "A un petit véhicule de dépasser un véhicule poids lourd", "A un véhicule poids lourd de croiser un véhicule léger"], answer: [0, 1] },
+{ q: "A quelle vitesse peut-on rouler à la vue du panneau B14 ?", options: ["A moins de 50 km/h", "A 50 km/h", "A plus de 50 km/h"], answer: [0, 1] },
+{ q: "Que doit-on faire à la vue du panneau B15 ?", options: ["Passer sans prendre en compte l'usager venant en sens inverse", "Passer en serrant sa droite", "S'arrêter pour laisser l'usager venant en sens inverse"], answer: 2 },
+{ q: "Que doit-on faire à la vue du panneau B21c1 ?", options: ["Tourner immédiatement à droite", "Tourner à droite à la prochaine intersection", "Tourner à droite avant le panneau"], answer: 1 },
+{ q: "A quelle vitesse peut-on rouler à la vue du panneau B25 ?", options: ["A moins de 30 km/h", "A la vitesse voulue", "A 30 km/h", "A plus de 30 km/h"], answer: [2, 3] },
+{ q: "Que m'indique le panneau B31 ?", options: ["La fin de toutes les intersections sauf le panneau « STOP »", "La fin de tous les panneaux", "La fin de tous les panneaux d'interdiction sauf ceux de stationnement et d'arrêt interdit"], answer: 2 },
+{ q: "A quelle vitesse peut-on rouler à la vue du panneau B33 ?", options: ["A n'importe quelle vitesse tout en respectant la règlementation en vigueur", "A moins de 50 km/h", "A plus de 50 km/h"], answer: [0, 1, 2] },
+{ q: "Qu'indique le panneau B34 ?", options: ["Le dépassement est interdit à tout véhicule", "Il est mis fin à l'interdiction de dépasser à tout véhicule", "Il est mis fin à l'interdiction aux petits véhicules seuls de se dépasser"], answer: 1 },
+{ q: "Que doit-on faire à la rencontre du panneau G1 (croix de Saint-André) ?", options: ["Passer les rails très rapidement", "Ralentir pour passer les rails", "Ralentir, s'assurer qu'aucun train n'arrive ni de droite ni de gauche sur les rails avant de passer"], answer: 2 },
+{ q: "Les feux tricolores s'allument dans l'ordre suivant :", options: ["Vert-jaune-rouge", "Jaune-vert-rouge", "Rouge-vert-jaune"], answer: [0, 2] },
+{ q: "Au feu vert :", options: ["Je passe sans ralentir", "Je ralentis et je passe", "Je ralentis et je m'arrête", "Je cède le passage aux usagers venant de droite"], answer: 1 },
+{ q: "Les feux tricolores s'allument dans l'ordre suivant :", options: ["Vert-jaune-rouge", "Jaune-vert-rouge", "Rouge-jaune-vert", "Rouge-vert-jaune"], answer: [0, 3] },
+{ q: "A une intersection munie de feux tricolores dont le rouge est allumé, que faire ?", options: ["Je passe si je veux tourner à droite", "Je ralentis et je passe si la voie est libre", "Je m'arrête"], answer: 2 },
+{ q: "A une intersection munie de feux tricolores où un agent de sécurité réglemente la circulation, que faire ?", options: ["Je suis les indications de l'agent de sécurité", "Je respecte les feux", "Je passe si le feu est au vert"], answer: 0 },
+{ q: "Dans quel ordre s'allument les feux tricolores ?", options: ["Rouge-jaune-vert", "Jaune-vert-rouge", "Vert-jaune-rouge"], answer: 2 },
+{ q: "A une intersection munie de feux tricolores dont le feu vert est allumé, que dois-je faire ?", options: ["Je m'arrête", "Je ralentis et je m'arrête", "Je passe avec prudence"], answer: 2 },
+{ q: "Le feu jaune annonce :", options: ["Le feu vert", "Le feu rouge", "Le feu orange"], answer: 1 },
+{ q: "A une distance raisonnable du feu orange fixe, je me prépare :", options: ["A passer", "A m'arrêter", "A céder le passage"], answer: 1 },
+{ q: "A une intersection munie de feux tricolores où seul le feu jaune clignote :", options: ["Je m'arrête", "Je ralentis et je passe", "J'applique la règle de priorité à droite"], answer: 2 },
+{ q: "Aux feux tricolores munis de panneau, dont le jaune seul clignote :", options: ["Je me conforme au panneau", "Je me conforme au feu jaune clignotant", "J'applique la priorité à droite"], answer: 0 },
+{ q: "Aux feux tricolores dont le rouge est allumé :", options: ["Je passe avec prudence", "Je m'arrête", "Je ralentis, je serre ma droite et je tourne"], answer: 1 },
+{ q: "Aux feux tricolores fonctionnant normalement et munis de panneau :", options: ["Je me conforme au panneau", "Je me conforme aux feux", "Je passe librement"], answer: 1 },
+{ q: "A une intersection munie de feux tricolores où tous les feux sont éteints :", options: ["Je pratique la règle de la priorité à droite", "Je cède le passage à droite et à gauche", "J'ai la priorité de passage"], answer: 0 },
+{ q: "Quel est le rôle de l'agent de sécurité à l'intersection ?", options: ["Réglementer la circulation", "Perturber la circulation", "Contrôler les pièces", "Surveiller les passants"], answer: 0 },
+{ q: "Lorsque vous voyez de profil l'agent réglementant la circulation, que faire ?", options: ["Je m'arrête", "Je cède le passage à droite", "Je passe", "Je ralentis pour céder le passage"], answer: 2 },
+{ q: "Lorsque je vois de face ou de dos l'agent réglementant la circulation, que faire ?", options: ["Je passe", "Je ralentis et je passe", "Je m'arrête", "J'accélère"], answer: 2 },
+{ q: "Quand l'agent de sécurité réglementant la circulation lève le bras, que faire ?", options: ["Je passe si je suis engagé dans l'intersection", "Je ralentis et je passe, si je le vois de face", "Je ralentis et je m'arrête, si je le vois de face"], answer: [0, 2] },
+{ q: "De toutes les signalisations routières, laquelle prime sur les autres ?", options: ["La signalisation lumineuse", "La signalisation horizontale", "La signalisation verticale", "Les signes des agents"], answer: 3 },
+{ q: "A la vue de face ou de dos d'un agent réglementant la circulation :", options: ["Je passe", "Je m'arrête", "J'applique la règle de la priorité à droite"], answer: 1 },
+{ q: "A la vue de profil d'un agent réglementant la circulation :", options: ["Je passe", "Je m'arrête", "J'applique la règle de priorité à droite"], answer: 0 },
+{ q: "Le panneau triangle-flèche barrée (AB2) annonce que :", options: ["Les usagers venant de gauche et de droite ont la priorité de passage", "Les usagers arrivant de gauche ou de droite perdent la priorité", "Seuls les usagers arrivant de gauche perdent la priorité"], answer: 1 },
+{ q: "A la vue de la signalisation « STOP » (AB4), le conducteur doit :", options: ["Marquer un arrêt et céder le passage à gauche et à droite", "Céder le passage à droite seulement", "Marquer l'arrêt après le panneau"], answer: 0 },
+{ q: "Que faire à une intersection munie de feux tricolores dont le feu jaune clignote ?", options: ["Céder le passage à ma gauche", "Céder le passage à ma droite", "Appliquer la priorité de passage"], answer: 1 },
+{ q: "A la vue du panneau « STOP » (AB4), que dois-je faire ?", options: ["Je cède le passage à droite", "Je cède le passage à droite et à gauche", "Je m'arrête et je cède le passage aux usagers venant de ma droite et de ma gauche"], answer: 2 },
+{ q: "A la vue du panneau triangle pointe en bas (AB3a), que dois-je faire ?", options: ["Je passe", "Je cède le passage à droite seulement", "Je cède le passage à droite et à gauche"], answer: 2 },
+{ q: "Le panneau B7b :", options: ["Interdit le stationnement à tout véhicule à moteur sauf les camions", "Interdit l'accès à tous les véhicules à moteur", "Interdit l'accès à tous les véhicules sauf les camions"], answer: 1 },
+{ q: "A la vue du panneau B6d :", options: ["Je ne peux pas m'arrêter", "Je ne peux pas m'arrêter mais je peux stationner", "Je ne peux ni m'arrêter ni stationner"], answer: [0, 2] },
+{ q: "Que signifie le panneau B9c ?", options: ["Accès interdit aux chevaux", "Accès interdit aux véhicules agricoles à moteur", "Accès interdit aux véhicules à traction animale"], answer: 2 },
+{ q: "A quelle vitesse peut-on rouler à la vue du panneau B43 (fin de vitesse minimale obligatoire) ?", options: ["A 30 km/h", "A plus de 30 km/h", "A la vitesse réglementaire", "A moins de 30 km/h", "Rien de tout ce qui précède"], answer: [0, 1, 2, 3] },
+{ q: "A la vue du panneau B43 :", options: ["Je respecte une vitesse de 30 km/h obligatoirement", "Je peux faire plus de 30 km/h", "Je peux faire moins de 30 km/h"], answer: [1, 2] },
+{ q: "Quelles sont les précautions à prendre pour aborder un virage ?", options: ["Garder la même vitesse pour vite aborder le virage", "Ralentir avant d'aborder le virage", "Rouler au milieu de la chaussée avant d'atteindre le virage", "Bien serrer la droite avant d'aborder le virage"], answer: [1, 3] },
+{ q: "Que signifie le panneau B2c ?", options: ["Interdiction de tourner à gauche", "Interdiction de faire marche arrière", "Interdiction de faire demi-tour jusqu'à la prochaine intersection", "Interdiction de faire marche arrière jusqu'à la prochaine intersection incluse"], answer: 2 },
+{ q: "A la vue du panneau B6a1, que puis-je faire ?", options: ["Je peux stationner avant ou après le panneau", "Je peux stationner après le panneau", "Je peux stationner avant le panneau", "Je ne peux stationner ni avant ni après le panneau"], answer: 2 },
+{ q: "A la vue du panneau B21b :", options: ["Je peux tourner à droite", "Je peux tourner à gauche", "Je vais tout droit à la prochaine intersection"], answer: 2 },
+{ q: "Que signifie le panneau B43 ?", options: ["Stationnement interdit à 30 m devant le panneau", "Stationnement interdit à 30 m après le panneau", "Fin de vitesse minimale obligatoire"], answer: 2 },
+{ q: "Que signifie le panneau C12 ?", options: ["Obligation d'aller tout droit après le panneau", "Obligation d'aller tout droit jusqu'à la prochaine intersection", "Circulation à sens unique"], answer: 2 },
+{ q: "Que signifie le panneau A21b ?", options: ["Voie réservée au cycliste", "Voie interdite au cycliste", "Débouché de cycliste venant de gauche seulement"], answer: 2 },
+{ q: "A la vue du panneau B14 :", options: ["Je peux rouler à plus de 50 km/h", "Je ne peux pas rouler à moins de 50 km/h", "Je peux rouler à 50 km/h strictement", "Je ne suis pas concerné par cette signalisation", "Je peux rouler à moins de 50 km/h"], answer: [2, 4] },
+{ q: "A la vue du panneau B14 :", options: ["Je peux rouler à plus de 50 km/h", "Je peux rouler à moins de 50 km/h", "Je peux rouler à 50 km/h strictement", "Je ne suis pas concerné par cette signalisation"], answer: [1, 2] },
+{ q: "En voiture, à la vue du panneau B14(3) hors agglomération :", options: ["Je peux rouler à plus de 60 km/h", "Je peux rouler à moins de 60 km/h", "Je peux rouler à 60 km/h strictement", "Je ne suis pas concerné par cette signalisation"], answer: [0, 1, 2, 3] },
+{ q: "A la vue du panneau indiquant l'entrée d'une localité, quelles sont les règles à observer ?", options: ["Vitesse limitée à 50 km/h", "Perte du caractère prioritaire de la route", "Usage de l'avertisseur sonore interdit, sauf cas de danger"], answer: [0, 1, 2] },
+{ q: "Sur une chaussée à double sens comportant plus de deux voies, les flèches de rabattement peintes sur une voie :", options: ["Me demandent de quitter le plus tôt cette voie", "M'annoncent la présence très proche d'une ligne continue", "Me demandent de garer sur l'accotement", "Me demandent tourner à droite à la prochaine intersection"], answer: 0 },
+{ q: "Sur une chaussée à plusieurs voies, des flèches de sélection (flèches directionnelles) peuvent jouer les rôles suivants :", options: ["M'indiquer la voie que je dois emprunter selon la direction où je veux aller, je gagne cette voie dès la première flèche", "Pour tourner, je me place dans la voie comportant des flèches orientées vers la direction que je veux emprunter", "Pour aller tout droit, je me place dans la voie comportant des flèches droites", "Les voies peuvent comporter des flèches bifides (à deux pointes), donnant le choix entre deux directions"], answer: [0, 1, 2, 3] },
+{ q: "A la vue du panneau A18-1 (circulation alternée, 150 m), que dois-je comprendre ?", options: ["La circulation est alternée à 150 m", "La circulation est alternée sur 150 m", "Circulation à double sens à 150 m"], answer: 2 },
+{ q: "A la vue du panneau B6a1, il est interdit :", options: ["De s'arrêter avant le panneau", "De stationner avant le panneau", "De s'arrêter après le panneau", "De stationner après le panneau"], answer: 3 },
+{ q: "Les balises J3 à anneau rouge :", options: ["Indiquent le régime de priorité à appliquer", "Précisent la position d'une intersection", "Délimitent la chaussée"], answer: 1 },
+{ q: "Cette signalisation « RIE » sur fond rouge/blanc indique :", options: ["Une entrée d'agglomération", "Une fin d'interdiction de klaxonner", "Une limitation de vitesse", "Une interdiction de klaxonner"], answer: [0, 2, 3] },
+{ q: "Le panneau B31 peut mettre fin à une interdiction :", options: ["De dépasser", "De s'arrêter", "De stationner", "De rouler à plus de 70 km/h"], answer: [0, 3] },
+{ q: "A la vue du panneau A1c (succession de virages), que dois-je faire ?", options: ["Je vais aborder une succession de virages", "Je dois accélérer pour réduire les effets de la force centrifuge", "Je dois réduire ma vitesse avant le premier virage pour diminuer les effets de la force centrifuge"], answer: [0, 2] },
+{ q: "Quelle couleur utilise-t-on pour distinguer la signalisation temporaire de la permanente ?", options: ["Verte", "Rouge", "Jaune", "Bleue"], answer: 2 },
+{ q: "Les feux bicolores permettent de réglementer :", options: ["La circulation par voie", "La circulation par véhicule", "La circulation par conducteur poids lourds"], answer: 0 },
+{ q: "A la vue du panneau A7-1, je dois rencontrer un passage à niveau équipé de :", options: ["Deux barrières à fonctionnement manuel", "Deux demi-barrières à fonctionnement automatique", "Deux demi-barrières à fonctionnement automatique avec feux clignotants"], answer: 2 },
+{ q: "Le panneau B31 peut signaler la fin :", options: ["D'une route à caractère prioritaire", "D'une limitation de vitesse", "D'une interdiction de stationnement", "D'une interdiction d'arrêter"], answer: 1 },
+{ q: "A la vue du panneau AB2 (flèche barrée), j'ai la priorité :", options: ["A la prochaine intersection", "A toutes les intersections", "Seulement avant la prochaine intersection"], answer: 0 },
+{ q: "A la vue du panneau AB7 (intersection de routes de même nature), je peux rencontrer un panneau :", options: ["Cédez le passage", "Stop", "Sens interdit", "D'intersection de routes de même nature"], answer: [0, 1, 3] },
+{ q: "En rase campagne, le panneau AB1 (croix de Saint-André / annonce d'intersection sans priorité) est implanté à quelle distance de l'intersection ?", options: ["0 m", "30 m", "50 m", "150 m", "Rien de tout ce qui précède"], answer: 3 },
+{ q: "En rase campagne, le panneau AB2 est implanté à combien de mètres environ de l'intersection ?", options: ["100 mètres", "50 mètres", "150 mètres", "0 mètre", "Rien de tout ce qui précède"], answer: 2 },
+{ q: "En agglomération, le panneau AB2 est implanté à combien de mètres environ de l'intersection ?", options: ["100 mètres", "50 mètres", "150 mètres", "0 mètre", "A proximité de l'intersection"], answer: 4 },
+{ q: "Les feux tricolores permettent de réglementer :", options: ["La circulation aux intersections", "La circulation par véhicule", "La circulation par conducteur de poids lourd"], answer: 0 },
+{ q: "A la vue de ce panneau AK22 (projection de gravillons), je ralentis car :", options: ["Je risque de déraper", "Je risque de projeter des gravillons sur les autres véhicules", "C'est un danger permanent"], answer: 1 },
+{ q: "A la vue de cette signalisation B5c (halte péage), que faire ?", options: ["Je m'arrête à la hauteur du panneau", "Je ralentis et poursuis ma route", "Je ralentis et je m'arrête au poste de péage"], answer: 2 },
+{ q: "A la vue d'une signalisation B14 (50 km/h) associée à un panneau B25 (30 km/h), je peux rouler à :", options: ["20 km/h", "40 km/h", "50 km/h", "80 km/h"], answer: [1, 2] },
+{ q: "Le panneau B1 (sens interdit) indique que :", options: ["L'accès est interdit à tous les véhicules", "L'accès est interdit aux véhicules à moteur seulement", "La rue en sens inverse est à sens unique"], answer: [0, 2] },
+{ q: "Le panneau A13b (passage pour piétons) indique :", options: ["Un passage pour piétons", "L'obligation aux piétons d'emprunter la voie réservée", "Un seul passage pour piétons", "Plusieurs passages pour piétons sur 100 m"], answer: [0, 1, 2] },
+{ q: "La signalisation B26 (chaînes à neige obligatoires) m'oblige-t-elle à mettre les chaînes à neige au moins sur les deux roues motrices ?", options: ["Oui", "Non"], answer: 0 },
+{ q: "A la vue de ce panneau B14 (50 km/h), la limitation de vitesse concerne :", options: ["Tous les véhicules", "Pas tous les véhicules", "Elle commence à hauteur du panneau", "Elle commence après le panneau"], answer: [1, 2] },
+{ q: "A la vue de ce panneau A15a1 (animaux domestiques) :", options: ["Je peux rencontrer des animaux sauvages", "Je peux rencontrer des animaux domestiques", "Je ralentis"], answer: [1, 2] },
+{ q: "A partir de ce panneau B43 (fin de vitesse minimale obligatoire), je peux rouler à :", options: ["Plus de 30 km/h", "Moins de 30 km/h", "La vitesse voulue, en respectant la règlementation en vigueur"], answer: [0, 1, 2] },
+{ q: "Un panneau triangulaire indique :", options: ["Un danger", "Une obligation", "Une interdiction", "Une indication"], answer: 0 },
+{ q: "Un panneau rond bleu indique :", options: ["Une obligation", "Une interdiction", "Une fin d'obligation", "Une fin d'interdiction"], answer: 0 },
+{ q: "Un panneau rond rouge est :", options: ["Une obligation", "Une interdiction", "Une fin d'interdiction", "Une indication"], answer: 1 },
+{ q: "Ce panneau AK5 (travaux) :", options: ["Est permanent", "Est temporaire", "Impose un ralentissement", "N'impose pas un ralentissement"], answer: [1, 2] },
+{ q: "Ce panneau A1d (plusieurs virages) indique :", options: ["Deux ou trois virages maximum", "Plusieurs virages", "Un virage"], answer: 1 },
+{ q: "A la vue du panneau B21c2 (obligation de tourner à gauche à la prochaine intersection), que faire à la prochaine intersection ?", options: ["Je peux tourner à gauche", "Je dois tourner à gauche"], answer: 1 },
+{ q: "Avec un panneau rond rouge, l'interdiction commence :", options: ["A hauteur du panneau", "A 150 m du panneau"], answer: 0 },
+{ q: "Ce panneau AK5 annonce des travaux :", options: ["Oui", "Non", "C'est un signal avancé", "C'est un signal de position"], answer: [0, 2] },
+{ q: "Ce panneau (virages sur 500 m) indique :", options: ["Que le premier virage est à 150 m", "Plusieurs virages à 500 m", "Plusieurs virages sur 500 m", "Un ralentissement"], answer: [1, 2] },
+{ q: "Ce signal (point d'exclamation, « autre danger ») annonce :", options: ["Un danger particulier", "La pluie", "Que je dois ralentir et passer"], answer: [0, 2] },
+{ q: "Les panneaux indiquant les itinéraires reliant des villes importantes par la route sont de couleur :", options: ["Blanche", "Verte", "Bleue"], answer: 2 },
+{ q: "Les itinéraires de délestage permettent :", options: ["D'éviter les bouchons", "De faciliter la circulation", "D'éviter les contrôles routiers"], answer: [0, 1] },
+{ q: "Les itinéraires de délestage sont :", options: ["Obligatoires", "Facultatifs", "Rien de tout ce qui précède"], answer: 1 },
+{ q: "On appelle indices « informels » les informations données :", options: ["Par la signalisation", "Par l'environnement en général"], answer: 1 },
+{ q: "Ce panneau B6a1-1 indique que le stationnement est :", options: ["Limité à 1h30, payant", "Gratuit, à durée limitée", "Payant, à durée illimitée", "Payant, à durée limitée"], answer: 3 },
+{ q: "Sur une ligne brisée réservée à l'arrêt des bus (marquage au sol jaune), un véhicule ordinaire peut :", options: ["S'arrêter", "Stationner", "Circuler"], answer: 2 },
+{ q: "Les lignes brisées sur une chaussée servent à :", options: ["La circulation des bus", "L'arrêt des bus", "Le stationnement des bus", "L'arrêt des camions"], answer: 1 },
+{ q: "Sur une ligne jaune discontinue en bordure du trottoir, un véhicule peut :", options: ["Interdire l'arrêt", "Autoriser l'arrêt", "Interdire le stationnement", "Autoriser le stationnement"], answer: [1, 2] },
+{ q: "Sur une ligne jaune discontinue en bordure du trottoir, à bord de mon véhicule je peux :", options: ["M'arrêter", "Stationner", "Circuler"], answer: [0, 2] },
+{ q: "A un feu rouge, à bord de mon véhicule je peux :", options: ["Avancer à la limite de la ligne transversale", "Avancer à la limite de la chaussée", "Franchir la ligne transversale"], answer: 0 },
+{ q: "A un panneau « cédez le passage » (avec ligne transversale au sol), à bord de mon véhicule je peux :", options: ["M'arrêter à la limite de la ligne transversale", "Franchir la ligne transversale avant de céder le passage", "Franchir la ligne transversale en l'absence de tout véhicule"], answer: [0, 2] },
+{ q: "A un panneau « cédez le passage » avec une ligne transversale, à bord de mon véhicule je peux :", options: ["M'arrêter immédiatement", "Avancer à la limite de la ligne transversale", "Avancer à la limite de la chaussée abordée", "Franchir la ligne transversale"], answer: [1, 2] },
+{ q: "En présence d'un marquage jaune et d'un marquage blanc, je respecte :", options: ["Le marquage jaune", "Le marquage blanc"], answer: 0 },
+{ q: "Les lignes de rive sur une route à double sens et sur autoroute sont identiques :", options: ["A gauche", "A droite", "Rien de tout ce qui précède"], answer: 2 },
+{ q: "Un panneau de zone de stationnement placé sur le même support qu'un panneau d'entrée d'agglomération peut concerner :", options: ["Plusieurs rues", "Une seule rue", "Toutes les rues de l'agglomération"], answer: [0, 2] },
+{ q: "En présence d'un panneau stop, je dois :", options: ["Marquer l'arrêt au niveau du panneau", "Marquer l'arrêt au niveau de la ligne", "Céder le passage à gauche", "Céder le passage à droite"], answer: [1, 2, 3] },
+{ q: "Ce panneau B22a indique une voie réservée :", options: ["Aux cycles uniquement", "Aux cyclistes et cyclomotoristes", "A tous les véhicules"], answer: [0, 1] },
+{ q: "L'interdiction de tourner à droite (panonceau « 6t ») concerne :", options: ["Tous les véhicules", "Tous les véhicules affectés au transport de marchandises de plus de 6T", "Les véhicules affectés au transport de marchandises dont le PTAC est supérieur à 3,5T"], answer: 1 },
+{ q: "La limitation de vitesse (panneau B14) :", options: ["Commence à la hauteur du panneau", "Commence à 150 m du panneau", "Commence à 50 m du panneau", "Concerne tous les véhicules"], answer: [0, 3] },
+{ q: "Ce panneau AK4 indique une chaussée glissante :", options: ["Temporaire", "Permanente", "Concerne tous les véhicules", "Il faut ralentir"], answer: [0, 2, 3] },
+{ q: "La limitation de vitesse avec panonceau « 300 m » :", options: ["Commence au panneau", "Commence à 300 mètres", "S'étend sur 300 mètres"], answer: [0, 2] },
+{ q: "Une voie de la chaussée réservée aux cyclistes ou aux cyclomotoristes est :", options: ["Une piste cyclable", "Une bande cyclable"], answer: 1 },
+{ q: "Le franchissement ou le chevauchement d'une ligne continue :", options: ["Est autorisé lors d'un changement de direction", "Est autorisé pour dépasser un deux-roues", "Est toujours interdit"], answer: 2 },
+{ q: "Lorsque des panneaux accompagnent des feux, je respecte les panneaux si le feu est :", options: ["Rouge", "Jaune clignotant", "Jaune fixe", "Éteint"], answer: [1, 3] },
+{ q: "L'agent vu de profil peut m'indiquer :", options: ["De passer", "De m'arrêter", "D'accélérer"], answer: [0, 1, 2] },
+{ q: "Les panneaux qui ont la forme ronde peuvent être des panneaux :", options: ["D'obligation", "D'indication", "D'interdiction", "De danger"], answer: [0, 2] },
+{ q: "Lorsque les panneaux de direction ont un fond jaune, il s'agit :", options: ["D'indication de direction provisoire", "D'itinéraires prioritaires", "D'indication urgente"], answer: 0 },
+{ q: "Une signalisation « limitation de vitesse à 50 km/h » associée à un panonceau « camion barré » :", options: ["Impose une limitation de vitesse aux transports de marchandises", "Interdit l'accès à tous véhicules", "Interdit l'accès aux véhicules de transport de marchandises", "Impose la limitation de vitesse à tous les véhicules"], answer: [2, 3] },
+{ q: "Ce panneau A18 (circulation dans les deux sens) :", options: ["Signale une circulation alternée", "Signale une circulation dans les deux sens", "Prend effet à 150 mètres environ", "Prend effet à partir du panneau"], answer: [1, 3] },
+{ q: "Ce panneau A13a indique :", options: ["La proximité d'une école", "Un endroit fréquenté par les enfants", "Un terrain de jeu", "Un marché"], answer: [0, 1, 2] },
+{ q: "A la vue du panneau A13b (passage piétons), à bord de mon véhicule :", options: ["Je passe derrière le piéton en laissant un intervalle d'au moins 1 m", "Je passe devant le piéton qui me voit bien, en laissant un intervalle d'au moins 1 m", "Je klaxonne pour obliger le piéton à vite traverser", "Je m'arrête pour laisser passer le piéton"], answer: 0 },
+{ q: "A la vue du panneau C12 (obligation d'aller tout droit / sens unique), quel panneau l'usager venant en sens inverse doit voir à l'autre bout de la chaussée ?", options: ["Le panneau « priorité par rapport à la circulation venant en sens inverse »", "Le panneau « céder le passage à la circulation venant en sens inverse »", "Le panneau « sens interdit »"], answer: 2 },
+{ q: "Le panneau B7a :", options: ["Interdit le stationnement à tout véhicule léger et aux motocyclettes", "Interdit l'accès aux véhicules à moteur à l'exception des cyclomoteurs", "Interdit le stationnement à tout véhicule sauf les motocycles et les véhicules légers"], answer: 1 },
+{ q: "La bande jaune continue le long du trottoir interdit :", options: ["L'arrêt", "Le stationnement", "L'arrêt pour les véhicules légers seulement"], answer: [0, 1] },
+{ q: "La bande jaune discontinue le long du trottoir interdit :", options: ["L'arrêt", "Le stationnement", "L'arrêt pour les véhicules légers"], answer: 1 },
+{ q: "A la rencontre du panneau « arrêt et stationnement interdits », l'interdiction finit :", options: ["Avant le panneau", "A partir du panneau", "15 mètres après le panneau", "A la prochaine intersection"], answer: 3 },
+{ q: "A la rencontre du panneau « arrêt et stationnement interdits », l'interdiction finit :", options: ["Avant la prochaine intersection", "A la prochaine intersection", "30 mètres après l'intersection"], answer: 1 },
+{ q: "Le panneau B2b :", options: ["Interdit de tourner à gauche à la prochaine intersection", "Interdit de tourner à droite à la prochaine intersection", "Oblige à tourner à droite à la prochaine intersection", "Oblige à tourner à gauche à la prochaine intersection"], answer: 1 },
+{ q: "Le panneau B2a :", options: ["Interdit de tourner à gauche à la prochaine intersection", "Interdit de tourner à gauche dans cette rue", "Oblige à tourner à gauche à la prochaine intersection"], answer: 0 },
+{ q: "A un feu tricolore, l'apparition de la flèche jaune clignotante, orientée vers la droite, autorise les véhicules à tourner malgré le feu rouge, dans la voie située immédiatement à droite ; pour cela il faut :", options: ["Se tourner de la file de droite", "Manœuvrer au ralenti", "Céder le passage aux piétons", "Céder le passage aux usagers venant de la gauche et ne pas gêner ceux venant de droite"], answer: [0, 1, 2, 3] },
+{ q: "Une bande sonore sur la chaussée est :", options: ["Une ligne longitudinale constituée de plots délimitant les voies de circulation", "Une ligne uniquement réflectorisée", "Une ligne continue"], answer: 0 },
+{ q: "Les bandes sonores sur la chaussée servent :", options: ["A alerter le conducteur qui s'écarte de sa trajectoire", "A rompre la monotonie", "A accélérer l'apparition des signes de fatigue", "A sortir le conducteur de sa somnolence"], answer: [0, 1, 3] },
+{ q: "Ce panneau bleu avec flèche à motif zébré rouge/blanc signale :", options: ["Une voie de détresse", "Une rue à sens unique", "Une voie sans issue", "Un parc de stationnement"], answer: 0 },
 
-  // Priorité aux intersections / carrefours : panneaux, feux, agents de circulation
-  {
-    q: "À une intersection, quel est l'ordre de priorité entre un agent de circulation, les feux tricolores et les panneaux de signalisation ?",
-    options: [
-      "Panneaux > feux > agent de circulation",
-      "Agent de circulation > feux tricolores > panneaux de signalisation",
-      "Feux tricolores > agent de circulation > panneaux",
-      "Ils ont tous la même valeur, on applique la priorité à droite"
-    ],
-    answer: 1,
-    explanation: "La hiérarchie est : agent de circulation d'abord, puis feux tricolores, puis panneaux de signalisation, et enfin la priorité à droite par défaut."
-  },
-  {
-    q: "En l'absence de tout panneau, feu ou agent à une intersection, quelle règle s'applique par défaut ?",
-    options: ["Priorité à gauche", "Priorité à droite", "Le premier arrivé passe en premier", "Priorité au véhicule le plus gros"],
-    answer: 1,
-    explanation: "Par défaut, sans aucune signalisation, la priorité à droite s'applique : le véhicule venant de droite passe en premier."
-  },
-  {
-    q: "Un agent de circulation se tient face à vous, bras levé verticalement. Que devez-vous faire ?",
-    options: [
-      "Vous arrêter, sauf si vous êtes déjà engagé dans le carrefour",
-      "Accélérer pour dégager le carrefour",
-      "Klaxonner pour signaler votre présence",
-      "Tourner uniquement à droite"
-    ],
-    answer: 0,
-    explanation: "Bras levé verticalement = arrêt pour tous les usagers, sauf ceux déjà engagés dans le carrefour qui doivent le dégager."
-  },
-  {
-    q: "Un agent de circulation a les deux bras tendus horizontalement. Pour les conducteurs qui lui font face ou lui tournent le dos, cela signifie :",
-    options: ["Passage autorisé", "Arrêt obligatoire", "Tourner à gauche uniquement", "Ralentir seulement"],
-    answer: 1,
-    explanation: "Bras tendus horizontalement = arrêt obligatoire pour les usagers placés face à l'agent ou dans son dos."
-  },
-  {
-    q: "Dans la situation précédente (agent bras tendus horizontalement), les conducteurs arrivant sur les côtés de l'agent (perpendiculairement à ses bras) doivent :",
-    options: ["S'arrêter également", "Passer, la voie leur est ouverte", "Klaxonner avant de passer", "Attendre un signal supplémentaire"],
-    answer: 1,
-    explanation: "Les usagers situés sur les côtés, dans l'axe des bras tendus, ont la voie libre pendant que les autres sont arrêtés."
-  },
-  {
-    q: "Les indications d'un agent de circulation par rapport aux feux tricolores et panneaux :",
-    options: [
-      "N'ont aucune valeur légale",
-      "Priment toujours sur les feux et les panneaux",
-      "Ne s'appliquent qu'en cas de panne des feux",
-      "S'appliquent seulement aux poids lourds"
-    ],
-    answer: 1,
-    explanation: "Les gestes d'un agent de circulation priment toujours sur la signalisation lumineuse ou les panneaux, même en présence de feux fonctionnels."
-  },
-  {
-    q: "Au feu tricolore, la couleur orange fixe signifie :",
-    options: [
-      "Accélérer pour passer avant le rouge",
-      "Arrêt obligatoire, sauf si l'arrêt ne peut se faire sans danger (déjà engagé trop près)",
-      "Priorité absolue de passage",
-      "Feu en panne, priorité à droite"
-    ],
-    answer: 1,
-    explanation: "L'orange fixe impose l'arrêt, sauf si le véhicule est déjà si près de la ligne qu'il ne peut plus s'arrêter sans danger."
-  },
-  {
-    q: "Un feu rouge clignotant (souvent à un passage à niveau ou une caserne de pompiers) signifie :",
-    options: ["Ralentir seulement", "Arrêt absolu obligatoire", "Passage autorisé avec prudence", "Cela ne concerne que les motos"],
-    answer: 1,
-    explanation: "Le feu rouge clignotant impose un arrêt absolu, typiquement avant un passage à niveau ou la sortie d'une caserne de pompiers."
-  },
-  {
-    q: "Une flèche verte allumée sous un feu rouge (feu directionnel) permet :",
-    options: [
-      "De passer tout droit uniquement",
-      "De tourner dans la direction de la flèche en cédant le passage aux autres usagers",
-      "De passer sans aucune priorité à céder",
-      "Rien, il faut attendre le feu vert principal"
-    ],
-    answer: 1,
-    explanation: "La flèche verte sous un feu rouge autorise à tourner dans le sens indiqué, mais en cédant le passage aux véhicules et piétons prioritaires."
-  },
-  {
-    q: "À un carrefour muni d'un panneau STOP, le conducteur doit :",
-    options: [
-      "Ralentir fortement sans obligation de s'arrêter si la voie semble libre",
-      "S'arrêter complètement, même si aucun véhicule n'est visible, puis céder le passage",
-      "S'arrêter uniquement si un autre véhicule est déjà présent",
-      "S'arrêter seulement de nuit"
-    ],
-    answer: 1,
-    explanation: "Le panneau STOP impose un arrêt complet et systématique, indépendamment de la présence visible d'autres véhicules, puis de céder le passage."
-  },
-  {
-    q: "Au panneau 'Cédez le passage' (triangle pointe en bas), le conducteur doit :",
-    options: [
-      "S'arrêter obligatoirement, même si la voie est libre",
-      "Ralentir et, si nécessaire, s'arrêter pour laisser passer les véhicules des autres voies",
-      "Accélérer pour s'insérer avant les autres véhicules",
-      "Klaxonner pour prévenir de son passage"
-    ],
-    answer: 1,
-    explanation: "Contrairement au STOP, 'Cédez le passage' n'impose pas un arrêt systématique : il faut ralentir et s'arrêter seulement si nécessaire pour céder la priorité."
-  },
-  {
-    q: "À l'entrée d'un carrefour à sens giratoire (rond-point) non muni d'un panneau 'Cédez le passage', qui est prioritaire ?",
-    options: [
-      "Les véhicules qui entrent dans le giratoire",
-      "Les véhicules déjà engagés et circulant dans le giratoire",
-      "Les véhicules venant de la droite du giratoire",
-      "Aucune règle, chacun se débrouille"
-    ],
-    answer: 1,
-    explanation: "En général (sauf signalisation contraire), les véhicules déjà engagés dans le giratoire sont prioritaires sur ceux qui souhaitent y entrer."
-  },
-  {
-    q: "Un véhicule prioritaire (ambulance, sapeurs-pompiers, police) circule avec avertisseurs sonores et lumineux en action. Vous devez :",
-    options: [
-      "L'ignorer si vous êtes prioritaire selon la signalisation normale",
-      "Faciliter son passage même si cela implique de s'écarter ou de vous arrêter",
-      "Accélérer pour le laisser passer derrière vous",
-      "Le suivre pour profiter de sa priorité"
-    ],
-    answer: 1,
-    explanation: "Un véhicule prioritaire en intervention (avertisseurs actifs) prime sur toute autre règle de priorité ; il faut lui faciliter le passage."
-  },
-  {
-    q: "À une intersection en croix sans aucune signalisation, un véhicule arrive en face de vous pour tourner à gauche pendant que vous continuez tout droit. Qui est prioritaire ?",
-    options: [
-      "Le véhicule qui tourne à gauche",
-      "Vous, qui continuez tout droit",
-      "Celui qui klaxonne en premier",
-      "Celui qui arrive le plus vite"
-    ],
-    answer: 1,
-    explanation: "Un véhicule qui tourne à gauche doit céder le passage aux véhicules venant en face qui continuent tout droit."
-  },
-  {
-    q: "Sur une route prioritaire signalée par un panneau losange jaune (priorité), un conducteur venant d'une voie perpendiculaire non prioritaire doit :",
-    options: [
-      "Vous céder le passage, même s'il vient de votre droite",
-      "Avoir la priorité car il vient de la droite",
-      "Passer en même temps que vous",
-      "S'arrêter uniquement s'il y a un panneau STOP"
-    ],
-    answer: 0,
-    explanation: "Le panneau 'route à caractère prioritaire' annule la règle de la priorité à droite : les véhicules venant des voies secondaires doivent céder le passage, même de droite."
-  },
-  {
-    q: "Un feu orange clignotant (souvent la nuit à un carrefour peu fréquenté) signifie :",
-    options: [
-      "Arrêt obligatoire comme au rouge",
-      "Passage interdit dans tous les cas",
-      "Prudence : ralentir et appliquer les règles normales de priorité (ex. priorité à droite)",
-      "Le feu est en panne, il faut faire demi-tour"
-    ],
-    answer: 2,
-    explanation: "L'orange clignotant signale un danger ou un carrefour à aborder avec prudence : on ralentit et on applique les règles habituelles de priorité."
-  },
-  {
-    q: "Vous êtes à un carrefour où les feux sont hors service (panne d'électricité) et aucun agent n'est présent. Que faites-vous ?",
-    options: [
-      "Vous passez sans ralentir, les feux étant hors service",
-      "Vous appliquez la règle de la priorité à droite comme s'il n'y avait pas de feux",
-      "Vous attendez qu'un agent arrive",
-      "Vous faites demi-tour obligatoirement"
-    ],
-    answer: 1,
-    explanation: "Des feux hors service ne comptent plus comme signalisation : on se rabat sur la règle par défaut, la priorité à droite, en abordant le carrefour avec prudence."
-  },
 
-  // Compléments issus du Manuel officiel du candidat à l'examen du permis de conduire (Bénin, Direction Générale des Transports Terrestres)
-  {
-    q: "À quelle distance avant la zone dangereuse un panneau de danger est-il placé en agglomération ?",
-    options: ["20 mètres", "50 mètres", "100 mètres"],
-    answer: 1,
-    explanation: "En agglomération, les panneaux de danger sont placés 50 mètres avant la zone dangereuse (150 mètres en rase campagne)."
-  },
-  {
-    q: "À quelle distance avant la zone dangereuse un panneau de danger est-il placé en rase campagne ?",
-    options: ["50 mètres", "100 mètres", "150 mètres"],
-    answer: 2,
-    explanation: "En rase campagne, où l'on roule plus vite, le panneau de danger est placé plus tôt : 150 mètres avant la zone dangereuse, contre 50 m en agglomération."
-  },
-  {
-    q: "Un panneau rond bleu barré de rouge signifie :",
-    options: ["Une interdiction", "Une obligation", "La fin d'une obligation", "Un danger"],
-    answer: 2,
-    explanation: "Le rond bleu barré de rouge annonce la fin d'une obligation (par exemple la fin d'une voie réservée ou d'une direction imposée)."
-  },
-  {
-    q: "Un panneau rond blanc barré de noir signifie :",
-    options: ["La fin d'une interdiction", "Une nouvelle interdiction", "Une obligation", "Un danger"],
-    answer: 0,
-    explanation: "Le rond blanc barré de noir signale la fin d'une interdiction précédemment imposée."
-  },
-  {
-    q: "Combien existe-t-il de types de balises le long des routes (virage, manche à air, intersection, délinéateur, passage à niveau, tête d'îlot...) ?",
-    options: ["5", "7", "9"],
-    answer: 1,
-    explanation: "Le manuel officiel dénombre 7 types de balises : virage, manche à air, virage dangereux/rétrécissement, intersection, délinéateur, passage à niveau, et tête d'îlot directionnel."
-  },
-  {
-    q: "Combien y a-t-il de pédales dans une voiture à boîte manuelle ?",
-    options: ["2", "3", "4"],
-    answer: 1,
-    explanation: "Une voiture à boîte manuelle a 3 pédales : l'embrayage, le frein et l'accélérateur."
-  },
-  {
-    q: "Selon le Manuel du candidat, le Code de la route a pour but :",
-    options: [
-      "D'indiquer ou de rappeler les diverses prescriptions aux usagers de la route",
-      "De fixer uniquement le prix des infractions",
-      "De remplacer la formation en auto-école",
-      "De s'appliquer uniquement aux poids lourds"
-    ],
-    answer: 0,
-    explanation: "Le Code de la route est l'ensemble des règles et signalisations à observer pour une circulation sûre et rapide, dont le but est d'indiquer/rappeler les prescriptions aux usagers."
-  },
-  {
-    q: "Quelle est la différence entre une route et une autoroute ?",
-    options: [
-      "Aucune, ce sont des synonymes",
-      "L'autoroute a deux chaussées séparées par un terre-plein central, sans intersections, réservée à la circulation rapide",
-      "La route est réservée aux poids lourds",
-      "L'autoroute est gratuite alors que la route est payante"
-    ],
-    answer: 1,
-    explanation: "L'autoroute est composée de deux chaussées séparées par un terre-plein central, sans intersections, accessible seulement à des points aménagés, contrairement à une route ordinaire."
-  },
+// ===================== CHAPITRE III — RÈGLES DE PRIORITÉ, DÉPASSEMENT, CROISEMENT =====================
 
-  // Sécurité routière générale (règles universelles de conduite)
-  {
-    q: "Les panneaux d'indication sont généralement implantés :",
-    options: ["Très loin de ce qu'ils signalent", "À proximité de ce qu'ils signalent", "Uniquement sur autoroute"],
-    answer: 1,
-    explanation: "Contrairement aux panneaux de danger (placés en amont) ou d'interdiction, les panneaux d'indication sont placés près du lieu ou du service qu'ils signalent."
-  },
-  {
-    q: "Lors d'un dépassement, faut-il totalement quitter sa voie pour occuper la voie de gauche ?",
-    options: ["Oui, complètement", "Non, on peut rester à cheval sur les deux voies", "Seulement de nuit"],
-    answer: 0,
-    explanation: "Il faut quitter complètement sa voie lors d'un dépassement, pour respecter une distance de sécurité latérale suffisante avec le véhicule dépassé."
-  },
-  {
-    q: "Une ligne blanche discontinue peut être franchie :",
-    options: ["Jamais", "Uniquement si c'est prudent et nécessaire (bonne visibilité, pas de danger)", "Uniquement de nuit"],
-    answer: 1,
-    explanation: "La ligne discontinue autorise le franchissement (dépassement, changement de voie) sous réserve que ce soit fait prudemment et en sécurité."
-  },
-  {
-    q: "Utiliser son téléphone au volant (conversation ou manipulation) est-il considéré comme une infraction ?",
-    options: ["Non, seulement la manipulation", "Non, seulement la conversation", "Oui, les deux"],
-    answer: 2,
-    explanation: "Toute interaction avec le téléphone (parler ou manipuler l'appareil) détourne l'attention du conducteur et augmente le risque d'accident."
-  },
-  {
-    q: "Le temps de réaction du conducteur n'augmente qu'avec la consommation d'alcool.",
-    options: ["Vrai", "Faux : il augmente aussi avec la fatigue, les médicaments, les drogues ou la distraction"],
-    answer: 1,
-    explanation: "L'alcool n'est qu'un facteur parmi d'autres : fatigue, médicaments, drogues et distraction (téléphone, etc.) augmentent aussi le temps de réaction."
-  },
-  {
-    q: "Si vous coupez la route à un autre véhicule sans lui céder le passage, qui a la priorité ?",
-    options: ["Vous, puisque vous êtes passé en premier", "L'autre véhicule : couper le passage sans céder la priorité est interdit et dangereux"],
-    answer: 1,
-    explanation: "Couper le chemin d'un autre véhicule sans lui céder la priorité qui lui revient est une infraction, indépendamment de qui est passé en premier."
-  },
-  {
-    q: "Sur route mouillée, la distance d'arrêt par rapport à une route sèche est :",
-    options: ["La même", "Environ doublée", "Réduite de moitié"],
-    answer: 1,
-    explanation: "L'adhérence étant réduite sur route mouillée, la distance d'arrêt est environ doublée par rapport à une route sèche à la même vitesse."
-  },
-  {
-    q: "La largeur maximale autorisée pour un véhicule de moins de 3 500 kg est de :",
-    options: ["2,55 mètres", "3 mètres", "3,5 mètres"],
-    answer: 0,
-    explanation: "La largeur maximale autorisée (hors rétroviseurs) pour ce type de véhicule est de 2,55 mètres."
-  },
-  {
-    q: "Avant de traverser un passage à niveau sans barrière, le conducteur doit :",
-    options: [
-      "Accélérer pour dégager rapidement la voie",
-      "S'arrêter, observer et s'assurer qu'aucun train n'arrive avant de traverser",
-      "Klaxonner et continuer sans s'arrêter"
-    ],
-    answer: 1,
-    explanation: "En l'absence de barrière, la sécurité impose de s'arrêter, de regarder et d'écouter avant de s'engager sur la voie ferrée."
-  },
+{ q: "Les véhicules prioritaires sont :", options: ["Police – Gendarmerie – corbillards en mission", "SAMU – SMUR – Sapeur-pompier – Gendarmerie en mission", "SAMU – corbillard – Police"], answer: 1 },
+{ q: "Les feux tricolores fonctionnent, cependant l'agent de sécurité règlemente la circulation :", options: ["Je passe au feu vert", "Je ne passe que si je suis autorisé par l'agent de sécurité", "Je passe sans tenir compte ni du feu ni de l'agent"], answer: 1 },
+{ q: "A une intersection munie à la fois de panneau et de feu tricolore fonctionnant normalement :", options: ["Je me conforme à la fois au panneau et aux feux", "Je ne me conforme ni à l'un ni à l'autre", "Je me conforme uniquement aux feux"], answer: 2 },
+{ q: "Quelles sont les grandes règles de priorité ?", options: ["La règle de courtoisie et le respect des agents de sécurité", "Le respect des feux et la règle de priorité à droite", "La priorité à droite, la priorité de passage et la perte de priorité"], answer: 2 },
+{ q: "La priorité à droite consiste à :", options: ["Passer quand ma droite est libre", "Passer quand ma gauche est libre", "Serrer ma droite et tourner à droite"], answer: 0 },
+{ q: "Que faire à une intersection sans signalisation ?", options: ["Céder le passage à droite", "Céder le passage à gauche", "Aller tout droit"], answer: 0 },
+{ q: "Que faire à une intersection de routes de même nature ?", options: ["Céder le passage à droite", "Aller tout droit", "Céder le passage à droite et à gauche"], answer: 0 },
+{ q: "Les indications des agents de sécurité prévalent sur :", options: ["Uniquement les feux tricolores", "Toutes signalisations", "Les règles de circulation", "Les feux de signalisation"], answer: [1, 2, 3] },
+{ q: "La priorité à droite consiste à :", options: ["Céder le passage à tout véhicule venant de gauche comme de droite", "Céder le passage uniquement aux véhicules venant de la droite", "Ne céder le passage à aucun véhicule"], answer: 1 },
+{ q: "A l'intersection munie de feux tricolores dont le rouge est allumé, que dois-je faire ?", options: ["Je m'arrête", "Je passe si je veux tourner à droite", "Je ralentis et je passe si la voie est libre"], answer: 0 },
+{ q: "A une distance raisonnable du feu jaune fixe, je me prépare à :", options: ["Appliquer la règle de priorité à droite", "Passer", "M'arrêter", "Céder le passage"], answer: 2 },
+{ q: "Lorsque je vois de face l'agent de sécurité réglementant la circulation :", options: ["Je passe", "Je ralentis et je passe", "J'applique la priorité à droite", "Je ralentis et je m'arrête"], answer: 3 },
+{ q: "Au carrefour à sens giratoire en agglomération :", options: ["La priorité est toujours à droite", "La priorité peut être donnée à droite et à gauche", "Rien de tout ce qui précède"], answer: 2 },
+{ q: "A une intersection munie de feux tricolores où un agent de sécurité réglemente la circulation, que faire ?", options: ["Je respecte les feux", "Je passe si le feu est au vert", "Je suis les indications de l'agent"], answer: 2 },
+{ q: "A l'intersection d'une route revêtue et d'une route en terre, quelle est la règle de priorité à observer en agglomération ?", options: ["La priorité de passage", "La perte de priorité", "La priorité à droite"], answer: 2 },
+{ q: "A l'intersection d'une route revêtue et d'une route en terre, quelle est la règle de priorité à observer hors agglomération par l'usager circulant sur la route en terre ?", options: ["La priorité de passage", "La perte de priorité", "La priorité à droite"], answer: 1 },
+{ q: "Dans quels cas dois-je céder le passage aux usagers venant de gauche comme de droite ?", options: ["Devant le feu rouge", "Devant le triangle pointe en bas", "Devant le feu vert", "Quand je roule sur une route prioritaire"], answer: [0, 1] },
+{ q: "A une intersection de routes de même valeur où aucun usager n'a sa droite libre, s'applique :", options: ["La priorité de passage pour les usagers venant de droite et de gauche", "Le jeu de courtoisie et ensuite la règle de la priorité à droite", "La perte de priorité de passage pour les usagers venant de face"], answer: 1 },
+{ q: "Au carrefour à sens giratoire en agglomération :", options: ["La priorité est toujours à droite", "La priorité est donnée aux véhicules déjà engagés dans le sens giratoire", "La priorité peut être donnée à gauche et à droite"], answer: 1 },
+{ q: "A un passage à niveau muni de demi-barrières fermées et de feux clignotants, le conducteur doit :", options: ["S'arrêter devant la demi-barrière et attendre le passage du train", "Attendre que la demi-barrière s'élève et que le feu rouge s'éteigne avant de démarrer", "Pouvoir se faufiler entre les demi-barrières pour partir après le passage du train"], answer: 1 },
+{ q: "A un croisement de piste d'aéroport signalé par des panneaux successifs, avant de traverser je dois :", options: ["Passer", "Attendre devant le premier panneau et passer après l'avion", "Attendre devant le deuxième panneau et ne passer qu'après l'extinction du feu"], answer: 2 },
+{ q: "Sur une route où il y a un panneau STOP, l'arrêt se fait :", options: ["Exactement devant le panneau", "A la limite de la visibilité en l'absence de ligne blanche au sol", "Si à la ligne blanche la visibilité est insuffisante, on marque un second arrêt à la limite de la chaussée abordée"], answer: [1, 2] },
+{ q: "Que doit faire un conducteur qui est sur le point d'être dépassé ?", options: ["Il serre sa gauche sans accélérer", "Il serre sa droite en accélérant", "Il serre sa droite sans accélérer", "Il reste au milieu de la chaussée en accélérant", "Il serre sa droite en ralentissant"], answer: 2 },
+{ q: "Dans quels cas est-il interdit de dépasser ?", options: ["Lorsque je gêne un usager venant de derrière", "Lorsque je suis au sommet d'une côte ou dans un virage", "Lorsque je suis en présence d'un panneau d'interdiction de dépasser", "Lorsque je suis sur le point d'être dépassé"], answer: [1, 2, 3] },
+{ q: "La nuit, pour dépasser :", options: ["J'utilise mes avertisseurs sonores", "J'utilise mes avertisseurs lumineux", "Je ne fais rien de tout cela"], answer: 1 },
+{ q: "Lorsque la ligne discontinue de la ligne mixte est plus proche du conducteur, on peut franchir cette ligne :", options: ["Pour tourner à droite", "Pour tourner à gauche", "Pour dépasser puis se rabattre"], answer: [1, 2] },
+{ q: "Quelle est la toute première précaution à observer pour effectuer un dépassement ?", options: ["S'assurer que l'on n'est pas dans un cas d'interdiction", "Accélérer pour dépasser", "Bien serrer sa droite"], answer: 0 },
+{ q: "En général, de quel côté s'effectue le dépassement ?", options: ["Par la droite", "Par la gauche", "Du côté de votre choix", "Du côté où c'est possible"], answer: 1 },
+{ q: "Dans quel cas peut-on être autorisé à dépasser par la droite ?", options: ["Quand on a une file ininterrompue de véhicules devant soi", "Quand le véhicule à dépasser a déjà pris position pour tourner à gauche", "En abordant une intersection", "Sur une chaussée à sens unique"], answer: 1 },
+{ q: "Quand est-ce que le dépassement est effectif ?", options: ["Quand l'usager dépassé apparaît dans le rétroviseur intérieur", "Après avoir mis le clignotant à droite pour se rabattre", "Quand on peut estimer soi-même que le dépassement est fait"], answer: 0 },
+{ q: "En combien d'étapes s'effectue le dépassement ?", options: ["En une étape", "En deux étapes", "En trois étapes"], answer: 2 },
+{ q: "Citez deux cas d'interdiction de dépasser :", options: ["Devant un panneau interdisant de dépasser et sur une ligne continue", "Devant un panneau interdisant de dépasser et sur une ligne discontinue", "Sur des lignes mixtes dont la ligne discontinue se trouve du côté du conducteur"], answer: 0 },
+{ q: "Sur une chaussée à 3 voies et à double sens, on utilise, pour dépasser :", options: ["La voie centrale", "La voie la plus à gauche", "La voie la plus à droite"], answer: 0 },
+{ q: "Donnez l'écart latéral minimal entre deux véhicules automobiles lors d'un dépassement :", options: ["1 m environ", "0,50 m environ", "0,3 m environ"], answer: 1 },
+{ q: "Donnez l'écart minimal à observer par un automobiliste qui dépasse un piéton ou un cycliste en agglomération :", options: ["1 m environ", "0,5 m environ", "2,0 m environ"], answer: 0 },
+{ q: "Quel serait votre comportement quand un usager s'apprête à vous dépasser ?", options: ["Je serre ma gauche", "J'occupe l'axe médian de la chaussée", "Je serre ma droite", "Je ralentis"], answer: 2 },
+{ q: "A la vue du panneau B3 (interdiction de dépasser), je peux dépasser :", options: ["Tous véhicules à moteur qui me précèdent", "Un motocycliste sans side-car", "Un véhicule à traction animale", "Un cyclomotoriste sans side-car"], answer: [1, 2, 3] },
+{ q: "A la vue du panneau B3 :", options: ["J'accélère et je passe", "Je ne dois pas dépasser", "Je dois dépasser par la droite"], answer: 1 },
+{ q: "Dans quels cas doit-on utiliser les clignotants ?", options: ["Lorsqu'on veut s'insérer dans la circulation", "Lorsqu'on veut augmenter ou réduire sa vitesse", "Lorsqu'on veut dépasser ou se rabattre", "Lorsqu'on veut changer de direction", "Lorsqu'on veut croiser"], answer: [0, 2, 3] },
+{ q: "Dans quels cas utilise-t-on ses feux de route ?", options: ["En agglomération dans une rue non éclairée", "Lorsqu'on va croiser un autre usager", "Lorsqu'on ne risque d'éblouir personne", "Lorsqu'on quitte une zone éclairée pour une zone sombre"], answer: [0, 2, 3] },
+{ q: "En rase campagne, le dépassement est autorisé :", options: ["A proximité des intersections", "Au sommet de côte", "Dans les virages", "Rien de tout ce qui précède"], answer: 3 },
+{ q: "Pour effectuer un dépassement :", options: ["J'avertis, je contrôle, puis je déboîte", "Je contrôle, j'avertis et je déboîte", "Je déboîte, j'avertis, je contrôle"], answer: 1 },
+{ q: "Lors du dépassement d'un véhicule la nuit, je mets les feux de route :", options: ["Immédiatement après avoir déboîté", "En arrivant à la hauteur du conducteur du véhicule à dépasser", "Tout de suite après m'être rabattu"], answer: 1 },
+{ q: "Comment prévenir l'usager à dépasser le jour ?", options: ["Par des appels sonores", "Par des appels lumineux", "Par le clignotant"], answer: 0 },
+{ q: "Comment prévenir l'usager à dépasser la nuit ?", options: ["Par des appels sonores", "Par des appels lumineux", "Par le clignotant"], answer: 1 },
+{ q: "A une intersection de deux routes de même nature, peut-on dépasser par la gauche ?", options: ["On peut effectuer rapidement le dépassement", "On ne peut pas effectuer le dépassement", "On le peut si le véhicule qui me précède signale son intention de tourner à droite"], answer: [1, 2] },
+{ q: "Aux sommets d'une côte :", options: ["Je peux dépasser si ma voiture a une réserve d'accélération suffisante", "Je peux dépasser à la hauteur d'une ligne continue", "Je ne peux pas dépasser"], answer: 2 },
+{ q: "Sur une chaussée à double sens comportant trois voies :", options: ["Je suis autorisé à dépasser en 3ᵉ position lorsqu'aucun usager ne vient en face", "Je suis autorisé à dépasser en 3ᵉ position lorsque je juge suffisante la largeur de la chaussée", "Je ne suis pas autorisé à dépasser en 3ᵉ position"], answer: 2 },
+{ q: "Au niveau des flèches de rabattement :", options: ["Je suis autorisé à dépasser lorsqu'aucun usager ne vient en face", "Je suis autorisé à dépasser lorsque je juge la largeur de la chaussée suffisante", "Je ne suis pas autorisé à dépasser", "Je suis autorisé si l'usager devant moi est trop lent"], answer: 2 },
+{ q: "Au niveau d'une ligne continue accolée à une ligne discontinue plus proche du conducteur, peut-on effectuer le dépassement ?", options: ["On ne peut pas effectuer le dépassement", "On peut effectuer le dépassement", "On ne peut pas effectuer le dépassement la nuit"], answer: 1 },
+{ q: "A quel passage à niveau le dépassement est-il autorisé ?", options: ["A un passage à niveau sans barrière", "A un passage à niveau avec barrière à fonctionnement manuel", "A un passage à niveau avec barrière à fonctionnement automatique", "A aucun passage à niveau"], answer: 3 },
+{ q: "Sur une chaussée à plus de deux voies et à double sens de circulation, le dépassement est interdit :", options: ["Sur la voie se trouvant la plus à gauche", "Sur la voie du milieu", "Sur toutes les voies"], answer: 0 },
+{ q: "Sur une chaussée à deux voies et à double sens, je peux circuler :", options: ["Sur la voie de gauche pour effectuer un dépassement", "Sur la voie de gauche de façon continue", "Sur la voie de droite seulement"], answer: 0 },
+{ q: "Le franchissement ou le chevauchement de la ligne continue est autorisé :", options: ["A tout moment", "A aucun moment", "Pour effectuer un dépassement", "Lorsque la chaussée est libre"], answer: 2 },
+{ q: "Vous circulez par temps de grand vent ; pour dépasser un autre usager :", options: ["Vous diminuez l'écart latéral", "Vous maintenez l'écart latéral", "Vous augmentez l'écart latéral"], answer: 2 },
+{ q: "Pour effectuer un croisement, je dois :", options: ["Accélérer", "Ralentir", "Serrer ma droite"], answer: [1, 2] },
+{ q: "Pour effectuer un croisement la nuit, je dois :", options: ["Klaxonner", "Circuler en phare", "Circuler en code", "Circuler en feux de détresse"], answer: 2 },
+{ q: "Quel est le véhicule qui doit s'arrêter à temps à cause d'un croisement difficile sur un terrain plat ?", options: ["Le véhicule léger", "Le véhicule encombrant", "Le véhicule qui le veut"], answer: 1 },
+{ q: "Sur une pente, quel est le véhicule qui doit s'arrêter à temps à cause d'un croisement difficile ?", options: ["Le véhicule montant", "Le véhicule descendant", "Le véhicule qui le désire"], answer: 1 },
+{ q: "En agglomération, quel est le véhicule qui doit s'arrêter à temps à cause d'un croisement difficile ?", options: ["L'autobus", "Le véhicule qui le désire", "Le camion"], answer: 2 },
+{ q: "Lorsque deux véhicules de même catégorie se retrouvent sur une pente, lequel doit faire la marche arrière à cause d'un croisement difficile ?", options: ["Le véhicule montant", "Le véhicule descendant", "Le véhicule qui veut"], answer: 1 },
+{ q: "Dans quels cas dois-je m'arrêter pour laisser passer l'usager venant en sens inverse ?", options: ["Devant le panneau « chaussée rétrécie » et un obstacle devant moi", "Devant le panneau « céder le passage » aux usagers venant en sens inverse et devant un panneau « chaussée rétrécie »", "Devant le panneau sens interdit et un obstacle devant moi"], answer: [0, 1] },
+{ q: "Sur une pente, quel est le véhicule qui doit faciliter le passage lors d'un croisement difficile ?", options: ["L'autobus chargé", "Le camion", "Le véhicule qui le désire"], answer: 1 },
+{ q: "Sur une pente, quel est le véhicule qui doit faire la marche arrière à cause d'un croisement difficile ?", options: ["Le véhicule isolé", "Le véhicule articulé", "Le véhicule qui veut"], answer: 0 },
+{ q: "La nuit, pour éviter d'être ébloui :", options: ["Je regarde le bord droit de la chaussée", "Je ferme les yeux pendant un court instant", "Je porte des verres teintés", "J'allume mes feux de route"], answer: 0 },
+{ q: "L'écart minimal de vitesse recommandé pour un véhicule qui veut effectuer le dépassement est de :", options: ["30 km/h", "25 km/h", "40 km/h", "20 km/h", "10 km/h"], answer: 3 },
+{ q: "Sur une chaussée à forte déclivité, quel est le véhicule qui doit s'arrêter à temps lorsque le croisement se révèle difficile ?", options: ["Le véhicule descendant", "Le véhicule qui le désire", "Le véhicule montant"], answer: 0 },
+{ q: "Je laisse passer l'usager d'en face en m'arrêtant :", options: ["Quand se dresse un obstacle devant moi", "Devant un panneau de circulation à sens unique", "Quand je suis au volant d'un véhicule encombrant"], answer: [0, 2] },
+{ q: "Quel doit être mon comportement lorsqu'un usager manifeste son intention de me dépasser ?", options: ["Je ne l'empêche pas si la manœuvre est régulière", "Je serre ma droite le plus possible", "J'accélère", "Je maintiens mon allure et, au besoin, je ralentis", "La nuit, je passe en feu de croisement quand il arrive à ma hauteur"], answer: [0, 1, 3, 4] },
+{ q: "Dans quels cas devez-vous céder le passage de gauche comme de droite ?", options: ["Devant le feu vert ou jaune clignotant", "Devant le feu rouge", "Devant le panneau « STOP »", "Devant le panneau « Triangle pointe en bas »", "En sortant d'un chemin de terre, d'un garage ou d'un parking"], answer: [1, 2, 3, 4] },
+{ q: "Hors agglomération, le panneau à caractère prioritaire est répété :", options: ["Tous les 5 km", "Après chaque intersection", "Tous les 2 km", "Après chaque virage", "Tous les kilomètres"], answer: [0, 1] },
+{ q: "En agglomération, le panneau à caractère prioritaire est répété :", options: ["Tous les 5 kilomètres", "Après chaque intersection", "Tous les 2 kilomètres", "Après chaque virage", "Tous les kilomètres"], answer: 4 },
+{ q: "Quel est le but des ronds-points ?", options: ["Faciliter l'écoulement des trafics", "Briser les vitesses", "Permettre le stationnement des véhicules"], answer: [0, 1] },
+{ q: "A quoi peut-on s'attendre lors d'un croisement ou dépassement d'un véhicule à deux roues ?", options: ["Non-respect des signaux", "Non-respect des règles de priorité", "Des écarts sans avertir, sans contrôler"], answer: [0, 1, 2] },
+{ q: "Lorsque les véhicules que je croise roulent en feux de croisement, je prévois que je peux rencontrer :", options: ["Une zone d'intempéries", "Un contrôle de vitesse", "Un contrôle routier"], answer: 0 },
 
-  // Questions officielles du Manuel du candidat a l'examen du permis de conduire (Benin, 2005, Direction Generale des Transports Terrestres)
-  {
-    q: "Citez les différentes signalisations routières ?",
-    options: ["La signalisation verticale, horizontale, lumineuse et les signes des agents", "Les intersections en X, en Y et en T", "Les lignes continues, les lignes discontinues"],
-    answer: 0,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : La signalisation verticale, horizontale, lumineuse et les signes des agents."
-  },
-  {
-    q: "La signalisation horizontale constitue :",
-    options: ["L'ensemble des marques peintes sur la chaussée", "L'ensemble des signes des agents de sécurité", "L'ensemble des règles applicables en agglomération"],
-    answer: 0,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : L'ensemble des marques peintes sur la chaussée."
-  },
-  {
-    q: "La ligne continue blanche centrale :",
-    options: ["Autorise le dépassement", "Interdit le dépassement"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Interdit le dépassement."
-  },
-  {
-    q: "La ligne discontinue blanche centrale :",
-    options: ["Interdit la circulation à droite", "Autorise le dépassement", "Est réservée pour l'arrêt des bus"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Autorise le dépassement."
-  },
-  {
-    q: "Les traits de la ligne discontinue blanche centrale hors agglomération ont une longueur de :",
-    options: ["20m", "1,33m", "3m"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : 3m."
-  },
-  {
-    q: "La ligne mixte autorise le dépassement :",
-    options: ["Si la ligne discontinue est plus près de mon véhicule", "Si la ligne continue est plus près de mon véhicule", "Si la chaussée est assez large"],
-    answer: 0,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Si la ligne discontinue est plus près de mon véhicule."
-  },
-  {
-    q: "La ligne jaune continue sur la bordure du trottoir :",
-    options: ["Interdit le stationnement", "Autorise l'arrêt", "Indique une zone d’arrêt de bus"],
-    answer: 0,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Interdit le stationnement."
-  },
-  {
-    q: "L'intervalle entre deux traits d'une ligne discontinue blanche centrale est de :",
-    options: ["10m", "5m", "15m"],
-    answer: 0,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : 10m."
-  },
-  {
-    q: "La ligne jaune brisée en bordure de la chaussée :",
-    options: ["Interdit le dépassement", "Autorise le dépassement", "Indique une zone d’arrêt de bus"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Indique une zone d’arrêt de bus."
-  },
-  {
-    q: "A la vue de la flèche de rabattement, je dois :",
-    options: ["M'arrêter", "Serrer ma droite", "Rétrograder"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Serrer ma droite."
-  },
-  {
-    q: "La bande rouge discontinue de blanc le long du trottoir, interdit :",
-    options: ["L'arrêt", "Le stationnement", "L'arrêt pour les véhicules légers"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Le stationnement."
-  },
-  {
-    q: "Sur les lignes hachurées appelées zébras :",
-    options: ["Je peux stationner", "Je peux circuler", "Je ne peux ni circuler, ni stationner, ni m'arrêter", "Je peux m’arrêter"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Je ne peux ni circuler, ni stationner, ni m'arrêter."
-  },
-  {
-    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_C13a.svg",
-    q: "A la vue du panneau C13a ?",
-    options: ["je suis sur un chemin sans issue.", "je suis prioritaire à la prochaine intersection", "je dois aller tout droit seulement"],
-    answer: 0,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : je suis sur un chemin sans issue.."
-  },
-  {
-    q: "A la rencontre du panneau \"stop\" que dois-je faire ?",
-    options: ["Je cède le passage à droite", "Je cède le passage à droite et à gauche", "Je m'arrête avant le panneau et je cède le passage aux usagers venant de ma droite et de ma gauche", "Je m'arrête après le panneau et je cède le passage aux usagers venant de gauche et de droite"],
-    answer: 3,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Je m'arrête après le panneau et je cède le passage aux usagers venant de gauche et de droite."
-  },
-  {
-    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_A15c.svg",
-    q: "Que signifie le panneau A15c ?",
-    options: ["voie réservée aux chevaux", "endroits fréquentés par les animaux domestiques", "passage de cavaliers."],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : passage de cavaliers.."
-  },
-  {
-    q: "Que signifie le panneau A21a ?",
-    options: ["voie réservée aux cyclistes", "débouché de cyclistes ou cyclomotoristes venant de droite ou de gauche", "débouché de cyclistes ou de cyclomotoristes venant de droite seulement."],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : débouché de cyclistes ou cyclomotoristes venant de droite ou de gauche."
-  },
-  {
-    q: "Devant le panneau triangulaire pointe en bas, que dois-je faire ?",
-    options: ["Je cède le passage à droite et à gauche", "Je cède le passage à droite seulement", "Je passe"],
-    answer: 0,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Je cède le passage à droite et à gauche."
-  },
-  {
-    q: "Qu'indique le panneau triangulaire portant une flèche barrée ?",
-    options: ["Arrêt obligatoire", "Priorité à droite", "Priorité à gauche", "Priorité de passage"],
-    answer: 3,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Priorité de passage."
-  },
-  {
-    q: "A la vue du panneau losange fond jaune, que faire à la prochaine intersection ?",
-    options: ["Je m'arrête", "Je cède le passage à droite", "Je passe", "Je cède le passage à gauche"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Je passe."
-  },
-  {
-    q: "En agglomération, les panneaux de danger sont implantés à quelle distance du danger ?",
-    options: ["150m", "200m", "50m", "250m"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : 50m."
-  },
-  {
-    q: "En rase campagne, à quelle distance sont implantés les panneaux de danger ?",
-    options: ["50m", "150m", "200m", "250m"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : 150m."
-  },
-  {
-    q: "Devant un panneau de danger, je dois :",
-    options: ["Augmenter ma vitesse", "Réduire ma vitesse", "Maintenir ma vitesse"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Réduire ma vitesse."
-  },
-  {
-    q: "Devant un panneau de danger :",
-    options: ["Je peux marquer un arrêt", "Je peux stationner", "Je ne peux ni m'arrêter ni stationner"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Je ne peux ni m'arrêter ni stationner."
-  },
-  {
-    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_A21b.svg",
-    q: "Quel danger signale le panneau A21b ?",
-    options: ["Voie réservée aux cyclistes", "Voie interdite aux cyclistes", "Débouché de cyclistes venant de gauche seulement", "Débouché de cyclistes venant de gauche ou de droite"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Débouché de cyclistes venant de gauche seulement."
-  },
-  {
-    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_A20.svg",
-    q: "Quel danger signale le panneau A20 ?",
-    options: ["Débouché sur un pont mobile", "Débouché sur un quai ou une berge", "Descente dangereuse"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Débouché sur un quai ou une berge."
-  },
-  {
-    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_A16.svg",
-    q: "Quel danger signale le panneau A16 ?",
-    options: ["Débouché sur un quai ou une berge", "Descente dangereuse", "Débouché sur un pont mobile", "Descente dangereuse sur 10 km"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Descente dangereuse."
-  },
-  {
-    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_A6.svg",
-    q: "Quel danger signale le panneau A6 ?",
-    options: ["Descente dangereuse", "Débouché sur un pont mobile", "Débouché sur un quai ou une berge"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Débouché sur un pont mobile."
-  },
-  {
-    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_B6a1.svg",
-    q: "Que signifie le panneau B6a1 ?",
-    options: ["Stationnement interdit devant le panneau", "Arrêt et stationnement interdits", "Stationnement interdit à partir du panneau"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Stationnement interdit à partir du panneau."
-  },
-  {
-    q: "A la vue du panneau B6b1 :",
-    options: ["Je peux stationner dans la première rue à droite après le panneau", "Je peux stationner dans la rue où se trouve le panneau mais à gauche", "Je ne peux stationner nulle part dans la rue où se trouve le panneau"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Je ne peux stationner nulle part dans la rue où se trouve le panneau."
-  },
-  {
-    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_B7a.svg",
-    q: "Le panneau B7a :",
-    options: ["Interdit aux motocyclistes de dépasser les voitures", "Interdit l'accès aux autos et aux motos", "Interdit le stationnement aux autos et aux motos", "Interdit l'accès aux véhicules à deux roues"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Interdit l'accès aux autos et aux motos."
-  },
-  {
-    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_B21-1.svg",
-    q: "Le panneau B21-1 m'oblige à :",
-    options: ["Tourner à droite à la prochaine intersection", "Tourner à droite avant le panneau", "Tourner à droite après le panneau"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Tourner à droite avant le panneau."
-  },
-  {
-    q: "Sur les bandes et les pistes cyclables ?",
-    options: ["Les automobilistes peuvent s'arrêter pour prendre un passager", "Les piétons peuvent circuler", "Les automobilistes peuvent stationner en cas de panne", "Rien de tout ce qui précède"],
-    answer: 3,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Rien de tout ce qui précède."
-  },
-  {
-    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_B15.svg",
-    q: "Que signifie le panneau B15 ?",
-    options: ["Chaussée à double sens", "Céder le passage aux usagers venant en sens inverse", "Circulation à sens unique"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Céder le passage aux usagers venant en sens inverse."
-  },
-  {
-    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_A18.svg",
-    q: "Quel danger signale le panneau A18 ?",
-    options: ["Céder le passage aux usagers venant en sens inverse", "Circulation dangereuse dans les deux sens", "Chaussée rétrécie dans les deux sens"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Circulation dangereuse dans les deux sens."
-  },
-  {
-    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_A18.svg",
-    q: "A quelle distance du danger est implanté le panneau A18 ?",
-    options: ["150m", "50m", "0m"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : 0m."
-  },
-  {
-    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_B15.svg",
-    q: "A la rencontre du panneau B15, quel panneau l'usager venant en sens inverse aurait rencontré ?",
-    options: ["Le panneau \"sens interdit\"", "Le panneau \"chaussée rétrécie\"", "Le panneau \"priorité par rapport à la circulation venant en sens inverse \""],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Le panneau \"priorité par rapport à la circulation venant en sens inverse \"."
-  },
-  {
-    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_B1.svg",
-    q: "A la vue du panneau B1, quel panneau l'usager venant en sens inverse aurait rencontré ?",
-    options: ["Le panneau \"priorité par rapport à la circulation venant en sens inverse\"", "Le panneau \"céder le passage à la circulation venant en sens inverse\"", "Le panneau \" circulation à sens unique\""],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Le panneau \" circulation à sens unique\"."
-  },
-  {
-    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_B8.svg",
-    q: "Que signifie le panneau B8 ?",
-    options: ["Voie réservée aux véhicules de transport de marchandises", "Voie réservée aux véhicules de transport en commun de personnes", "Accès interdit aux véhicules de transport de marchandises"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Accès interdit aux véhicules de transport de marchandises."
-  },
-  {
-    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_B18a.svg",
-    q: "Que signifie le panneau B18a ?",
-    options: ["Accès interdit aux véhicules transportant plus d'une certaine quantité de produits explosifs ou facilement inflammables", "Accès interdit aux véhicules transportant plus d'une certaine quantité de produits de nature à polluer les eaux", "Accès interdit aux véhicules transportant"],
-    answer: 0,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Accès interdit aux véhicules transportant plus d'une certaine quantité de produits explosifs ou facilement inflammables."
-  },
-  {
-    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_A1c.svg",
-    q: "A la vue du panneau A1c, je ralentis ?",
-    options: ["Avant chaque virage", "Dans chaque virage", "Après chaque virage"],
-    answer: 0,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Avant chaque virage."
-  },
-  {
-    q: "En présence du panneau \"stationnement interdit\", je suis autorisé à :",
-    options: ["Stationner avant le panneau", "Stationner après le panneau", "Stationner avant la prochaine intersection"],
-    answer: 0,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Stationner avant le panneau."
-  },
-  {
-    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_B12.svg",
-    q: "Que signifie le panneau B12 (1) ?",
-    options: ["Accès interdit à 10km au véhicule dont la hauteur avec ou sans chargement dépasse 3,5m", "Accès interdit sur 10km aux véhicules dont la hauteur avec ou sans chargement dépasse 3,5m 10km", "Accès interdit aux véhicules dont la hauteur avec ou sans chargement dépasse 3,5m", "Vitesse limitée à 10km/h aux véhicules dont la hauteur avec ou sans chargement dépasse 3,5m"],
-    answer: 0,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Accès interdit à 10km au véhicule dont la hauteur avec ou sans chargement dépasse 3,5m."
-  },
-  {
-    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_B34a.svg",
-    q: "Que signifie le panneau B34a ?",
-    options: ["Dépassement interdit au camion", "Fin d'interdiction de dépasser aux véhicules de transport de marchandises pesant plus de 3,5T", "Interdiction de dépasser tout véhicule", "Fin d'interdiction de dépasser"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Fin d'interdiction de dépasser aux véhicules de transport de marchandises pesant plus de 3,5T."
-  },
-  {
-    q: "Que signifie le panneau B45 ?",
-    options: ["Accès interdit aux véhicules de transport en commun de personnes", "Stationnement interdit aux véhicules de transport en commun de personnes", "Fin de voie réservée aux véhicules de transport en commun de personnes", "Arrêt interdit aux véhicules de transport en commun de personnes"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Fin de voie réservée aux véhicules de transport en commun de personnes."
-  },
-  {
-    q: "Que signifie le panneau B27 ?",
-    options: ["Arrêt d'autobus", "Parking réservé aux autobus", "Voie réservé aux autobus", "Arrêt obligatoire aux autobus"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Voie réservé aux autobus."
-  },
-  {
-    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_B9g.svg",
-    q: "Que signifie le panneau B9g ?",
-    options: ["Accès interdit aux cyclomoteurs", "Accès interdit aux motocyclettes", "Accès interdit aux cyclomoteurs et motocyclettes"],
-    answer: 0,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Accès interdit aux cyclomoteurs."
-  },
-  {
-    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_B10a.svg",
-    q: "Que signifie le panneau B10a ?",
-    options: ["Accès interdit aux véhicules dont la longueur dépasse 10m avec ou sans chargement", "Accès interdit uniquement aux véhicules de transport de marchandises dont la longueur dépasse 10m", "Accès interdit uniquement aux véhicules de transport en commun de personnes dont"],
-    answer: 0,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Accès interdit aux véhicules dont la longueur dépasse 10m avec ou sans chargement."
-  },
-  {
-    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_B14.svg",
-    q: "Que signifie le panneau B14 (3) ?",
-    options: ["Vitesse limitée à 60km/h pour les 2 roues", "Vitesse limitée à 60km/h pour les cyclomoteurs", "Vitesse limitée à 60km/h pour les motocyclettes", "Vitesse limitée à 60km/h pour les cyclomoteurs et les motocyclettes"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Vitesse limitée à 60km/h pour les motocyclettes."
-  },
-  {
-    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_B29.svg",
-    q: "Le panneau B29 (2) : VEHICULES ?",
-    options: ["Ne concerne pas les motocyclettes LENTS roulant à moins de 60km/h", "Concerne tout véhicule à moteur roulant à moins de 60km/h", "Concerne seulement les véhicules automobiles roulant à moins de 60km/h"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Concerne tout véhicule à moteur roulant à moins de 60km/h."
-  },
-  {
-    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_B13.svg",
-    q: "Que signifie le panneau B13 ?",
-    options: ["Accès interdit aux véhicules pesant 5,5T 5.5t", "Accès interdit aux véhicules pesant plus de 5,5T", "Accès interdit aux véhicules pesant moins de 5,5T"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Accès interdit aux véhicules pesant plus de 5,5T."
-  },
-  {
-    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_B14.svg",
-    q: "Le panneau B14 (4) concerne :",
-    options: ["Les véhicules de transport en commun de personnes", "Les véhicules de transport de marchandises", "Tout véhicule de transport", "Tout véhicule de tourisme"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Les véhicules de transport de marchandises."
-  },
-  {
-    q: "A la rencontre d'un panneau de danger, que doit-on faire ?",
-    options: ["Accélérer et passer le danger signalé", "Ralentir, serrer sa droite et passer en faisant attention au danger", "Serrer sa droite, accélérer et passer", "Faire demi-tour"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Ralentir, serrer sa droite et passer en faisant attention au danger."
-  },
-  {
-    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_A7.svg",
-    q: "A la rencontre du panneau A7, que doit-on faire ?",
-    options: ["Accélérer et passer", "Ralentir serrer sa droite et passer avec prudence", "Ralentir, serrer sa droite et klaxonner"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Ralentir serrer sa droite et passer avec prudence."
-  },
-  {
-    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_A7.svg",
-    q: "A quoi peut-on s'attendre à la vue du panneau A7 ?",
-    options: ["A voir les rails", "A voir une barrière, des rails", "A voir une barrière automatique"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : A voir une barrière, des rails."
-  },
-  {
-    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_A8.svg",
-    q: "A quoi peut-on s'attendre après le panneau A8 ?",
-    options: ["A voir des rails, une barrière", "A voir un panneau de position", "A voir un panneau de position, des rails"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : A voir un panneau de position, des rails."
-  },
-  {
-    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_A8.svg",
-    q: "Que doit-on faire à la vue du panneau A8 ?",
-    options: ["Accélérer et passer en vérifiant la gauche et la droite", "Ralentir, regarder à gauche et à droite avant de traverser les rails", "Accélérer et passer tout simplement"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Ralentir, regarder à gauche et à droite avant de traverser les rails."
-  },
-  {
-    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_A13a.svg",
-    q: "Que doit-on faire à la rencontre du panneau A13a ?",
-    options: ["Passer en utilisant son avertisseur sonore pour faire dégager les enfants qui se trouveraient sur la route", "Ralentir, faire attention aux enfants, s'arrêter au besoin pour les laisser passer", "Klaxonner et passer rapidement"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Ralentir, faire attention aux enfants, s'arrêter au besoin pour les laisser passer."
-  },
-  {
-    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_A3.svg",
-    q: "A la rencontre du panneau A3, que faire lorsqu'un véhicule arrive en sens inverse ?",
-    options: ["S'arrêter et laisser le véhicule passer", "Poursuivre sa route", "Serrer sa droite, s'arrêter et laisser le véhicule passer"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Serrer sa droite, s'arrêter et laisser le véhicule passer."
-  },
-  {
-    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_B3.svg",
-    q: "A la vue du panneau B3 :",
-    options: ["Un véhicule peut dépasser un autre véhicule", "Une voiture peut dépasser un camion", "Un camion peut dépasser un autre camion", "Aucun dépassement n'est autorisé"],
-    answer: 3,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Aucun dépassement n'est autorisé."
-  },
-  {
-    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_B15.svg",
-    q: "Que doit-on faire à la vue du panneau B15 ?",
-    options: ["Passer sans prendre en compte, l'usager venant en sens inverse", "Passer en serrant sa droite", "S'arrêter pour laisser l'usager venant en sens inverse"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : S'arrêter pour laisser l'usager venant en sens inverse."
-  },
-  {
-    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_B21c1.svg",
-    q: "Que doit-on faire à la vue du panneau B21c1 ?",
-    options: ["Tourner immédiatement à droite", "Tourner à droite à la prochaine intersection", "Tourner à droite avant le panneau"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Tourner à droite à la prochaine intersection."
-  },
-  {
-    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_B31.svg",
-    q: "Que m'indique le panneau B31 ?",
-    options: ["La fin de toutes les interdictions sauf le panneau \"STOP\"", "La fin de tous les panneaux", "La fin de tous les panneaux d'interdiction sauf ceux de stationnement et d'arrêt interdits"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : La fin de tous les panneaux d'interdiction sauf ceux de stationnement et d'arrêt interdits."
-  },
-  {
-    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_B34.svg",
-    q: "Qu'indique le panneau B34 ?",
-    options: ["Le dépassement est interdit à tous véhicules", "Il est mis fin à l'interdiction de dépasser à tous véhicules", "Il est mis fin à l'interdiction aux petits véhicules seuls de se dépasser"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Il est mis fin à l'interdiction de dépasser à tous véhicules."
-  },
-  {
-    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_G1.svg",
-    q: "Que doit-on faire à la rencontre du panneau G1 ?",
-    options: ["Passer les rails très rapidement", "Ralentir pour passer les rails", "Ralentir, s'assurer qu'aucun train n'arrive ni de droite ni de gauche sur les rails avant de passer"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Ralentir, s'assurer qu'aucun train n'arrive ni de droite ni de gauche sur les rails avant de passer."
-  },
-  {
-    q: "Au feu vert :",
-    options: ["Je passe sans ralentir", "Je ralentis et je passe", "Je ralentis et je m'arrête", "Je cède le passage aux usagers venant de droite"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Je ralentis et je passe."
-  },
-  {
-    q: "A une intersection munie de feux tricolores dont le rouge est allumé, que faire ?",
-    options: ["Je passe si je veux tourner à droite", "Je ralentis et je passe si la voie est libre", "Je m'arrête"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Je m'arrête."
-  },
-  {
-    q: "A une intersection munie de feux tricolores où un agent de sécurité réglemente la circulation, que faire ?",
-    options: ["Je suis les indications de l'agent de sécurité", "Je respecte les feux", "Je passe si le feu est vert"],
-    answer: 0,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Je suis les indications de l'agent de sécurité."
-  },
-  {
-    q: "Dans quel ordre s’allument les feux tricolores :",
-    options: ["rouge – jaune - vert", "jaune – vert - rouge", "vert - jaune - rouge"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : vert - jaune - rouge."
-  },
-  {
-    q: "A une intersection munie de feux tricolores dont le feu vert est allumé, que dois-je faire ?",
-    options: ["Je m'arrête", "Je ralentis et je m'arrête", "Je passe"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Je passe."
-  },
-  {
-    q: "Le feu jaune annonce :",
-    options: ["Le feu vert", "Le feu rouge", "Le feu orange"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Le feu rouge."
-  },
-  {
-    q: "A une distance raisonnable du feu jaune fixe ; je me prépare ?",
-    options: ["Pour passer", "Pour m'arrêter", "Pour céder le passage"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Pour m'arrêter."
-  },
-  {
-    q: "A une intersection munie de feux tricolores où seul le feu jaune clignote :",
-    options: ["Je m'arrête", "Je ralentis et je passe", "J'applique la règle de priorité à droite"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : J'applique la règle de priorité à droite."
-  },
-  {
-    q: "Aux feux tricolores munis de panneau, dont le jaune seul clignote :",
-    options: ["Je me conforme au panneau", "Je me conforme au feu jaune clignotant", "J'applique la priorité à droite"],
-    answer: 0,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Je me conforme au panneau."
-  },
-  {
-    q: "Aux feux tricolores dont le rouge est allumé :",
-    options: ["Je passe avec prudence", "Je m’arrête", "Je ralentis, je serre ma droite et je tourne"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Je m’arrête."
-  },
-  {
-    q: "Aux feux tricolores fonctionnant normalement et munis de panneau :",
-    options: ["Je me conforme au panneau", "Je me conforme aux feux", "Je passe librement"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Je me conforme aux feux."
-  },
-  {
-    q: "A une intersection munie de feux tricolores où tous les feux sont éteints :",
-    options: ["Je pratique la règle de la priorité à droite", "Je cède le passage à droite et à gauche", "J’ai la priorité de passage"],
-    answer: 0,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Je pratique la règle de la priorité à droite."
-  },
-  {
-    q: "Quel est le rôle de l'agent de sécurité à l'intersection ?",
-    options: ["Réglementer la circulation", "Perturber la circulation", "Contrôler les pièces"],
-    answer: 0,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Réglementer la circulation."
-  },
-  {
-    q: "Lorsque vous voyez de profil l'agent réglementant la circulation, que faire ?",
-    options: ["Je m'arrête", "Je cède le passage à droite", "Je passe", "Je ralentis pour céder le passage"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Je passe."
-  },
-  {
-    q: "Lorsque je vois de face ou de dos l'agent réglementant la circulation, que faire ?",
-    options: ["Je passe", "Je ralentis et je passe", "Je m'arrête", "J'accélère ma vitesse"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Je m'arrête."
-  },
-  {
-    q: "De toutes les signalisations routières, laquelle prime sur les autres ?",
-    options: ["La signalisation lumineuse", "La signalisation horizontale", "La signalisation verticale", "Les signes des agents"],
-    answer: 3,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Les signes des agents."
-  },
-  {
-    q: "A la vue de face ou de dos d'un agent réglementant la circulation :",
-    options: ["Je passe", "Je m'arrête", "J'applique la règle de la priorité à droite"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Je m'arrête."
-  },
-  {
-    q: "A la vue de profil d'un agent réglementant la circulation :",
-    options: ["Je passe", "Je m'arrête", "J'applique la règle de priorité à droite"],
-    answer: 0,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Je passe."
-  },
-  {
-    q: "Les véhicules prioritaires sont :",
-    options: ["Police – Gendarmerie – corbillard en mission", "SAMU – Sapeur pompier –Police – Gendarmerie en mission", "SAMU - corbillard - Police"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : SAMU – Sapeur pompier –Police – Gendarmerie en mission."
-  },
-  {
-    q: "Les feux tricolores fonctionnent, cependant l’agent de sécurité règlement la circulation :",
-    options: ["je passe au feu vert", "je ne passe que si je suis autorisé par l’agent de sécurité", "je passe sans tenir compte ni du feu ni de l’agent de sécurité"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : je ne passe que si je suis autorisé par l’agent de sécurité."
-  },
-  {
-    q: "Quelles sont les grandes règles de priorité ?",
-    options: ["La règle de courtoisie et le respect des agents de sécurité", "Le respect des feux et la règle de la priorité à droite", "La priorité à droite, la priorité de passage et la perte de priorité"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : La priorité à droite, la priorité de passage et la perte de priorité."
-  },
-  {
-    q: "La priorité à droite consiste à :",
-    options: ["Laisser passer l'usager dont la droite est libre", "Laisser passer l'usager dont la gauche est libre", "Serrer sa droite et tourner à droite"],
-    answer: 0,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Laisser passer l'usager dont la droite est libre."
-  },
-  {
-    q: "Que faire à une intersection sans signalisation ?",
-    options: ["Je cède le passage à droite", "Je cède le passage à gauche", "Je passe tout droit"],
-    answer: 0,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Je cède le passage à droite."
-  },
-  {
-    q: "Que faire à une intersection de deux routes secondaires ?",
-    options: ["Je cède le passage à droite", "Je passe tout droit", "Je cède le passage à droite et à gauche"],
-    answer: 0,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Je cède le passage à droite."
-  },
-  {
-    q: "Le panneau triangle - flèche barrée annonce que :",
-    options: ["les usagers arrivant de gauche ou de droite ont la priorité de passage", "les usagers arrivant de gauche ou de droite perdent la priorité", "seuls les usagers arrivant de la gauche perdent la priorité de passage"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : les usagers arrivant de gauche ou de droite perdent la priorité."
-  },
-  {
-    q: "A la vue de la signalisation \" STOP \", le conducteur doit :",
-    options: ["marquer un arrêt et céder le passage à gauche et à droite", "céder le passage à droite seulement", "marquer l’arrêt après le panneau"],
-    answer: 0,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : marquer un arrêt et céder le passage à gauche et à droite."
-  },
-  {
-    q: "Que faire à une intersection de deux routes secondaires dangereuses ?",
-    options: ["Je cède le passage à droite", "Je cède le passage à gauche et à droite", "Je tourne à droite"],
-    answer: 0,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Je cède le passage à droite."
-  },
-  {
-    q: "Que faire à une intersection de deux routes à grande circulation ?",
-    options: ["Je cède le passage à gauche", "Je cède le passage à droite", "Je cède le passage à droite et à gauche"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Je cède le passage à droite."
-  },
-  {
-    q: "Que faire à une intersection munie de feux tricolores dont le feu jaune clignote ?",
-    options: ["Je cède le passage à ma gauche", "Je cède le passage à ma droite", "J'ai la priorité de passage"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Je cède le passage à ma droite."
-  },
-  {
-    q: "A la vue du panneau STOP, que dois-je faire ?",
-    options: ["Je cède le passage à droite", "Je cède le passage à droite et à gauche", "Je m'arrête et je cède le passage aux usagers venant de ma droite et de ma gauche"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Je m'arrête et je cède le passage aux usagers venant de ma droite et de ma gauche."
-  },
-  {
-    q: "A la vue du panneau triangulaire pointe en bas, que dois-je faire ?",
-    options: ["Je passe", "Je cède le passage à droite seulement", "Je cède le passage à droite et à gauche"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Je cède le passage à droite et à gauche."
-  },
-  {
-    q: "A l’intersection munie de feux tricolores dont le rouge est allumé, que faire ?",
-    options: ["Je m'arrête", "Je passe si je veux tourner à droite", "Je ralentis et je passe si la voie est libre"],
-    answer: 0,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Je m'arrête."
-  },
-  {
-    q: "A une distance raisonnable du feu jaune fixe, je me prépare :",
-    options: ["pour appliquer la règle de priorité à droite", "pour passer", "pour m’arrêter", "pour céder le passage"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : pour m’arrêter."
-  },
-  {
-    q: "Lorsque je vois de face l’agent de sécurité réglementant la circulation :",
-    options: ["je passe", "je ralentis et je passe", "j’applique la priorité à droite", "je ralentis et je m’arrête."],
-    answer: 3,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : je ralentis et je m’arrête.."
-  },
-  {
-    q: "Au carrefour à sens giratoire en agglomération :",
-    options: ["la priorité est toujours à droite", "la priorité peut être donnée à droite et à gauche", "rien de tout ce qui précède"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : rien de tout ce qui précède."
-  },
-  {
-    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_A13b.svg",
-    q: "A la vue du panneau A13b :",
-    options: ["je passe toujours derrière le piéton en laissant un intervalle d’au moins 1m", "je passe toujours devant le piéton qui me voit bien, en laissant un intervalle d’au moins 1m", "je klaxonne pour obliger le piéton à vite traverser"],
-    answer: 0,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : je passe toujours derrière le piéton en laissant un intervalle d’au moins 1m."
-  },
-  {
-    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_C12.svg",
-    q: "A la vue du panneau C12 quel panneau l’usager venant en sens inverse doit voir à l’autre bout de la voie ?",
-    options: ["le panneau \"priorité par rapport à la circulation venant en sens inverse\"", "le panneau \"céder le passage à la circulation venant en sens inverse\"", "le panneau \"sens interdit\""],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : le panneau \"sens interdit\"."
-  },
-  {
-    q: "A l’ intersection d'une route revêtue et d'une route en terre, quelle est la règle de priorité à observer en agglomération ?",
-    options: ["La priorité de passage", "La perte de priorité", "La priorité à droite"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : La priorité à droite."
-  },
-  {
-    q: "A l'intersection d'une route revêtue et d'une route en terre, quelle est la règle de priorité à observer hors agglomération par l’usager circulant sur la route en terre ?",
-    options: ["La priorité de passage", "La perte de priorité", "La priorité à droite"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : La perte de priorité."
-  },
-  {
-    q: "A la vue du panneau A9a : PASSAGE PROTEGE ?",
-    options: ["j’applique la règle de la perte de priorité", "j’applique la rège de priorité à droite", "j’applique la règle de priorité de passage"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : j’applique la règle de priorité de passage."
-  },
-  {
-    q: "A une intersection de routes de même valeur où aucun usager n’a sa droite libre, s’applique :",
-    options: ["la priorité de passage pour les usagers venant de droite et de gauche.", "la règle de la courtoisie et ensuite la règle de la priorité à droite", "la perte de priorité de passage pour les usagers venant de face en face"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : la règle de la courtoisie et ensuite la règle de la priorité à droite."
-  },
-  {
-    q: "Sur cette image PN3, les véhicules rouge et bleu doivent :",
-    options: ["Passer", "Attendre devant le premier panneau de signalisation et passer après l'avion", "Attendre devant le deuxième panneau de signalisation et ne passer qu'après l'extinction du feu"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Attendre devant le deuxième panneau de signalisation et ne passer qu'après l'extinction du feu."
-  },
-  {
-    q: "Que doit faire un conducteur sur le point d’être dépassé ?",
-    options: ["il serre sa gauche sans accélérer", "il serre sa droite en accélérant", "il serre sa droite sans accélérer", "il reste au milieu de la chaussée en accélérant"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : il serre sa droite sans accélérer."
-  },
-  {
-    q: "La nuit, pour dépasser, ?",
-    options: ["j’utilise mes avertisseurs sonores", "j’utilise mes avertisseurs lumineux", "je ne fais rien de tout cela"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : j’utilise mes avertisseurs lumineux."
-  },
-  {
-    q: "Lorsque les pointillés de la ligne mixte sont les plus proches du véhicule, on peut franchir cette ligne :",
-    options: ["pour tourner à droite", "pour tourner à gauche", "pour dépasser puis se rabattre"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : pour dépasser puis se rabattre."
-  },
-  {
-    q: "Quelle est la toute première précaution à observer pour effectuer un dépassement ?",
-    options: ["S'assurer que l'on n'est pas dans un cas d'interdiction", "Accélérer pour dépasser", "Bien serrer sa droite"],
-    answer: 0,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : S'assurer que l'on n'est pas dans un cas d'interdiction."
-  },
-  {
-    q: "En général, de quel côté s'effectue le dépassement ?",
-    options: ["Le dépassement s'effectue par la droite", "Le dépassement s'effectue par la gauche", "Le dépassement s'effectue du côté de votre choix", "Le dépassement s'effectue du côté où c'est possible"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Le dépassement s'effectue par la gauche."
-  },
-  {
-    q: "Dans quel cas peut-on être autorisé‚ à dépasser par la droite ?",
-    options: ["Quand on a une file ininterrompue de véhicules devant soi", "Quand le véhicule à dépasser a déjà pris position pour tourner à gauche", "En abordant une intersection", "Sur une chaussée à sens unique"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Quand le véhicule à dépasser a déjà pris position pour tourner à gauche."
-  },
-  {
-    q: "Quand est-ce que le dépassement est effectif ?",
-    options: ["Quand l'usager dépassé apparaît dans le rétroviseur intérieur", "Après avoir mis le clignotant à droite pour se rabattre", "Quand on peut estimer soi-même que le dépassement est fait"],
-    answer: 0,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Quand l'usager dépassé apparaît dans le rétroviseur intérieur."
-  },
-  {
-    q: "En combien d'étapes s'effectue le dépassement ?",
-    options: ["En une étape", "En deux étapes", "En trois étapes"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : En trois étapes."
-  },
-  {
-    q: "Citez deux cas d'interdiction de dépasser :",
-    options: ["Devant un panneau interdisant de dépasser et sur une ligne continue", "Devant un panneau interdisant de dépasser et sur une ligne discontinue", "Sur des lignes mixtes dont la ligne discontinue se trouve du côté du conducteur"],
-    answer: 0,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Devant un panneau interdisant de dépasser et sur une ligne continue."
-  },
-  {
-    q: "Sur une chaussée à 3 voies et à double sens, on utilise, pour dépasser :",
-    options: ["la voie centrale", "la voie la plus à gauche", "la voie la plus à droite"],
-    answer: 0,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : la voie centrale."
-  },
-  {
-    q: "Donner l’écart latéral minimal entre deux véhicules automobiles qui se dépassent :",
-    options: ["1m environ", "0,50m environ", "0,3m environ"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : 0,50m environ."
-  },
-  {
-    q: "Donner l’écart latéral minimal à observer par un automobiliste qui dépasse un piéton ou un cycliste :",
-    options: ["1m environ", "0,5m environ", "2,0m environ"],
-    answer: 0,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : 1m environ."
-  },
-  {
-    q: "Quel est l'écart latéral à observer entre deux véhicules automobiles, qui se dépassent ?",
-    options: ["1m environ", "0,20m environ", "0,50m environ"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : 0,50m environ."
-  },
-  {
-    q: "Quel est l’écart latéral à observer par un automobiliste qui dépasse un piéton ou un cycliste ?",
-    options: ["0,50m environ", "2m environ", "1m environ"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : 1m environ."
-  },
-  {
-    q: "Quel serait votre comportement quand un usager s'apprête à vous dépasser ?",
-    options: ["Je serre ma gauche", "J'occupe l'axe médian de la chaussée", "Je serre ma droite", "Je ralentis"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Je serre ma droite."
-  },
-  {
-    q: "En rase campagne le dépassement est autorisé :",
-    options: ["à proximité des intersections", "au sommet de côte", "dans les virages", "rien de tout ce qui précède"],
-    answer: 3,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : rien de tout ce qui précède."
-  },
-  {
-    q: "Pour effectuer un dépassement :",
-    options: ["j’avertis, je contrôle, puis je déboîte", "je contrôle, j’avertis et je déboîte", "je déboîte, j’avertis, je contrôle"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : je contrôle, j’avertis et je déboîte."
-  },
-  {
-    q: "Lors du dépassement d’un véhicule la nuit, je mets les feux de route ?",
-    options: ["immédiatement après avoir déboîté", "en arrivant à la hauteur du véhicule à dépasser", "tout de suite après m’être rabattu"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : en arrivant à la hauteur du véhicule à dépasser."
-  },
-  {
-    q: "Comment prévenir ordinairement l'usager à dépasser pendant le jour ?",
-    options: ["Par des appels sonores", "Par des appels lumineux", "Par le clignotant"],
-    answer: 0,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Par des appels sonores."
-  },
-  {
-    q: "Comment prévenir l'usager à dépasser la nuit ?",
-    options: ["Par des appels sonores", "Par des appels lumineux", "Par des clignotants"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Par des appels lumineux."
-  },
-  {
-    q: "A une intersection de deux routes de même nature, peut-on dépasser par la gauche ?",
-    options: ["Je peux effectuer rapidement le dépassement", "Je ne peux pas effectuer le dépassement", "Je peux effectuer le dépassement par la gauche si le véhicule qui me précède signale son intension de tourner à droite."],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Je peux effectuer le dépassement par la gauche si le véhicule qui me précède signale son intension de tourner à droite.."
-  },
-  {
-    q: "Au sommet d'une côte :",
-    options: ["Je peux dépasser si ma voiture a une réserve d'accélération suffisante", "Je peux dépasser à la hauteur d'une ligne continue", "Je ne peux pas dépasser"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Je ne peux pas dépasser."
-  },
-  {
-    q: "Sur une chaussée à double sens comportant trois voies :",
-    options: ["Je suis autorisé à dépasser en 3ème position lorsque aucun usager ne vient en face", "Je suis autorisé à dépasser en 3ème position lorsque je juge suffisante la largeur de la chaussée", "Je ne suis pas autorisé à dépasser en 3ème position"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Je ne suis pas autorisé à dépasser en 3ème position."
-  },
-  {
-    q: "Au niveau des flèches de rabattement :",
-    options: ["Je suis autorisé à dépasser lorsqu’ aucun usager ne vient en face", "Je suis autorisé à dépasser lorsque je juge la largeur de la chaussée suffisante", "Je ne suis pas autorisé à dépasser", "Je suis autorisé si l'usager devant moi est trop lent"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Je ne suis pas autorisé à dépasser."
-  },
-  {
-    q: "Au niveau d’une ligne discontinue, le dépassement est interdit :",
-    options: ["Dans un virage", "A la hauteur d'une ligne continue située du côté de la voiture", "Sur une chaussée rétrécie"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : A la hauteur d'une ligne continue située du côté de la voiture."
-  },
-  {
-    q: "Au niveau d’une ligne continue accolée à une ligne discontinue côté chauffeur, peut-on effectuer le dépassement ?",
-    options: ["On ne peut pas effectuer le dépassement", "On peut effectuer le dépassement", "On ne peut pas effectuer le dépassement la nuit"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : On peut effectuer le dépassement."
-  },
-  {
-    q: "A quel passage à niveau le dépassement est-il autorisé ?",
-    options: ["A un passage à niveau sans barrière", "A un passage à niveau avec barrière à fonctionnement manuel", "A un passage à niveau avec barrière à fonctionnement automatique", "A aucun passage à niveau"],
-    answer: 3,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : A aucun passage à niveau."
-  },
-  {
-    q: "Sur une chaussée à plus de deux voies et à double sens de circulation, le dépassement est interdit :",
-    options: ["Sur la voie se trouvant à gauche", "Sur la voie du milieu", "Sur toutes les voies"],
-    answer: 0,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Sur la voie se trouvant à gauche."
-  },
-  {
-    q: "Sur une chaussée à deux voies et à double sens, je peux circuler :",
-    options: ["Sur la voie de gauche pour effectuer un dépassement", "Sur la voie de gauche façon continue", "Sur la voie de droite seulement"],
-    answer: 0,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Sur la voie de gauche pour effectuer un dépassement."
-  },
-  {
-    q: "Vous circulez par temps de grand vent ; pour dépasser un autre usager:",
-    options: ["Vous diminuez l'écart latéral", "Vous maintenez l'écart latéral", "Vous augmentez l'écart latéral"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Vous augmentez l'écart latéral."
-  },
-  {
-    q: "Pour effectuer un croisement la nuit, je dois :",
-    options: ["Klaxonner", "Circuler en phare", "Circuler en code", "Circuler en feux de détresse"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Circuler en code."
-  },
-  {
-    q: "Quel est le véhicule qui doit s'arrêter à temps à cause d'un croisement difficile sur un terrain plat ?",
-    options: ["Le véhicule léger", "Le véhicule encombrant", "Le véhicule qui veut"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Le véhicule encombrant."
-  },
-  {
-    q: "Sur une pente, quel est le véhicule qui doit s'arrêter à temps à cause d'un croisement difficile ?",
-    options: ["Le véhicule montant", "Le véhicule descendant", "Le véhicule qui le désire"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Le véhicule descendant."
-  },
-  {
-    q: "En agglomération, quel est le véhicule qui doit s'arrêter à temps à cause d'un croisement difficile ?",
-    options: ["L'autobus", "Le véhicule qui le désire", "Le camion"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Le camion."
-  },
-  {
-    q: "Sur une pente, quel est le véhicule de même catégorie qui doit faire la marche arrière à cause d'un croisement difficile ?",
-    options: ["Le véhicule montant", "Le véhicule descendant", "Le véhicule qui veut"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Le véhicule descendant."
-  },
-  {
-    q: "Sur une pente, quel est le véhicule qui doit faciliter le passage lors d'un croisement difficile ?",
-    options: ["L'autobus chargé", "Le camion", "Le véhicule qui le désire"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Le camion."
-  },
-  {
-    q: "Sur une pente, quel est le véhicule qui doit faire la marche arrière à cause d'un croisement difficile ?",
-    options: ["Le véhicule isolé", "Le véhicule articulé", "Le véhicule qui veut"],
-    answer: 0,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Le véhicule isolé."
-  },
-  {
-    q: "La nuit, pour éviter d’être ébloui :",
-    options: ["je regarde le bord droit de la chaussée", "je ferme les yeux pendant un court instant", "je porte des verres teintés"],
-    answer: 0,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : je regarde le bord droit de la chaussée."
-  },
-  {
-    q: "L’écart minimal de vitesse recommandé pour un véhicule qui veut effectuer le dépassement est de :",
-    options: ["30 km/h", "25 km/h", "40 km/h", "20 km/h", "10 km/h"],
-    answer: 3,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : 20 km/h."
-  },
-  {
-    q: "Sur une chaussée à forte déclivité, quel est le véhicule qui doit s’arrêter à temps lorsque le croisement se révèle difficile ?",
-    options: ["le véhicule descendant", "le véhicule qui le désire", "le véhicule montant"],
-    answer: 0,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : le véhicule descendant."
-  },
-  {
-    q: "Sur une chaussée à double sens :",
-    options: ["je peux faire demi-tour", "je ne peux pas faire demi -tour", "je ne peux pas faire marche arrière"],
-    answer: 0,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : je peux faire demi-tour."
-  },
-  {
-    q: "Les flèches de rabattement m’obligent :",
-    options: ["à serrer ma gauche", "à serrer ma droite", "à quitter la chaussée", "à réduire ma vitesse"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : à serrer ma droite."
-  },
-  {
-    q: "Sur une chaussée à double sens comportant plus de deux voies, il est interdit d’emprunter :",
-    options: ["la voie la plus à droite", "la voie du milieu", "la voie la plus à gauche"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : la voie la plus à gauche."
-  },
-  {
-    q: "En quoi consiste l'arrêt ?",
-    options: ["A l'immobilisation momentanée d'un véhicule, conducteur à bord", "A l'immobilisation de longue durée d'un véhicule, conducteur éloigné", "A l'immobilisation momentanée d'un véhicule, conducteur éloigné"],
-    answer: 0,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : A l'immobilisation momentanée d'un véhicule, conducteur à bord."
-  },
-  {
-    q: "En quoi consiste le stationnement ?",
-    options: ["A l'immobilisation momentanée d'un véhicule, conducteur à bord", "A l'immobilisation momentanée d'un véhicule, conducteur à côté", "A l'immobilisation momentanée d'un véhicule conducteur éloigné", "A l'immobilisation de longue durée d'un véhicule conducteur à bord"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : A l'immobilisation momentanée d'un véhicule conducteur éloigné."
-  },
-  {
-    q: "En présence du panneau de \"stationnement interdit\", je suis autorisé à :",
-    options: ["Stationner avant le panneau", "Stationner après le panneau", "Stationner avant la prochaine intersection"],
-    answer: 0,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Stationner avant le panneau."
-  },
-  {
-    q: "A la rencontre du panneau \"arrêt et stationnement interdits\", l'interdiction commence :",
-    options: ["Avant le panneau", "A partir du panneau", "15 mètres après le panneau"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : A partir du panneau."
-  },
-  {
-    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_B2b.svg",
-    q: "Le panneau B2b :",
-    options: ["interdit le stationnement du côté droit", "interdit de tourner à droite à la prochaine intersection", "oblige à tourner à droite à la prochaine intersection"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : interdit de tourner à droite à la prochaine intersection."
-  },
-  {
-    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_B2a.svg",
-    q: "Le panneau B2a :",
-    options: ["interdit de tourner à gauche à la prochaine intersection", "interdit de stationner à gauche dans cette rue", "oblige à tourner à gauche à la prochaine intersection"],
-    answer: 0,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : interdit de tourner à gauche à la prochaine intersection."
-  },
-  {
-    q: "La bande jaune discontinue le long du trottoir interdit :",
-    options: ["L'arrêt", "Le stationnement", "L'arrêt pour les véhicules légers"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Le stationnement."
-  },
-  {
-    q: "Pour tourner à droite, je dois :",
-    options: ["Serrer ma droite", "Serrer ma gauche", "Me déporter au milieu de la chaussée"],
-    answer: 0,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Serrer ma droite."
-  },
-  {
-    q: "Pour tourner à gauche sur une chaussée à double sens, je dois :",
-    options: ["Serrer ma droite", "Me déporter au milieu de la chaussée", "Serrer ma gauche"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Me déporter au milieu de la chaussée."
-  },
-  {
-    q: "Après combien de jours le stationnement devient-il abusif ?",
-    options: ["10 jours", "7 jours", "4 jours"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : 7 jours."
-  },
-  {
-    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_B7b.svg",
-    q: "Le panneau B7b :",
-    options: ["interdit le stationnement à tout véhicule à moteur sauf les camions", "interdit l’accès à tous les véhicules à moteurs", "interdit l’accès à tous les véhicules sauf les"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : interdit l’accès à tous les véhicules à moteurs."
-  },
-  {
-    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_B9c.svg",
-    q: "Que signifie le panneau B9c ?",
-    options: ["accès interdit aux chevaux", "accès interdit aux véhicules agricoles à moteur", "accès interdit aux véhicules à traction animale"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : accès interdit aux véhicules à traction animale."
-  },
-  {
-    q: "Quels sont les différents types de stationnement ?",
-    options: ["Bataille - créneau - perpendiculaire", "Bataille - épi - créneau", "Epi - créneau - oblique", "En double file - épi – parallèle"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Bataille - épi - créneau."
-  },
-  {
-    q: "A quoi sert le terre-plein central ?",
-    options: ["A stationner", "A exposer les marchandises", "A Faire un demi-tour", "A séparer deux chaussées"],
-    answer: 3,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : A séparer deux chaussées."
-  },
-  {
-    q: "En quittant le stationnement en marche normale pour intégrer la circulation, je dois :",
-    options: ["Utiliser le rétroviseur de droite", "Mettre le clignotant de gauche, utiliser le rétroviseur de gauche et m'engager avec prudence", "M'engager rapidement"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Mettre le clignotant de gauche, utiliser le rétroviseur de gauche et m'engager avec prudence."
-  },
-  {
-    q: "En sortant d'un garage pour intégrer la circulation, je dois :",
-    options: ["Céder le passage aux usagers venant de la droite seulement", "Céder le passage aux usagers venant de la gauche seulement", "Céder le passage aux usagers venant de la droite et de la gauche"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Céder le passage aux usagers venant de la droite et de la gauche."
-  },
-  {
-    q: "En sortant d'un garage pour intégrer la circulation, quelle est la toute première précaution à prendre ?",
-    options: ["Jeter un coup d’œil à gauche", "Klaxonner", "Jeter un coup d’œil à droite"],
-    answer: 0,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Jeter un coup d’œil à gauche."
-  },
-  {
-    q: "En descendant une longue pente, on doit utiliser :",
-    options: ["Le frein à pied seulement", "Le frein à pied et le frein moteur", "Le frein à pied et le frein à main"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Le frein à pied et le frein moteur."
-  },
-  {
-    q: "Dans une descente le frein moteur sera puissant si :",
-    options: ["Je reste en quatrième vitesse", "Je passe en cinquième vitesse", "Je passe en deuxième"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Je passe en deuxième."
-  },
-  {
-    q: "Dans une rue à sens unique, les véhicules peuvent stationner :",
-    options: ["Sur le côté droit seulement", "Sur le côté droit ou sur le côté gauche", "Sur le côté gauche seulement"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Sur le côté droit ou sur le côté gauche."
-  },
-  {
-    q: "Quelle est la toute première opération à effectuer par le conducteur pour immobiliser son véhicule roulant en prise directe ?",
-    options: ["Débrayer", "Freiner", "Mettre le levier au point mort"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Freiner."
-  },
-  {
-    q: "A la vue d'un obstacle inopiné à vive allure :",
-    options: ["Je débraie et je freine", "Je freine en bloquant les roues", "Je freine franchement et je débraie au dernier moment"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Je freine franchement et je débraie au dernier moment."
-  },
-  {
-    q: "Où peut-on faire un demi-tour ?",
-    options: ["Sur un pont", "Sur une chaussée à sens unique", "Dans un virage", "Sur une chaussée à double sens de circulation"],
-    answer: 3,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Sur une chaussée à double sens de circulation."
-  },
-  {
-    q: "Où peut-on faire la marche arrière ?",
-    options: ["Sur un pont", "Sur une chaussée à sens unique", "Sur l'accotement ou sur le trottoir"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Sur une chaussée à sens unique."
-  },
-  {
-    q: "En marche arrière, peut-on rentrer dans un sens interdit ?",
-    options: ["Oui", "Non"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Non."
-  },
-  {
-    q: "La peinture jaune continue sur la bordure du trottoir signifie que :",
-    options: ["L'arrêt et le stationnement sont interdits jusqu'à la prochaine intersection", "L'arrêt et le stationnement sont interdits à la hauteur de ce trottoir", "Seul l'arrêt est autorisé"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : L'arrêt et le stationnement sont interdits à la hauteur de ce trottoir."
-  },
-  {
-    q: "Après avoir heurté un cycliste, je freine et m'arrête après 81 mètres. Je roulais donc à quelle vitesse ?",
-    options: ["60 km/h", "90 km/h", "70 km/h"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : 90 km/h."
-  },
-  {
-    q: "Par temps de pluie, pour éviter un obstacle qui surgit j'appuie sur la pédale de frein :",
-    options: ["Aussi fort que quand la chaussée est sèche", "Plus fort que quand la chaussée est sèche", "Moins fort que quand la chaussée est sèche"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Moins fort que quand la chaussée est sèche."
-  },
-  {
-    q: "Les \"zébras\" sont réservés pour :",
-    options: ["Le stationnement d'urgence", "L'arrêt d'urgence", "Tourner et changer de direction", "Rien de tout ce qui précède"],
-    answer: 3,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Rien de tout ce qui précède."
-  },
-  {
-    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_B2c.svg",
-    q: "Que signifie le panneau B2c ?",
-    options: ["interdit de tourner à gauche", "interdit de faire la marche arrière", "interdit de faire demi-tour jusqu’à la prochaine intersection incluse", "interdit de faire marche arrière jusqu’à la prochaine intersection incluse"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : interdit de faire demi-tour jusqu’à la prochaine intersection incluse."
-  },
-  {
-    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_B6a1.svg",
-    q: "A la vue du panneau B6a1 :",
-    options: ["je peux stationner avant ou après le panneau", "je peux stationner après le panneau", "je peux stationner devant le panneau", "je ne peux pas stationner avant ni après le panneau"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : je peux stationner après le panneau."
-  },
-  {
-    q: "Que signifie le panneau B43?",
-    options: ["Stationnement interdit à 30m devant le panneau", "Stationnement interdit à 30m après le panneau", "Fin de vitesse minimale obligatoire"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Fin de vitesse minimale obligatoire."
-  },
-  {
-    q: "La voie de stockage permet aux conducteurs de tourner :",
-    options: ["à gauche sans gêner les véhicules venant en sens inverse", "à droite sans gêner les véhicules venant en sens inverse", "au milieu sans gêner les véhicules venant en sens inverse"],
-    answer: 0,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : à gauche sans gêner les véhicules venant en sens inverse."
-  },
-  {
-    q: "Sur les bandes et les pistes cyclables :",
-    options: ["les automobilistes peuvent s'arrêter pour prendre un passager", "Les piétons peuvent circuler", "Les autos peuvent stationner en cas de panne", "Rien de tout ce qui précède"],
-    answer: 3,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Rien de tout ce qui précède."
-  },
-  {
-    q: "Pour suivre un véhicule qui roule à 90 km/h, la distance raisonnable de sécurité à observer derrière ce véhicule est de ?",
-    options: ["10m environ", "15m environ", "25m environ"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : 25m environ."
-  },
-  {
-    q: "Il commence à pleuvoir, l'adhérence de mes pneumatiques sur la chaussée est :",
-    options: ["Aussi bonne que s’il avait plu toute la journée", "Moins bonne que s’il avait plu toute la journée", "Meilleure que s'il avait plu toute la journée"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Moins bonne que s’il avait plu toute la journée."
-  },
-  {
-    q: "La bifurcation, c’est la division d’une autoroute en :",
-    options: ["quatre autoroutes", "deux autoroutes", "cinq autoroutes", "trois autoroutes"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : deux autoroutes."
-  },
-  {
-    q: "Le contrôle de la durée d’un stationnement à durée limitée peut se faire :",
-    options: ["par horodateur", "par disque de stationnement", "par parcmètre"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : par disque de stationnement."
-  },
-  {
-    q: "La rétrogradation permet de :",
-    options: ["ralentir le véhicule dans une descente", "repartir après un ralentissement", "arrêter le véhicule en circulation"],
-    answer: 0,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : ralentir le véhicule dans une descente."
-  },
-  {
-    q: "En marche normale :",
-    options: ["je dois rouler au milieu de la chaussée", "je dois rouler à gauche de la chaussée", "je dois rouler près du bord droit de la chaussée autant que le permettent son profil et son état", "je dois rouler sur le trottoir"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : je dois rouler près du bord droit de la chaussée autant que le permettent son profil et son état."
-  },
-  {
-    q: "En cas d’éclatement d’un pneumatique :",
-    options: ["je freine fortement pour m’arrêter", "je décélère progressivement en maintenant la trajectoire", "je contre braque rapidement pour éviter une tête à queue"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : je décélère progressivement en maintenant la trajectoire."
-  },
-  {
-    q: "Le conducteur d’un véhicule qui dérape sur une chaussée glissante doit :",
-    options: ["freiner fort pour stopper le véhicule", "braquer calmement pour ramener le véhicule dans sa trajectoire", "accélérer franchement pour redonner de l’adhérence aux roues arrière"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : braquer calmement pour ramener le véhicule dans sa trajectoire."
-  },
-  {
-    img: "https://commons.wikimedia.org/wiki/Special:FilePath/France_road_sign_C12.svg",
-    q: "Que signifie le panneau C12 ?",
-    options: ["obligation d’aller tout droit après le panneau", "obligation d’aller tout droit jusqu’à la prochaine intersection", "circulation à sens unique"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : circulation à sens unique."
-  },
-  {
-    q: "Quelle est la vitesse maximale sur une route à grande circulation pour un candidat dont le permis a moins d'un an d'âge ?",
-    options: ["60km/h", "90km/h", "120km/h"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : 90km/h."
-  },
-  {
-    q: "A quoi sert la voie d'accélération ?",
-    options: ["Permet d'atteindre la vitesse minimale autorisée sur autoroute", "Permet de quitter l'autoroute", "Permet de dépasser les usagers lents"],
-    answer: 0,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Permet d'atteindre la vitesse minimale autorisée sur autoroute."
-  },
-  {
-    q: "Que signifie l'arrêt d'urgence ?",
-    options: ["Immobilisation forcée", "Arrêt pour faire descendre un passager", "Arrêt d'autobus"],
-    answer: 0,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Immobilisation forcée."
-  },
-  {
-    q: "Le triangle pointe en bas au début d'une voie d'accélération :",
-    options: ["Permet aux usagers circulant sur autoroute de me céder le passage", "M'oblige à céder le passage aux usagers de l'autoroute", "M'oblige à marquer l'arrêt"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : M'oblige à céder le passage aux usagers de l'autoroute."
-  },
-  {
-    q: "Le trottoir est la partie d'une rue, réservée :",
-    options: ["Pour les vendeuses", "Pour les piétons", "Pour le dépassement en cas de bouchon"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Pour les piétons."
-  },
-  {
-    q: "La chaussée est la partie d'une route réservée :",
-    options: ["A la circulation de gros camions uniquement", "A la circulation des véhicules", "A la circulation des taxi uniquement"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : A la circulation des véhicules."
-  },
-  {
-    q: "La vitesse maximale autorisée en agglomération est :",
-    options: ["70km/h", "50km/h", "90km/h", "100km/h"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : 50km/h."
-  },
-  {
-    q: "Je suis en panne de carburant sur l'autoroute :",
-    options: ["Je vais à pieds chercher du carburant à la station-service la plus proche", "Je me fais remorquer par un autre usager jusqu'à la station-service la plus proche", "J'utilise la cabine d'appel d'urgence pour me faire dépanner", "Je place mon triangle de pré-signalisation"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : J'utilise la cabine d'appel d'urgence pour me faire dépanner."
-  },
-  {
-    q: "Je commets un délit de fuite si je ne m’arrête pas :",
-    options: ["lorsque je suis témoin d’un accident", "lorsqu’un agent de sécurité me fait signe de m’arrêter", "lorsque je suis impliqué dans un accident"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : lorsque je suis impliqué dans un accident."
-  },
-  {
-    q: "L’absorption d’alcool :",
-    options: ["permet de bien conduire", "augmente le temps de réaction", "permet de bien apprécier les distances", "augmente le champ visuel."],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : augmente le temps de réaction."
-  },
-  {
-    q: "On peut passer le feu rouge allumé à une intersection munie de feux tricolores :",
-    options: ["Quand on s'y trouve seul", "Quand on s'y trouve seul tard la nuit", "A aucun moment"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : A aucun moment."
-  },
-  {
-    q: "Avant de me mettre au volant :",
-    options: ["Je peux prendre de l'alcool", "Je peux prendre de l'alcool sans me soûler", "Je dois m'abstenir de prendre de l'alcool"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Je dois m'abstenir de prendre de l'alcool."
-  },
-  {
-    q: "Je suis titulaire du permis de conduire :",
-    options: ["Je peux circuler sans l'avoir sur moi", "Je circule toujours avec mon permis de conduire", "Je circule avec une photocopie légalisée de mon permis de conduire"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Je circule toujours avec mon permis de conduire."
-  },
-  {
-    q: "Dans quels cas utiliser les avertisseurs sonores ?",
-    options: ["pour avertir les autres usagers", "pour rechercher les passagers", "pour saluer les autres usagers"],
-    answer: 0,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : pour avertir les autres usagers."
-  },
-  {
-    q: "Quand je suis sur le point d'être dépassé, je dois :",
-    options: ["Accélérer", "Serrer ma droite", "M'arrêter"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Serrer ma droite."
-  },
-  {
-    q: "Une bonne conduite :",
-    options: ["nécessite une attention soutenue de ma part", "m’oblige à rouler tantôt à gauche tantôt à droite", "me permet de tout regarder sur la route", "m’oblige à éviter tous les trous."],
-    answer: 0,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : nécessite une attention soutenue de ma part."
-  },
-  {
-    q: "Quelle est la distance de sécurité à respecter par deux conducteurs de véhicules roulant à 50 km/h :",
-    options: ["10m environ", "15m environ", "20m environ"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : 15m environ."
-  },
-  {
-    q: "En prévision d’un long trajet, il est préférable :",
-    options: ["de ne pas commencer un traitement médical", "d’arrêter le traitement médical en cours", "de se renseigner auprès de son médecin"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : de se renseigner auprès de son médecin."
-  },
-  {
-    q: "Que dois-je faire en présence d'une flaque d'eau sur la chaussée ?",
-    options: ["Accélérer", "Ralentir", "M'arrêter"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Ralentir."
-  },
-  {
-    q: "Quel sera votre comportement si le véhicule qui vous précède s'arrête subitement ?",
-    options: ["Je m'arrête et j'apprécie la situation", "Je dépasse rapidement le véhicule", "Je klaxonne"],
-    answer: 0,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Je m'arrête et j'apprécie la situation."
-  },
-  {
-    q: "Dans un véhicule pour passagers, on peut charger :",
-    options: ["Des passagers et des marchandises", "Des passagers et des animaux", "Des passagers uniquement"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Des passagers uniquement."
-  },
-  {
-    q: "Au volant de son véhicule, avec des passagers à bord :",
-    options: ["On peut fumer", "On peut bavarder", "On doit se concentrer sur la conduite"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : On doit se concentrer sur la conduite."
-  },
-  {
-    q: "En cas de crevaison, à défaut de cric et seul à bord de votre véhicule, vous pouvez :",
-    options: ["Creuser la chaussée pour changer la roue crevée", "Soulever le véhicule pour changer la roue crevée", "Attendre d'autres usagers de la route pour solliciter de l’aide"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Attendre d'autres usagers de la route pour solliciter de l’aide."
-  },
-  {
-    q: "En cas de panne sur la route et à défaut des triangles de pré signalisation, je peux utiliser :",
-    options: ["Des touffes d'herbes", "Les feux de détresse", "La roue-secours"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Les feux de détresse."
-  },
-  {
-    q: "Lorsque les piétons sont engagés sur le passage clouté, je dois :",
-    options: ["Leur céder le passage", "Klaxonner pour les empêcher de traverser", "Leur demander d'attendre mon passage"],
-    answer: 0,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Leur céder le passage."
-  },
-  {
-    q: "Parmi les véhicules suivants, lesquels sont prioritaires ?",
-    options: ["Les corbillards", "Les véhicules des sapeurs pompiers en mission", "Les ambulances", "Les véhicules militaires"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Les véhicules des sapeurs pompiers en mission."
-  },
-  {
-    q: "Que dois-je faire, à la vue d'une personne traversant ou s'apprêtant à s'engager sur la chaussée, canne blanche levée ?",
-    options: ["Je passe rapidement", "Je m'arrête pour la laisser passer", "Je klaxonne"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Je m'arrête pour la laisser passer."
-  },
-  {
-    q: "Donner le bon comportement d’un usager sur un lieu d’accident :",
-    options: ["alerter – secourir – et protéger", "secourir – protéger – et alerter", "secourir – alerter – et protéger", "rien de tout ce qui précède."],
-    answer: 3,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : rien de tout ce qui précède.."
-  },
-  {
-    q: "Quel est le comportement d'un usager sur un lieu d'accident ?",
-    options: ["Alerter, secourir, protéger", "Secourir, protéger, alerter", "Protéger, alerter, secourir"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Protéger, alerter, secourir."
-  },
-  {
-    q: "Pour baliser un lieu d'accident, j'utilise :",
-    options: ["Des balises", "Des branchages", "des triangles de pré signalisation"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : des triangles de pré signalisation."
-  },
-  {
-    q: "A quelle distance place-t-on ordinairement les triangles de pré-signalisation sur un lieu d'accident ?",
-    options: ["A 30m au moins", "A 100m au moins", "A 200m au moins"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : A 200m au moins."
-  },
-  {
-    q: "Quand le blessé d'un accident de la circulation réclame à boire :",
-    options: ["Je lui offre de l'eau", "Je lui offre de l'alcool", "Je lui offre du jus de fruit", "Je ne lui donne rien"],
-    answer: 3,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Je ne lui donne rien."
-  },
-  {
-    q: "Comment reconnaître une personne asphyxiée ?",
-    options: ["Par l'arrêt du mouvement du ventre et de la poitrine", "Par l'arrêt du pouls", "Par le soulèvement du ventre et de la poitrine"],
-    answer: 0,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Par l'arrêt du mouvement du ventre et de la poitrine."
-  },
-  {
-    q: "Quels sont les signes qui apparaissent en cas d'entorse ?",
-    options: ["Douleur, gonflement, mouvements impossibles", "Douleur, saignement, mouvements possibles", "Douleur, gonflement, mouvements possibles"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Douleur, gonflement, mouvements possibles."
-  },
-  {
-    q: "Il y a hémorragie interne lorsque le sang s'écoule :",
-    options: ["A l'extérieur du corps, on le voit couler", "A l'intérieur du corps, on ne le voit pas couler", "A l'intérieur des vaisseaux"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : A l'intérieur du corps, on ne le voit pas couler."
-  },
-  {
-    q: "En cas de brûlure grave par le feu, vêtements enflammés :",
-    options: ["Je déshabille la victime avant de l'évacuer à l'hôpital", "J'empêche la victime de courir, je l'enroule dans une couverture et je l'évacue à l'hôpital", "Je l'arrose de l'extincteur"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : J'empêche la victime de courir, je l'enroule dans une couverture et je l'évacue à l'hôpital."
-  },
-  {
-    q: "L'hémorragie est :",
-    options: ["La sortie du sang hors des vaisseaux sanguins", "Une mauvaise circulation du sang", "Le passage du sang dans le cœur"],
-    answer: 0,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : La sortie du sang hors des vaisseaux sanguins."
-  },
-  {
-    q: "En cas de brûlure par liquide bouillant ou par vapeur :",
-    options: ["Je déshabille la victime, je la douche le plus vite possible", "Je l'enroule de couverture", "Je l'évacue sans rien faire"],
-    answer: 0,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Je déshabille la victime, je la douche le plus vite possible."
-  },
-  {
-    q: "En cas de projection de l'acide de la batterie dans l'œil d'un individu :",
-    options: ["Je rince l'œil pendant au moins 10 minutes avec de l'eau courante et je mets une compresse dessus fermé, puis je l'évacue chez l'ophtalmologiste", "J'instille de l'huile à frein sur l'œil", "Je bande l'œil"],
-    answer: 0,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Je rince l'œil pendant au moins 10 minutes avec de l'eau courante et je mets une compresse dessus fermé, puis je l'évacue chez l'ophtalmologiste."
-  },
-  {
-    q: "Pour effectuer le dégagement d'urgence d'un blessé de quelques mètres :",
-    options: ["Je le roule par terre", "Je le mets au dos", "Je soulève légèrement sa tête, un aide le tire par les pieds en le glissant sur le sol dans l'axe du corps"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Je soulève légèrement sa tête, un aide le tire par les pieds en le glissant sur le sol dans l'axe du corps."
-  },
-  {
-    q: "Quel est l'utilité de la Position Latérale de Sécurité (PLS) ?",
-    options: ["Elle permet d'être couché sur le dos afin de bien respirer", "Elle permet de rester assis pour empêcher le choc", "Elle permet d'être couché à plat ventre", "Elle permet à la victime d'être couché sur le côté, d\"éviter la chute de la langue en arrière, l’encombrement des voies respiratoires par le sang, le vomissement et la mucosité"],
-    answer: 3,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Elle permet à la victime d'être couché sur le côté, d\"éviter la chute de la langue en arrière, l’encombrement des voies respiratoires par le sang, le vomissement et la mucosité."
-  },
-  {
-    q: "Quel est le but du massage cardiaque ?",
-    options: ["Le massage cardiaque permet au malade d'éviter le vertige", "Le massage cardiaque permet au malade de bien respirer", "Le massage cardiaque permet de réanimer une victime qui présente un arrêt circulatoire", "Le massage cardiaque permet d'arrêter une hémorragie interne"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Le massage cardiaque permet de réanimer une victime qui présente un arrêt circulatoire."
-  },
-  {
-    q: "Quand dit-on qu'il y a luxation ?",
-    options: ["Lorsqu'il y a étirement ou déchirure des ligaments", "Lorsque l'os se casse et prend contact avec l'extérieur", "Lorsque les ligaments sont déchirés, l'articulation déboîtée,", "les surfaces articulaires ne sont plus en contact"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Lorsque les ligaments sont déchirés, l'articulation déboîtée,."
-  },
-  {
-    q: "Quand dit-on qu'il y a entorse ?",
-    options: ["Lorsque l'os se casse sans saignement", "Lorsque les ligaments sont déchirés, l'articulation déboîtée", "Lorsqu'il y a étirement ou déchirure des ligaments, les surfaces articulaires restent en contact"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Lorsqu'il y a étirement ou déchirure des ligaments, les surfaces articulaires restent en contact."
-  },
-  {
-    q: "Pour le ramassage d'un blessé :",
-    options: ["Je dois remuer le blessé et le mettre debout", "Je dois mettre le blessé au dos", "Je dois le remuer le moins possible et respecter le bloc tête – cou – tronc"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Je dois le remuer le moins possible et respecter le bloc tête – cou – tronc."
-  },
-  {
-    q: "On appelle fracture :",
-    options: ["La rupture brutale d'un os", "La douleur d'un os", "La sortie de l'os hors de l'organisme"],
-    answer: 0,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : La rupture brutale d'un os."
-  },
-  {
-    q: "On dit qu'il y a fracture fermée lorsque :",
-    options: ["L'os a un abcès", "L'os se casse et prend contact avec l'extérieur", "L'os se casse et ne prend pas contact avec l'extérieur"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : L'os se casse et ne prend pas contact avec l'extérieur."
-  },
-  {
-    q: "On dit qu'il fracture ouverte lorsque :",
-    options: ["L'os est courbé", "L'os se casse et ne prend pas contact avec l'extérieur", "L'os se casse et prend contact avec l'extérieur"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : L'os se casse et prend contact avec l'extérieur."
-  },
-  {
-    q: "Quels peuvent être les signes révélateurs de fatigue au volant ?",
-    options: ["Maux de dents - picotements gastriques - lourdeurs des pieds et des bras", "Maux de tête - picotements des yeux - lourdeurs des paupières", "Maux d'estomac - picotements de la peau - crampes aux jambes", "Faim - soif - vertige"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Maux de tête - picotements des yeux - lourdeurs des paupières."
-  },
-  {
-    q: "Secourir un accidenté de la route est-il obligatoire ?",
-    options: ["Oui", "Non"],
-    answer: 0,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Oui."
-  },
-  {
-    q: "Quel effet l'alcool produit-il sur un conducteur ?",
-    options: ["Permet au conducteur de mieux voir", "Permet au conducteur de respecter le code de la route", "Réduit les facultés mentales et physiques du conducteur"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Réduit les facultés mentales et physiques du conducteur."
-  },
-  {
-    q: "Avec le permis de conduire catégorie B, je peux conduire un véhicule :",
-    options: ["Poids lourd", "Autobus", "Poids léger"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Poids léger."
-  },
-  {
-    q: "La voiture mesure 4m de long, comment transporter de jour, une échelle de 5m ?",
-    options: ["Je fais dépasser l'échelle de 0,5m à l'avant et 0,5m à l'arrière", "Je fais dépasser l'échelle de 1m à l'avant", "Je fais dépasser l'échelle de 1m à l'arrière"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Je fais dépasser l'échelle de 1m à l'arrière."
-  },
-  {
-    q: "Mon permis de conduire a 8 mois d'âge, je ne peux rouler à plus de :",
-    options: ["100 km/h", "120 km/h", "90 km/h", "60 km/h"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : 90 km/h."
-  },
-  {
-    q: "Pour le calcul du nombre de personnes transportées, un enfant compte pour une demi-personne s'il est âgé de :",
-    options: ["Moins de 10 ans", "Moins de 12 ans", "Moins de 14 ans"],
-    answer: 0,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Moins de 10 ans."
-  },
-  {
-    q: "La remorque doit avoir sa propre carte grise si le PTAC est supérieur à :",
-    options: ["450 kg", "500 kg", "400 kg"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : 500 kg."
-  },
-  {
-    q: "Pour tourner à gauche sur une chaussée à double sens je dois :",
-    options: ["Serrer ma droite", "Me déporter au milieu", "Serrer ma gauche"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Me déporter au milieu."
-  },
-  {
-    q: "Citer les feux obligatoires à l’avant d’un véhicule de tourisme :",
-    options: ["deux feux de route (phares) – deux feux de croisement – deux feux stop – deux feux de position – deux indicateurs de changement de direction (clignotants) – deux feux antibrouillard.", "deux phares – deux codes – deux clignotants – deux feux de position – feux plaque d’immatriculation – deux feux antibrouillard.", "deux phares –deux codes – deux clignotants – deux feux de position."],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : deux phares –deux codes – deux clignotants – deux feux de position.."
-  },
-  {
-    q: "Citez les 4 temps d'un moteur à essence :",
-    options: ["1ère vitesse - 2ème vitesse - 3ème vitesse - 4ème vitesse", "1ère vitesse - 3ème vitesse - 4ème vitesse - 2ème vitesse", "Admission - compression - explosion - échappement"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Admission - compression - explosion - échappement."
-  },
-  {
-    q: "Lequel des 4 temps ci-après correspond au temps utile ou au temps moteur ?",
-    options: ["Echappement", "Admission", "Explosion", "Compression"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Explosion."
-  },
-  {
-    q: "Donnez la position des soupapes à l'explosion :",
-    options: ["Les soupapes s'ouvrent", "Les deux soupapes sont fermées", "Les soupapes d'admission et d'échappement sont ouvertes"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Les deux soupapes sont fermées."
-  },
-  {
-    q: "Donnez la position du piston à l'explosion :",
-    options: ["Le piston monte", "Le piston descend", "Le piston est sur place"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Le piston descend."
-  },
-  {
-    q: "Quel est le rôle du carburateur ?",
-    options: ["Le carburateur fournit du carburant", "Le carburateur fait tourner le moteur", "Le carburateur produit un mélange gazeux"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Le carburateur produit un mélange gazeux."
-  },
-  {
-    q: "Quel est le rôle du radiateur ?",
-    options: ["Le radiateur conserve la chaleur du moteur", "Le radiateur aère le moteur", "Le radiateur assure le refroidissement du moteur", "Le radiateur fait tourner le ventilateur"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Le radiateur assure le refroidissement du moteur."
-  },
-  {
-    q: "Entre quels organes du moteur se situe la pompe à essence ?",
-    options: ["Le radiateur et la pompe à eau", "Le réservoir et le carburateur", "Le filtre à air et le carburateur"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Le réservoir et le carburateur."
-  },
-  {
-    q: "Quel est le rôle de la bobine ?",
-    options: ["La bobine transforme le courant primaire de la batterie en courant secondaire", "La bobine réduit l'intensité électrique", "La bobine régularise le courant"],
-    answer: 0,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : La bobine transforme le courant primaire de la batterie en courant secondaire."
-  },
-  {
-    q: "Quel est le rôle de l'allumeur ?",
-    options: ["L'allumeur distribue du courant aux bougies", "L'allumeur fournit du courant au démarreur", "L'allumeur absorbe l'étincelle des bougies"],
-    answer: 0,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : L'allumeur distribue du courant aux bougies."
-  },
-  {
-    q: "De quels éléments le moteur tire-t-il sa force ?",
-    options: ["Essence - air - électricité", "Air - essence", "Electricité - eau - essence"],
-    answer: 0,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Essence - air - électricité."
-  },
-  {
-    q: "Citer les feux obligatoires à l’arrière d’un véhicule de tourisme :",
-    options: ["deux phares – deux codes – deux clignotants - deux feux de position – deux feux stop", "deux feux de position – deux clignotants –deux feux stop – deux cataphotes – feux plaques d’immatriculation", "deux feux de position – deux clignotants – feu plaques d’immatriculation – deux feux stop – deux cataphotes – deux feux antibrouillard –deux feux de détresse."],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : deux feux de position – deux clignotants –deux feux stop – deux cataphotes – feux plaques d’immatriculation."
-  },
-  {
-    q: "Il est interdit d’utiliser des pneumatiques usés :",
-    options: ["parce qu’ils assurent une bonne adhérence", "parce qu’ils assurent une mauvaise adhérence", "parce qu’ils assurent une conduite aisée."],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : parce qu’ils assurent une mauvaise adhérence."
-  },
-  {
-    q: "Le véhicule de tourisme possède combien de sortes de freins ?",
-    options: ["quatre sortes", "deux sortes", "trois sortes."],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : trois sortes.."
-  },
-  {
-    q: "De gauche à droite, l’ordre des pédales d’un véhicule ordinaire est :",
-    options: ["frein, embrayage, accélérateur", "accélérateur, frein, embrayage", "embrayage – frein – accélérateur."],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : embrayage – frein – accélérateur.."
-  },
-  {
-    q: "Le lit nacelle est un dispositif qui permet de transporter dans le véhicule les enfants de :",
-    options: ["1 à 6 mois uniquement", "0 à 9 mois", "2 à 10 mois", "3 à 20 mois."],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : 0 à 9 mois."
-  },
-  {
-    q: "Le siège homologué (baquet, harnais, réceptacle) sert à transporter dans le véhicule les enfants de :",
-    options: ["3 à 4 mois", "4 à 5 mois", "6 à 8 mois", "9 mois à 4 ans. c"],
-    answer: 3,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : 9 mois à 4 ans. c."
-  },
-  {
-    q: "Quelle anomalie occasionne l'éclatement d'une durit supérieure ?",
-    options: ["Le refroidissement du moteur", "L'emballement du moteur", "L'échauffement du moteur"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : L'échauffement du moteur."
-  },
-  {
-    q: "A quel ennuie vous expose la rupture de la courroie d'alternateur ?",
-    options: ["Le circuit de charge coupé", "La charge excessive", "La charge suffisante"],
-    answer: 0,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Le circuit de charge coupé."
-  },
-  {
-    q: "Combien de pompes permettent le bon fonctionnement d'un moteur ?",
-    options: ["2 pompes", "3 pompes", "4 pompes", "5 pompes"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : 3 pompes."
-  },
-  {
-    q: "Avec mon feu d'éclairage, la plaque minéralogique doit être lisible à une distance de :",
-    options: ["50m", "20m", "30m"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : 20m."
-  },
-  {
-    q: "Quand vérifie-t-on le niveau d'huile dans le moteur ?",
-    options: ["Toutes les semaines", "Tous les mois", "Tous les mille kilomètres", "Tous les matins"],
-    answer: 3,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Tous les matins."
-  },
-  {
-    q: "Quand vérifie-t-on le niveau de l'eau dans le radiateur ?",
-    options: ["Toutes les semaines", "Seulement quand le moteur commence à se chauffer", "Tous les mille kilomètres", "Tous les matins"],
-    answer: 3,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Tous les matins."
-  },
-  {
-    q: "Pour compléter le liquide de la batterie, j'utilise :",
-    options: ["L'eau de pluie", "L'eau de mer", "L'eau distillée", "L'eau du robinet"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : L'eau distillée."
-  },
-  {
-    q: "Sur un véhicule où trouve-t-on l'instrument qui indique la température de l'eau ?",
-    options: ["Dans le moteur", "Sur le radiateur", "Sur le tableau de bord", "Sur le filtre à air"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Sur le tableau de bord."
-  },
-  {
-    q: "Sur un véhicule où trouve-t-on l'instrument qui indique la pression de l'huile à moteur ?",
-    options: ["Dans le moteur", "Sur le tableau de bord", "Sur le carter"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Sur le tableau de bord."
-  },
-  {
-    q: "Le moteur de votre véhicule roulant normalement s'éteint, de quoi peut provenir la panne ?",
-    options: ["De l'insuffisance d'huile à moteur", "De l'insuffisance d'eau dans le radiateur", "De la faiblesse de la batterie", "Du manque de carburant"],
-    answer: 3,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Du manque de carburant."
-  },
-  {
-    q: "La batterie montée sur le véhicule après une charge correcte ne démarre pas le moteur. Quelle peut être la cause ?",
-    options: ["Le manque d'eau sur la batterie", "Les cosses mal serrées sur les bornes", "Le manque de carburant", "La défectuosité de l'alternateur"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Les cosses mal serrées sur les bornes."
-  },
-  {
-    q: "L'eau du radiateur bouillonne, que doit-on faire ?",
-    options: ["Arrêter le moteur et mettre de l'eau dans le radiateur", "Poursuivre sa route", "Arrêter le moteur, le laisser se refroidir et mettre de l'eau après", "Arrêter le véhicule, ouvrir le radiateur pour laisser dégager la chaleur"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Arrêter le moteur, le laisser se refroidir et mettre de l'eau après."
-  },
-  {
-    q: "Quelles sont les pièces administratives obligatoires d'un véhicule automobile ?",
-    options: ["- La carte grise - Le certificat d'assurance - La vignette de l'année en cours - La visite technique", "- Le permis de conduire - L'Attestation de réglage phares - Le papier d'achat - La quittance de la douane", "- La visite technique - Le permis de conduire - La quittance de la douane - L'Attestation de réglage phares"],
-    answer: 0,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : - La carte grise - Le certificat d'assurance - La vignette de l'année en cours - La visite technique."
-  },
-  {
-    q: "Un véhicule léger possède combien de roues ?",
-    options: ["4", "5", "6"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : 5."
-  },
-  {
-    q: "Une automobile est autorisée à circuler :",
-    options: ["Sans plaque d'immatriculation, avec assurance", "Avec la plaque d'immatriculation portant le numéro du châssis", "Avec la plaque d'immatriculation de la Direction des Transports Terrestres"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Avec la plaque d'immatriculation de la Direction des Transports Terrestres."
-  },
-  {
-    q: "A quoi servent les feux de route ?",
-    options: ["A éclairer jusqu'à 100m", "A éclairer jusqu'à 30m", "A éclairer au delà de 150m"],
-    answer: 0,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : A éclairer jusqu'à 100m."
-  },
-  {
-    q: "Quels feux utilisez-vous la nuit, quand vous êtes derrière un autre usager à faible distance sur une route mal éclairée ?",
-    options: ["Les feux de route", "Les feux de croisement", "Les feux de position"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Les feux de croisement."
-  },
-  {
-    q: "Quels feux utilisez-vous en stationnement en bordure d'une route mal éclairée ?",
-    options: ["Les feux de détresse", "Les feux de croisement", "Les feux de position"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Les feux de position."
-  },
-  {
-    q: "Les feux de détresse sont utilisés :",
-    options: ["Pour indiquer que l’on va tout droit", "Pour faire marche arrière", "Pour indiquer que l’on est en panne", "Pour indiquer qu’on est en convoi", "Pour indiquer que l’on est pressé"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Pour indiquer que l’on est en panne."
-  },
-  {
-    q: "Sans feux arrière la nuit :",
-    options: ["Je peux circuler sur une chaussée à double sens", "Je peux circuler sur une chaussée à sens unique", "Je ne peux pas circuler"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Je ne peux pas circuler."
-  },
-  {
-    q: "A quoi sert le triangle de pré-signalisation ?",
-    options: ["A signaler la positon d’un véhicule en panne sur la chaussée", "A permettre de signaler la présence d’un véhicule en stationnement", "A signaler un arrêt"],
-    answer: 0,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : A signaler la positon d’un véhicule en panne sur la chaussée."
-  },
-  {
-    q: "A quoi sert la ceinture de sécurité ?",
-    options: ["A maintenir efficacement les usagers sur leurs sièges en cas d’accident ?", "A fixer le siège du conducteur", "Au bon vouloir du conducteur"],
-    answer: 0,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : A maintenir efficacement les usagers sur leurs sièges en cas d’accident ?."
-  },
-  {
-    q: "A quoi sert l’extincteur ?",
-    options: ["A éteindre un début d’incendie sur un véhicule", "A secourir un blessé", "A refroidir le moteur"],
-    answer: 0,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : A éteindre un début d’incendie sur un véhicule."
-  },
-  {
-    q: "La roue secours :",
-    options: ["Est obligatoire pour tout déplacement", "N'est pas obligatoire lorsqu'on circule en ville", "Est obligatoire seulement pour les longs voyages"],
-    answer: 0,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Est obligatoire pour tout déplacement."
-  },
-  {
-    q: "Pour vidanger un moteur, il faut tenir compte :",
-    options: ["Du kilométrage parcouru", "De la viscosité de l'huile", "De la fluidité de l'huile", "De la noirceur de l'huile"],
-    answer: 0,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Du kilométrage parcouru."
-  },
-  {
-    q: "La vérification de l'huile à frein se fait :",
-    options: ["Tous les jours", "Tous les mois", "Au bon vouloir du conducteur"],
-    answer: 0,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Tous les jours."
-  },
-  {
-    q: "A quelle distance les feux de route éclairent la route, par temps normal ?",
-    options: ["50m environ", "100m environ", "150m environ"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : 100m environ."
-  },
-  {
-    q: "Quels feux utilisez-vous lorsque votre véhicule suit un autre usager à faible distance ?",
-    options: ["Feux de route", "Feux de croisement", "Feux de détresse"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Feux de croisement."
-  },
-  {
-    q: "Un véhicule est équipé de combien de rétroviseurs obligatoires ?",
-    options: ["Un", "Deux", "Trois"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Deux."
-  },
-  {
-    q: "Quel est le circuit d'alimentation en carburant d'un moteur ?",
-    options: ["Réservoir à essence - pompe à essence - carburateur", "Réservoir à essence - carburateur - pompe à essence", "Pompe à essence - réservoir à essence – carburateur"],
-    answer: 0,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : Réservoir à essence - pompe à essence - carburateur."
-  },
-  {
-    q: "Sur mon véhicule, en roulant je peux contrôler visuellement :",
-    options: ["certains niveaux", "l’état des pneumatiques", "l’état des courroies."],
-    answer: 0,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : certains niveaux."
-  },
-  {
-    q: "Quelle pièce officielle permet d’identifier le propriétaire d’un véhicule ?",
-    options: ["la police d’assurance", "la carte grise", "l’attestation de réglage phare"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : la carte grise."
-  },
-  {
-    q: "Pour un véhicule léger de transport privé la visite technique doit s’effectuer ?",
-    options: ["tous les ans", "tous les six mois", "tous les trois mois"],
-    answer: 0,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : tous les ans."
-  },
-  {
-    q: "A quoi sert le contrat d’assurance est valable :",
-    options: ["A couvrir les dégâts causés lors d’un accident", "A couvrir les surcharges", "A couvrir les dégâts causés à autrui"],
-    answer: 2,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : A couvrir les dégâts causés à autrui."
-  },
-  {
-    q: "Le contrat d’assurance est valable :",
-    options: ["sans la visite technique", "avec la visite technique", "avec la vignette"],
-    answer: 1,
-    explanation: "D'après le Manuel officiel du candidat (Bénin) : avec la visite technique."
-  }
+// ===================== CHAPITRE IV — ARRÊT, STATIONNEMENT, INTÉGRATION, CHANGEMENT DE DIRECTION, VITESSE, MANŒUVRES =====================
+
+{ q: "Sur une chaussée à double sens :", options: ["Je peux faire demi-tour", "Je ne peux pas faire demi-tour", "Je ne peux pas faire marche arrière"], answer: 0 },
+{ q: "Les flèches de rabattement m'obligent :", options: ["A serrer ma gauche", "A serrer ma droite", "A quitter la chaussée", "A réduire ma vitesse"], answer: 1 },
+{ q: "Sur une chaussée à double sens comportant plus de deux voies, il est interdit d'emprunter :", options: ["La voie la plus à droite", "La voie du milieu", "La voie la plus à gauche"], answer: 2 },
+{ q: "En quoi consiste l'arrêt ?", options: ["A l'immobilisation momentanée d'un véhicule, conducteur à bord", "A l'immobilisation de longue durée d'un véhicule, conducteur éloigné", "A l'immobilisation momentanée d'un véhicule, conducteur éloigné"], answer: 0 },
+{ q: "Lors d'un arrêt :", options: ["Le conducteur est à côté du véhicule", "Le conducteur s'éloigne du véhicule", "Le conducteur est à bord du véhicule"], answer: [0, 2] },
+{ q: "En quoi consiste le stationnement ?", options: ["A l'immobilisation momentanée d'un véhicule, conducteur à bord", "A l'immobilisation momentanée d'un véhicule, conducteur à côté", "A l'immobilisation momentanée d'un véhicule, conducteur éloigné", "A l'immobilisation de longue durée d'un véhicule"], answer: [2, 3] },
+{ q: "En présence du panneau « stationnement interdit », je suis autorisé à :", options: ["Stationner avant le panneau", "Stationner après le panneau", "Stationner avant la prochaine intersection"], answer: 0 },
+{ q: "A la rencontre du panneau « arrêt et stationnement interdits », l'interdiction commence :", options: ["Avant le panneau", "A partir du panneau", "15 m après le panneau"], answer: 1 },
+{ q: "La distance de freinage augmente :", options: ["Quand la chaussée est mouillée", "Quand les pneus sont usés", "Quand les rotules sont usées", "Quand la chaussée est rétrécie"], answer: [0, 1] },
+{ q: "A la vue d'un usager qui veut s'insérer dans la circulation :", options: ["Je klaxonne", "Je ralentis", "Je fais un appel de feux", "Je change de voie"], answer: 1 },
+{ q: "La distance d'arrêt augmente :", options: ["Si le conducteur est fatigué", "Si la chaussée est légèrement mouillée", "Si les pneus sont usés", "Rien de tout ce qui précède"], answer: [0, 1, 2] },
+{ q: "En cas de pluie, je risque :", options: ["L'aquaplaning", "La glissade", "Le blocage des roues"], answer: [0, 1] },
+{ q: "Plus je roule vite et plus j'augmente :", options: ["Le temps de réaction", "La distance d'arrêt", "La distance de freinage"], answer: [1, 2] },
+{ q: "La distance de freinage dépend :", options: ["De la vitesse", "De l'adhérence", "Du temps de réaction", "De l'état physique du conducteur", "De l'état des amortisseurs"], answer: [0, 1] },
+{ q: "Un conducteur ayant l'intention de changer de direction doit :", options: ["Ralentir", "Signaler son intention", "Klaxonner pour faire dégager les piétons engagés sur leur passage"], answer: [0, 1] },
+{ q: "Quel doit être votre comportement à l'approche d'un lieu-dit ?", options: ["Rouler vite", "Ralentir", "Klaxonner"], answer: [1, 2] },
+{ q: "Un conducteur ayant l'intention de changer de direction doit :", options: ["S'assurer que la route qu'il veut emprunter n'est pas en sens interdit", "Surveiller la route vers l'avant et l'arrière", "Signaler son intention à l'aide du clignotant", "Ralentir sans freiner brusquement pour ne pas surprendre les usagers qui le suivent", "Respecter les priorités de passage et notamment les piétons qui traversent"], answer: [0, 1, 2, 3, 4] },
+{ q: "Pour adapter sa vitesse, le conducteur doit tenir compte :", options: ["De l'importance du trafic", "Des risques prévisibles", "De l'adhérence", "De la visibilité", "De sa propre vigilance"], answer: [0, 1, 2, 3, 4] },
+{ q: "Un vent latéral violent est particulièrement dangereux :", options: ["Lorsqu'il souffle par rafales", "Lors du passage de zones ventées en zones abritées", "Si je tracte une caravane", "S'il souffle de face"], answer: [0, 2] },
+{ q: "De nuit, seul sur autoroute, avec des feux de route éclairant à 100 mètres, je peux rouler à :", options: ["130 km/h", "110 km/h", "100 km/h"], answer: 2 },
+{ q: "Sur une voie d'insertion, j'accélère pour :", options: ["Atteindre la vitesse de circulation de la chaussée abordée", "M'engager sans ralentir la circulation", "M'engager avant les usagers de la route abordée"], answer: [0, 1] },
+{ q: "Sur une voie d'insertion :", options: ["J'accélère, je mets le clignotant, je me place dans ma voie", "J'accélère en contrôlant, je mets le clignotant dès que je peux m'insérer", "J'accélère jusqu'au bout de la voie, je contrôle, je m'insère si je peux"], answer: 1 },
+{ q: "Plus le rayon du virage est faible :", options: ["Plus le virage est serré", "Plus le virage est large", "Plus la force centrifuge est importante", "Plus la force centrifuge est faible"], answer: [0, 2] },
+{ q: "Sur route, lorsque l'accotement de droite n'est pas praticable, je peux stationner :", options: ["Sur l'accotement de gauche", "Sur l'accotement de gauche en agglomération", "Sur la voie de droite"], answer: 0 },
+{ q: "Lorsque l'arrêt est interdit :", options: ["Le stationnement est interdit", "Le stationnement n'est pas interdit", "Le stationnement temporaire est interdit", "Seul le stationnement temporaire est autorisé"], answer: [0, 2] },
+{ q: "Le contrôle de la durée d'un stationnement payant peut se faire :", options: ["Par horodateur", "Par disque de stationnement", "Par parcmètre"], answer: [0, 2] },
+{ q: "On appelle stationnement gênant le fait de stationner :", options: ["Dans une voie réservée aux bus", "Devant une sortie de propriété", "Sur un pont", "A proximité d'une voie ferrée"], answer: [0, 1] },
+{ q: "Ajuster sa vitesse aux circonstances, c'est ralentir suffisamment :", options: ["Pour ne jamais dépasser la vitesse maximum autorisée", "Chaque fois que la visibilité est réduite", "Chaque fois que l'adhérence est réduite"], answer: [1, 2] },
+{ q: "Pour évaluer l'allure d'un autre usager venant en face, je prends en compte :", options: ["Le type de véhicule", "La vitesse de rapprochement", "L'état du conducteur"], answer: [0, 1] },
+{ q: "Le temps de réaction est le temps nécessaire au conducteur pour :", options: ["Percevoir et réagir", "Arrêter la voiture", "Évaluer l'allure d'un autre usager"], answer: 0 },
+{ q: "Le temps de réaction a une durée d'environ :", options: ["Un dixième de seconde", "Une seconde", "Dix secondes"], answer: 1 },
+{ q: "Sur chaussée mouillée ou glissante, il y a augmentation de la distance :", options: ["Parcourue pendant le temps de réaction", "De freinage", "D'arrêt"], answer: [1, 2] },
+{ q: "A 90 km/h, dans des conditions normales, ma distance d'arrêt est d'environ :", options: ["25 mètres", "54 mètres", "81 mètres"], answer: 2 },
+{ q: "La règlementation du stationnement a pour objet :", options: ["La sécurité", "La fluidité de la circulation"], answer: [0, 1] },
+{ q: "Je suis en infraction si je suis en stationnement :", options: ["Dangereux", "Abusif", "Gênant"], answer: [0, 1, 2] },
+{ q: "Dans quels cas faut-il réduire sa vitesse ?", options: ["Lorsqu'il n'y a pas de panneau de signalisation", "Lorsque la route n'apparaît pas libre", "Dans les descentes rapides", "Lorsqu'on aborde une intersection", "A l'approche des montées"], answer: [1, 2, 3] },
+{ q: "Lorsque je quitte momentanément mon véhicule pour acheter mon journal, je suis considéré comme étant :", options: ["En arrêt", "En stationnement"], answer: 1 },
+{ q: "En général, se ranger en bataille s'effectue :", options: ["En marche avant", "En marche arrière"], answer: 1 },
+{ q: "Pendant la durée de la période probatoire, la vitesse du conducteur sur une autoroute est ordinairement limitée à :", options: ["100 km/h", "110 km/h", "130 km/h"], answer: 1 },
+{ q: "En cas de visibilité réduite à 50 mètres, la vitesse ne peut excéder :", options: ["90 km/h", "60 km/h", "50 km/h"], answer: 2 },
+{ q: "Sur une route de montagne, je stationne de préférence :", options: ["En côte, sur la chaussée", "En descente, sur la chaussée", "Sur une place d'évitement"], answer: 2 },
+{ q: "En cas de défaillance du frein principal :", options: ["Je rétrograde pour utiliser le frein moteur", "Je coupe le moteur pour arrêter le véhicule", "Je dose mon freinage à l'aide du frein à main déverrouillé"], answer: [0, 2] },
+{ q: "Un conducteur d'un véhicule qui dérape doit :", options: ["Freiner fort pour stopper le véhicule", "Braquer calmement pour ramener le véhicule sur sa trajectoire", "Accélérer franchement pour redonner de l'adhérence aux roues arrière"], answer: 1 },
+{ q: "Si mes roues mordent sur le bas côté de la route :", options: ["Je freine fort et je corrige rapidement ma trajectoire", "Je freine légèrement et je reviens progressivement sur la chaussée"], answer: 1 },
+{ q: "Lorsque je fais remorquer mon véhicule par un autre usager :", options: ["Je ne dois pas dépasser la vitesse de 25 km/h", "Je dois signaler mon véhicule à l'aide des feux de détresse", "Je reste vigilant"], answer: [1, 2] },
+
+// ===================== CHAPITRE V — ROUTE POUR AUTOMOBILE, AUTOROUTE =====================
+
+{ q: "A bord d'un véhicule de tourisme, pour tourner à droite, je dois :", options: ["Serrer ma droite", "Serrer ma gauche", "Me déporter au milieu de la chaussée"], answer: 0 },
+{ q: "Pour tourner à droite, je dois :", options: ["Accélérer", "Mettre le clignotant à droite", "Ralentir"], answer: [1, 2] },
+{ q: "A bord d'un véhicule de tourisme, pour tourner à gauche sur une chaussée à double sens, je dois :", options: ["Serrer ma droite", "Me déporter au milieu de la chaussée", "Serrer ma gauche"], answer: 1 },
+{ q: "A bord d'un véhicule de tourisme, pour tourner à gauche sur une chaussée à sens unique, je dois :", options: ["Serrer ma droite et mettre le clignotant à gauche", "Respecter les règles de priorité", "Serrer ma gauche"], answer: [1, 2] },
+{ q: "Je dois réduire ma vitesse :", options: ["A l'approche d'un virage", "A la hauteur d'une ligne continue", "A l'approche d'une intersection"], answer: [0, 2] },
+{ q: "Je dois réduire ma vitesse :", options: ["A la sortie d'une agglomération", "A la vue d'un panneau de limitation de vitesse", "Pendant le dépassement", "A l'approche d'un passage à niveau"], answer: [1, 3] },
+{ q: "La bande rouge discontinue de blanc le long du trottoir interdit :", options: ["L'arrêt", "Le stationnement", "L'arrêt pour les véhicules légers"], answer: 1 },
+{ q: "Après combien de jours le stationnement devient-il abusif ?", options: ["10 jours", "7 jours", "4 jours", "Rien de tout ce qui précède"], answer: 1 },
+{ q: "Le panneau B7b :", options: ["Interdit le stationnement à tout véhicule à moteur sauf les camions", "Interdit l'accès à tous les véhicules à moteur", "Interdit l'accès à tous les véhicules sauf les camions"], answer: 1 },
+{ q: "A la vue du panneau B6d :", options: ["Je ne peux pas m'arrêter", "Je ne peux pas m'arrêter mais je peux stationner", "Je ne peux ni m'arrêter ni stationner"], answer: [0, 2] },
+{ q: "Dans quels cas peut-on utiliser le frein moteur ?", options: ["Pour s'arrêter", "Pour ralentir", "Pour aborder un virage", "Pour aborder une descente dangereuse"], answer: [1, 2, 3] },
+{ q: "Que signifie le panneau B9c ?", options: ["Accès interdit aux chevaux", "Accès interdit aux véhicules agricoles à moteur", "Accès interdit aux véhicules à traction animale"], answer: 2 },
+{ q: "A quelle vitesse peut-on rouler à la vue du panneau B43 ?", options: ["A 30 km/h", "A plus de 30 km/h", "A la vitesse réglementaire", "A moins de 30 km/h", "Rien de tout ce qui précède"], answer: [0, 1, 2, 3] },
+{ q: "Le stationnement est dangereux :", options: ["Dans un virage", "Derrière les véhicules en stationnement", "A proximité d'une intersection"], answer: [0, 2] },
+{ q: "Sur une route hors agglomération, les véhicules peuvent stationner :", options: ["Sur le côté droit seulement", "Sur le côté droit ou sur le côté gauche", "Sur les accotements", "Sur le côté gauche seulement"], answer: [1, 2] },
+{ q: "Dans une rue à sens unique, les véhicules peuvent stationner :", options: ["Sur le côté droit seulement", "Sur le côté droit ou sur le côté gauche", "Sur le côté gauche seulement"], answer: 1 },
+{ q: "A l'approche d'un virage à courbure très prononcée et bordé d'arbres, je dois tenir compte de :", options: ["La force centrifuge", "L'adhérence", "La visibilité"], answer: [0, 1, 2] },
+{ q: "Dans un virage, pour une bonne adhérence des pneus, je dois rouler :", options: ["En deuxième vitesse", "En troisième vitesse", "En quatrième vitesse"], answer: 0 },
+{ q: "La ligne jaune continue sur la bordure du trottoir :", options: ["Interdit le stationnement", "Autorise l'arrêt", "Indique une zone d'arrêt de bus"], answer: 0 },
+{ q: "La ligne jaune discontinue sur la bordure du trottoir :", options: ["Interdit le stationnement", "Autorise l'arrêt", "Indique une zone d'arrêt de bus"], answer: [0, 1] },
+{ q: "Quels sont les risques auxquels je m'expose en abordant un virage à vive allure ?", options: ["Je risque de déraper et de me retrouver hors de la chaussée", "Je risque de déraper et de heurter l'usager venant en sens inverse", "Je risque de casser le pare-brise à cause du vent latéral"], answer: [0, 1] },
+{ q: "Quelles précautions prendre pour aborder un virage ?", options: ["Je passe rapidement en tenant fortement mon volant", "Je maintiens ma vive allure en serrant fortement mon volant", "Je réduis ma vive allure en maintenant ma droite"], answer: 2 },
+{ q: "La ligne jaune brisée en bordure de la chaussée :", options: ["Interdit le dépassement", "Autorise le dépassement", "Indique une zone d'arrêt de bus"], answer: 2 },
+{ q: "Sur une route en rase campagne, les véhicules peuvent stationner :", options: ["Sur le côté droit seulement", "Sur le côté droit ou sur le côté gauche", "Sur le côté gauche seulement"], answer: 1 },
+{ q: "Pour prendre un usager de la route, je m'arrête :", options: ["Sur la chaussée avec le clignotant", "Sur l'accotement avec les feux de détresse", "Sur l'accotement avec mon clignotant droit en serrant ma droite", "Avec mon clignotant droit en me positionnant sur l'accotement"], answer: [2, 3] },
+{ q: "Quelle est la toute première opération à effectuer par le conducteur pour immobiliser son véhicule roulant en prise directe ?", options: ["Débrayer", "Freiner", "Mettre le levier au point mort"], answer: 1 },
+{ q: "A la vue d'un obstacle inopiné à vive allure :", options: ["Je débraie et je freine", "Je freine en bloquant les roues", "Je freine franchement et je débraie au dernier moment"], answer: 2 },
+{ q: "Où peut-on faire un demi-tour ?", options: ["Sur un pont", "Sur une chaussée à sens unique", "Dans un virage", "Sur une chaussée à double sens de circulation"], answer: 3 },
+{ q: "Où peut-on faire la marche arrière ?", options: ["Sur un pont", "Sur une chaussée à sens unique", "Sur l'accotement ou sur le trottoir"], answer: 1 },
+{ q: "En marche arrière, peut-on rentrer dans un sens interdit ?", options: ["Oui", "Non"], answer: 1 },
+{ q: "La peinture jaune continue sur la bordure du trottoir signifie que :", options: ["L'arrêt et le stationnement sont interdits jusqu'à la prochaine intersection", "L'arrêt et le stationnement sont interdits à la hauteur de ce trottoir", "Seul l'arrêt est autorisé"], answer: 1 },
+{ q: "Après avoir heurté un cycliste, je freine et m'arrête après 81 mètres. Je roulais donc à quelle vitesse ?", options: ["60 km/h", "90 km/h", "70 km/h"], answer: 1 },
+{ q: "La distance de freinage dépend :", options: ["Du type de revêtement", "Du temps de réaction", "De la vitesse", "De l'état des pneumatiques", "De l'état des amortisseurs"], answer: [0, 2, 3] },
+{ q: "Quels sont les facteurs qui augmentent le temps de réaction ?", options: ["La fatigue", "L'état d'ivresse", "Le manque de visibilité", "L'état des pneumatiques"], answer: [0, 1] },
+{ q: "Par temps de pluie, pour m'arrêter, j'appuie sur la pédale de frein :", options: ["Aussi fort que quand la chaussée est sèche", "Moins fort que quand la chaussée est sèche", "Plus fort que quand la chaussée est sèche"], answer: 1 },
+{ q: "Les zébras sont réservés pour :", options: ["Le stationnement d'urgence", "L'arrêt d'urgence", "Tourner et changer de direction", "Rien de tout ce qui précède"], answer: 3 },
+{ q: "Je dois réduire ma vitesse :", options: ["A la vue d'un panneau de limitation de vitesse", "Pendant le dépassement", "En passant d'une zone éclairée à une zone d'ombre", "A la sortie d'une agglomération", "A l'approche d'une intersection"], answer: [0, 2, 4] },
+{ q: "A la vue du panneau B43, je respecte une vitesse de 30 km/h obligatoirement :", options: ["Je respecte une vitesse de 30 km/h obligatoirement", "Je peux faire plus de 30 km/h", "Je peux faire moins de 30 km/h"], answer: [1, 2] },
+{ q: "Quelles sont les précautions à prendre pour aborder un virage ?", options: ["Garder la même vitesse pour vite aborder le virage", "Ralentir avant d'aborder le virage", "Rouler au milieu de la chaussée avant d'atteindre le virage", "Bien serrer la droite avant d'aborder le virage"], answer: [1, 3] },
+{ q: "Que signifie le panneau B2c ?", options: ["Interdiction de tourner à gauche", "Interdiction de faire marche arrière", "Interdiction de faire demi-tour jusqu'à la prochaine intersection incluse", "Interdiction de faire marche arrière jusqu'à la prochaine intersection incluse"], answer: 2 },
+{ q: "A la vue du panneau B6a1 :", options: ["Je peux stationner avant ou après le panneau", "Je peux stationner après le panneau", "Je peux stationner avant le panneau", "Je ne peux stationner ni avant ni après le panneau"], answer: 2 },
+{ q: "A la vue du panneau B21b :", options: ["Je peux tourner à droite", "Je peux tourner à gauche", "Je vais tout droit à la prochaine intersection", "Je peux faire demi-tour"], answer: [2, 3] },
+{ q: "Que signifie le panneau B43 ?", options: ["Stationnement interdit à 30 m devant le panneau", "Stationnement interdit à 30 m après le panneau", "Fin de vitesse minimale obligatoire"], answer: 2 },
+{ q: "La voie de stockage permet aux conducteurs de tourner :", options: ["A gauche sans gêner les véhicules venant en sens inverse", "A droite sans gêner les véhicules venant en sens inverse", "Au milieu sans gêner les véhicules venant en sens inverse"], answer: 0 },
+{ q: "Sur les bandes et les pistes cyclables :", options: ["Les automobilistes peuvent s'arrêter pour prendre un passager", "Les piétons peuvent circuler", "Les autos peuvent stationner en cas de panne", "Rien de tout ce qui précède"], answer: 3 },
+{ q: "Pour suivre un véhicule qui roule à 90 km/h, l'intervalle minimal de sécurité à conserver derrière ce véhicule est de :", options: ["10 m environ", "15 m environ", "25 m environ"], answer: 2 },
+{ q: "Il commence à pleuvoir, l'adhérence de mes pneumatiques sur la chaussée est :", options: ["Aussi bonne que s'il avait plu toute la journée", "Moins bonne que s'il avait plu toute la journée", "Meilleure que s'il avait plu toute la journée"], answer: 1 },
+{ q: "La bifurcation, c'est la division d'une autoroute en :", options: ["Quatre autoroutes", "Deux autoroutes", "Cinq autoroutes", "Trois autoroutes"], answer: 1 },
+{ q: "Le contrôle de la durée d'un stationnement à durée limitée peut se faire :", options: ["Par horodateur", "Par disque de stationnement", "Par parcmètre"], answer: 1 },
+{ q: "La rétrogradation permet de :", options: ["Ralentir le véhicule dans une descente", "Repartir après un ralentissement", "Arrêter le véhicule en circulation"], answer: [0, 1] },
+{ q: "En marche normale :", options: ["Je dois rouler au milieu de la chaussée", "Je dois rouler à gauche de la chaussée", "Je dois rouler près du bord droit de la chaussée autant que le permettent son profil et son état", "Je dois rouler sur le trottoir"], answer: 2 },
+{ q: "En cas d'éclatement d'un pneumatique :", options: ["Je freine fortement pour m'arrêter", "Je décélère progressivement en maintenant la trajectoire", "Je contre-braque rapidement pour éviter une tête à queue"], answer: 1 },
+{ q: "Le conducteur d'un véhicule qui dérape sur une chaussée glissante doit :", options: ["Freiner fort pour stopper le véhicule", "Braquer calmement pour ramener le véhicule dans sa trajectoire", "Accélérer franchement pour redonner de l'adhérence aux roues arrière"], answer: 1 },
+{ q: "Que signifie le panneau C12 ?", options: ["Obligation d'aller tout droit après le panneau", "Obligation d'aller tout droit jusqu'à la prochaine intersection", "Circulation à sens unique"], answer: 2 },
+{ q: "Le stationnement est dangereux :", options: ["Derrière les véhicules en stationnement", "A proximité d'une intersection", "Sur les accotements", "Au sommet de côte", "Dans les virages"], answer: [1, 3, 4] },
+{ q: "A bord d'un véhicule de tourisme, pour tourner à gauche sur une chaussée à double sens, je dois :", options: ["Mettre le clignotant à gauche et céder le passage à droite", "Ralentir et serrer la gauche", "Tourner sans respecter la priorité à droite"], answer: 0 },
+{ q: "Comment accéder à l'autoroute ?", options: ["Par voie d'accès", "Par voie de décélération", "Par voie d'accélération"], answer: [0, 2] },
+{ q: "La route à grande circulation perd sa priorité :", options: ["En agglomération", "A l'entrée d'une ville", "En dehors de l'agglomération"], answer: [0, 1] },
+{ q: "Quelle est la vitesse maximale sur une route à grande circulation pour un candidat dont le permis a moins d'un an d'âge ?", options: ["60 km/h", "90 km/h", "120 km/h"], answer: 1 },
+{ q: "A quoi sert la voie d'accélération ?", options: ["Permet d'atteindre la vitesse minimale autorisée sur autoroute", "Permet de quitter l'autoroute", "Permet de dépasser les usagers lents"], answer: 0 },
+{ q: "Que signifie l'arrêt d'urgence ?", options: ["Immobilisation forcée", "Arrêt pour faire descendre un passager", "Arrêt d'autobus"], answer: 0 },
+{ q: "La bande d'arrêt d'urgence de l'autoroute est utilisée :", options: ["Pour s'arrêter en cas de panne", "Pour s'arrêter et prendre un passager", "Pour s'arrêter en cas de malaise"], answer: [0, 2] },
+{ q: "Quelles sont les manœuvres interdites sur autoroute ?", options: ["Dépassement", "Demi-tour", "Marche arrière"], answer: [1, 2] },
+{ q: "Le panneau triangle pointe en bas au début d'une voie d'accélération :", options: ["Oblige les usagers circulant sur l'autoroute à me céder le passage", "M'oblige à céder le passage aux usagers de l'autoroute", "Oblige à marquer l'arrêt"], answer: 1 },
+{ q: "Les différentes parties d'une rue sont :", options: ["Chaussée, accotement", "Chaussée, terre-plein central, accotement", "Chaussée, trottoirs", "Terre-plein central, chaussée, trottoirs"], answer: [2, 3] },
+{ q: "Le trottoir est la partie d'une rue réservée :", options: ["Pour les vendeuses", "Pour les piétons", "Pour le dépassement en cas de bouchon"], answer: 1 },
+{ q: "La chaussée est la partie d'une route réservée :", options: ["A la circulation de gros camions uniquement", "A la circulation des véhicules", "A la circulation des taxis uniquement"], answer: 1 },
+{ q: "La voie est :", options: ["Une partie de la chaussée où le dépassement est possible", "Une partie de la chaussée réservée pour la circulation des véhicules", "Une partie de la chaussée réservée pour la circulation dans un sens"], answer: [1, 2] },
+{ q: "Où doit-on stationner en cas d'ennui mécanique sur l'autoroute ?", options: ["Sur le terre-plein", "Sur la bande d'arrêt d'urgence", "Sur l'aire de repos"], answer: [1, 2] },
+{ q: "La vitesse maximale autorisée sur une autoroute est :", options: ["90 km/h", "200 km/h", "60 km/h", "Fonction de la législation en vigueur dans chaque pays"], answer: 3 },
+{ q: "La vitesse maximale autorisée sur une route pour automobile est :", options: ["90 km/h", "130 km/h", "110 km/h", "Fonction de la législation en vigueur dans chaque pays"], answer: 3 },
+{ q: "La vitesse maximale autorisée en agglomération est :", options: ["70 km/h", "50 km/h", "90 km/h", "100 km/h"], answer: 1 },
+{ q: "Je suis en panne de carburant sur l'autoroute :", options: ["Je vais à pied chercher du carburant à la station-service la plus proche", "Je me fais remorquer par un autre usager jusqu'à la station-service la plus proche", "J'utilise la cabine d'appel d'urgence pour me faire dépanner", "Je place mon triangle de pré-signalisation"], answer: 2 },
+{ q: "Mon véhicule tombe en panne sur l'autoroute :", options: ["Je gare sur la bande d'arrêt d'urgence", "J'attends un véhicule de dépannage", "Je fais du stop pour demander de l'aide", "Je vais à pied jusqu'à la prochaine borne d'appel"], answer: [0, 3] },
+{ q: "La circulation sur les bandes d'arrêt d'urgence de l'autoroute est autorisée :", options: ["Aux ambulances effectuant un transport urgent de blessés", "A tous les véhicules en cas d'embouteillage", "Aux services d'entretien se rendant sur un lieu d'intervention", "Aux véhicules prioritaires en mission"], answer: [0, 2, 3] },
+{ q: "Sur autoroute, les bornes d'appel d'urgence sont placées à :", options: ["Tous les kilomètres", "Tous les deux kilomètres", "Tous les trois kilomètres", "Tous les cinq kilomètres"], answer: 1 },
+{ q: "Quel doit être le comportement d'un conducteur à la sortie d'une autoroute ?", options: ["Réduire sa vitesse", "Se réadapter à la vitesse normale", "Tenir compte des intersections et de la présence des autres usagers", "Utiliser son avertisseur sonore pour dégager la voie"], answer: [0, 1, 2] },
+{ q: "L'accès à l'autoroute est interdit à certaines catégories d'usagers : lesquels ?", options: ["Piétons", "Cyclomoteurs", "Véhicules agricoles", "Cavaliers", "Véhicules lents"], answer: [0, 1, 2, 3, 4] },
+{ q: "Quels sont les usagers dont l'accès à l'autoroute est interdit ?", options: ["Piétons", "Motocyclette", "Cavaliers", "Véhicules de tourisme", "Véhicules lents"], answer: [0, 2, 4] },
+{ q: "Pour effectuer un changement de voie à droite, je contrôle :", options: ["Le rétroviseur droit", "Le rétroviseur gauche", "En vision directe, à droite", "Le rétroviseur intérieur"], answer: [0, 3] },
+{ q: "La circulation est établie en files, je peux changer de voie pour :", options: ["Prendre une voie qui circule plus vite", "Préparer un changement de direction"], answer: 1 },
+{ q: "Une jonction d'autoroute est :", options: ["Le raccordement de deux autoroutes", "La séparation d'une autoroute en deux branches", "Le raccordement d'une autoroute et d'une voie d'insertion"], answer: 0 },
+{ q: "Une autoroute est toujours une route :", options: ["A sens unique", "A trois voies de circulation", "Interdite aux piétons, cyclistes et cyclomotoristes"], answer: [0, 2] },
+{ q: "Une voie pour véhicules lents est réservée :", options: ["Aux poids-lourds uniquement", "Aux véhicules dont la vitesse est inférieure à 60 km/h", "Aux véhicules dont la vitesse est inférieure à 80 km/h"], answer: 1 },
+{ q: "Sur les chaussées d'autoroute à 3 voies, il est permis de dépasser :", options: ["Par la droite", "Par la gauche", "Du côté souhaité"], answer: 1 },
+{ q: "Les routes à accès règlementé sont toutes :", options: ["A chaussées séparées et à sens unique", "A vitesse limitée à 110 km/h", "A chaussées à double sens", "Rien de tout ce qui précède"], answer: 3 },
+{ q: "Quels sont les types de stationnement ?", options: ["Bataille – créneau – perpendiculaire", "Bataille – épi – créneau", "Épi – créneau – oblique", "En double file – épi – parallèle"], answer: 1 },
+{ q: "A quoi sert le terre-plein central ?", options: ["A stationner", "A exposer les marchandises", "A faire un demi-tour", "A séparer deux chaussées"], answer: 3 },
+{ q: "En quittant le stationnement en marche normale pour intégrer la circulation, je dois :", options: ["Utiliser le rétroviseur de droite", "Mettre le clignotant de gauche, utiliser le rétroviseur de gauche et m'engager avec prudence", "M'engager rapidement"], answer: 1 },
+{ q: "En sortant d'un garage pour intégrer la circulation, je dois :", options: ["Céder le passage aux usagers venant de la droite seulement", "Céder le passage aux usagers venant de la gauche seulement", "Céder le passage aux usagers venant de la droite et de la gauche"], answer: 2 },
+{ q: "En sortant d'un garage pour intégrer la circulation, quelle est la toute première précaution à prendre ?", options: ["Jeter un coup d'œil à gauche", "Klaxonner", "Jeter un coup d'œil à droite"], answer: 0 },
+{ q: "En descendant une pente, on doit utiliser :", options: ["Le frein à pied seulement", "Le frein à pied et le frein moteur", "Le frein à pied et le frein à main"], answer: 1 },
+{ q: "Dans une descente, le frein moteur sera puissant si :", options: ["Je reste en quatrième vitesse", "Je passe en cinquième vitesse", "Je passe en deuxième vitesse"], answer: 2 },
+
+// ===================== CHAPITRE VI — INFRACTIONS AU CODE DE LA ROUTE, INCIVISME, SECOURISME =====================
+
+{ q: "Sur les lignes hachurées appelées zébras :", options: ["Je peux stationner", "Je peux circuler", "Je ne peux ni circuler, ni stationner"], answer: 2 },
+{ q: "On doit s'abstenir de conduire :", options: ["Si on est sous l'effet des boissons alcoolisées ou des médicaments", "Si on vient de manger sans prendre de l'alcool", "Si on est fatigué et somnolant", "Si on se sent nerveux"], answer: [0, 2, 3] },
+{ q: "Dans quel cas utiliser les avertisseurs sonores ?", options: ["Pour avertir les autres usagers", "Pour rechercher les passagers", "Pour saluer les autres usagers"], answer: 0 },
+{ q: "A toute réquisition des forces de sécurité concernant mon véhicule, je dois présenter :", options: ["La carte grise", "Les papiers de dédouanement", "Le papier d'achat", "L'attestation d'assurance", "La visite technique"], answer: [0, 3, 4] },
+{ q: "Les règles de circulation doivent être respectées par :", options: ["Les motocyclistes", "Les piétons", "Les automobilistes seulement", "Les automobilistes"], answer: [0, 1, 3] },
+{ q: "Quand je suis sur le point d'être dépassé, je dois :", options: ["Accélérer", "Je serre ma droite sans accélérer", "M'arrêter"], answer: 1 },
+{ q: "Dans un véhicule à cinq places il y a infraction avec :", options: ["6 passagers adultes à bord", "5 passagers adultes à bord", "4 passagers adultes à bord"], answer: [0, 1] },
+{ q: "Une bonne conduite :", options: ["Nécessite une attention soutenue de ma part", "M'oblige à rouler tantôt à gauche tantôt à droite", "Me permet de tout regarder sur la route", "M'oblige à éviter tous les trous"], answer: 0 },
+{ q: "Quelle est l'intervalle minimum de sécurité entre deux véhicules qui se suivent et roulant à 50 km/h ?", options: ["10 m environ", "15 m environ", "20 m environ"], answer: 1 },
+{ q: "Les principaux facteurs d'accident sont :", options: ["Une bonne tenue de route", "La fatigue", "Le non-respect des règles de circulation", "La vitesse excessive ou non adaptée", "La conduite dans un état d'ivresse"], answer: [1, 2, 3, 4] },
+{ q: "En cas de traitement médical en cours et pour faire un long trajet, il est préférable :", options: ["De modifier le traitement médical", "D'arrêter le traitement médical", "De se renseigner auprès de son médecin"], answer: 2 },
+{ q: "Que dois-je faire en présence d'une flaque d'eau sur la chaussée ?", options: ["Accélérer", "Ralentir", "M'arrêter"], answer: 1 },
+{ q: "Quel serait votre comportement si le véhicule qui vous précède s'arrête subitement ?", options: ["Je m'arrête et j'apprécie la situation", "Je dépasse rapidement le véhicule", "Je klaxonne"], answer: 0 },
+{ q: "Dans un véhicule pour passagers, on peut transporter :", options: ["Des passagers et des marchandises", "Des passagers et des animaux", "Des passagers uniquement"], answer: 2 },
+{ q: "Au volant de son véhicule, passagers à bord, le conducteur :", options: ["Peut fumer", "Peut discuter", "Doit se concentrer sur la conduite"], answer: 2 },
+{ q: "En cas de crevaison, à défaut de cric et seul à bord de votre véhicule, vous pouvez :", options: ["Creuser la chaussée pour changer la roue crevée", "Soulever le véhicule pour changer la roue crevée", "Attendre d'autres usagers de la route pour solliciter leur aide"], answer: 2 },
+{ q: "En cas de panne sur la route et à défaut des triangles de pré-signalisation, je peux utiliser :", options: ["Des touffes d'herbes", "Les feux de détresse", "La roue-secours"], answer: 1 },
+{ q: "Lorsque les piétons sont engagés sur le passage clouté, je dois :", options: ["Leur céder le passage", "Klaxonner pour les empêcher de traverser", "Leur demander d'attendre mon passage"], answer: 0 },
+{ q: "Parmi les véhicules suivants, lesquels sont prioritaires ?", options: ["Les corbillards", "Les véhicules des sapeurs-pompiers en mission", "Les ambulances", "Les véhicules militaires"], answer: 1 },
+{ q: "Parmi les véhicules suivants, lesquels peuvent emprunter un sens interdit ?", options: ["Les véhicules de police en mission", "Les corbillards", "Les véhicules de SAMU en mission"], answer: [0, 2] },
+{ q: "Que dois-je faire à la vue d'une personne traversant ou s'apprêtant à s'engager sur la chaussée, canne blanche levée ?", options: ["Je passe rapidement", "Je m'arrête pour la laisser passer", "Je klaxonne"], answer: 1 },
+{ q: "Pour aider les enfants qui attendent pour traverser la rue :", options: ["Je m'arrête et leur adresse un signe de main", "Je ralentis et me tiens prêt à freiner si ces enfants se décident", "Je m'arrête si aucun véhicule ne vient en sens inverse", "Je descends de ma voiture pour les aider à traverser"], answer: [2, 3] },
+{ q: "Je dois m'abstenir de conduire :", options: ["Sous l'effet de boissons alcoolisées", "Sous l'effet de la fatigue", "En cas de visibilité insuffisante grave", "En cas de chaussée rétrécie", "En cas de défaillance du câble compteur"], answer: [0, 1, 2] },
+{ q: "Comment réagir quand le conducteur venant d'en face m'éblouit, malgré mes appels de feux ?", options: ["J'allume et je reste en feu de route", "Je me protège les yeux avec la main", "Je ralentis au maximum et je m'arrête au besoin", "Je ralentis et je fixe le bord droit de la chaussée"], answer: [2, 3] },
+{ q: "Quel est le comportement d'un usager sur un lieu d'accident ?", options: ["Alerter, secourir et protéger", "Secourir, protéger et alerter", "Protéger, alerter et secourir"], answer: 2 },
+{ q: "Pour éteindre un début d'incendie dans une voiture, j'utilise :", options: ["Le sable uniquement", "L'eau", "L'extincteur"], answer: 2 },
+{ q: "Pour baliser un lieu d'accident, j'utilise :", options: ["Des balises", "Des branchages", "Des triangles de pré-signalisation"], answer: 2 },
+{ q: "A quelle distance place-t-on ordinairement les triangles de pré-signalisation sur un lieu d'accident ?", options: ["A 30 m au moins", "A 100 m au moins", "A 200 m au moins"], answer: 0 },
+{ q: "A quelle catégorie d'agents avez-vous recours en cas d'accident en rase campagne ?", options: ["Les sapeurs-pompiers", "Les gendarmes", "Les douaniers", "Les policiers"], answer: [0, 1] },
+{ q: "Quand le blessé d'un accident de circulation réclame à boire :", options: ["Je lui offre de l'eau", "Je lui offre de l'alcool", "Je lui offre du jus de fruit", "Je ne lui donne rien"], answer: 3 },
+{ q: "Quelles sont les causes qui peuvent être à l'origine de la mort d'un blessé avant l'arrivée des secours ?", options: ["L'hémorragie", "La peur", "L'asphyxie"], answer: [0, 2] },
+{ q: "Comment arrêter l'hémorragie externe ?", options: ["En faisant un pansement alcoolisé", "En plaçant un garrot à longue durée", "En faisant un pansement compressif", "En faisant une pression directe sur la plaie avec un linge propre plié", "En appuyant sur les points de compression"], answer: [2, 3, 4] },
+{ q: "Comment reconnaître une personne asphyxiée ?", options: ["Par l'arrêt du mouvement du ventre et de la poitrine", "Par l'arrêt du pouls", "Par le mouvement du ventre et de la poitrine"], answer: 0 },
+{ q: "Comment réanimer une personne asphyxiée ?", options: ["En desserrant les vêtements de la victime", "En pratiquant la respiration bouche à bouche après désobstruction des voies aériennes supérieures", "En pratiquant la respiration bouche à nez sans désobstruction des voies aériennes supérieures", "En mettant le blessé dans la Position Latérale de Sécurité (P.L.S.)", "En lui donnant à boire"], answer: [0, 1, 3] },
+{ q: "Quels sont les signes qui apparaissent en cas d'entorse ?", options: ["Douleur, gonflement, mouvements impossibles", "Douleur, saignement, mouvements possibles", "Douleur, gonflement, mouvements possibles"], answer: 2 },
+{ q: "L'hémorragie est :", options: ["La sortie du sang hors des vaisseaux sanguins", "Une mauvaise circulation du sang", "Le passage du sang dans le cœur"], answer: 0 },
+{ q: "Il y a hémorragie externe lorsque le sang s'écoule :", options: ["D'un orifice naturel", "A l'extérieur du corps par une plaie", "D'un orifice naturel ou à l'extérieur du corps par une plaie", "A l'intérieur du corps"], answer: [0, 1, 2] },
+{ q: "Il y a hémorragie interne lorsque le sang s'écoule :", options: ["A l'extérieur du corps", "A l'intérieur du corps hors des vaisseaux", "A l'intérieur des vaisseaux"], answer: 1 },
+{ q: "En cas de brûlure grave par le feu, vêtements enflammés :", options: ["Je déshabille la victime avant de l'évacuer à l'hôpital", "J'empêche la victime de courir, je l'enroule dans une couverture et je l'évacue à l'hôpital", "Je l'arrose de l'extincteur"], answer: 1 },
+{ q: "En cas de brûlure par liquide bouillant ou par vapeur :", options: ["Je déshabille la victime, je la douche le plus vite possible et je la fais évacuer vers un centre médical", "Je l'enroule de couverture", "Je l'évacue sans rien faire"], answer: 0 },
+{ q: "En cas de projection de l'acide de la batterie dans l'œil d'un individu :", options: ["Je rince l'œil pendant au moins 10 minutes avec de l'eau courante et je mets une compresse, puis je l'évacue chez l'ophtalmologiste", "J'instille de l'huile à frein sur l'œil", "Je bande l'œil"], answer: 0 },
+{ q: "Pour effectuer le dégagement d'urgence d'un blessé de quelques mètres :", options: ["Je le roule par terre", "Je le mets au dos", "Je soulève légèrement sa tête, un aide le tire par les pieds en le glissant sur le sol dans l'axe du corps"], answer: 2 },
+{ q: "Quelle est l'utilité de la position latérale de sécurité (PLS) ?", options: ["Elle permet d'être couché sur le dos afin de bien respirer", "Elle permet de rester assis pour empêcher le choc", "Elle permet d'être couché à plat ventre", "Elle permet à la victime d'être couchée sur le côté, d'éviter la chute de la langue en arrière, l'encombrement des voies respiratoires par le sang, le vomissement ou la mucosité"], answer: 3 },
+{ q: "Quel est le but du massage cardiaque ?", options: ["Il permet au malade d'éviter le vertige", "Il permet au malade de bien respirer", "Il permet de réanimer une victime qui présente un arrêt circulatoire", "Il permet d'arrêter une hémorragie interne"], answer: 2 },
+{ q: "Quand dit-on qu'il y a luxation ?", options: ["Lorsqu'il y a étirement ou déchirure des ligaments", "Lorsqu'il y a cassure d'un os et qu'il est en contact avec l'extérieur", "Lorsque les ligaments sont déchirés, l'articulation déboîtée"], answer: 2 },
+{ q: "Quand dit-on qu'il y a entorse ?", options: ["Lorsqu'il y a cassure d'un os sans saignement", "Lorsque les ligaments sont déchirés, l'articulation déboîtée", "Lorsqu'il y a étirement ou déchirure des ligaments, les surfaces articulaires restant en contact"], answer: 2 },
+{ q: "Pour le ramassage d'un blessé :", options: ["Je dois remuer le blessé et le mettre debout", "Je dois mettre le blessé au dos", "Je dois le remuer le moins possible et respecter le bloc tête-cou-tronc"], answer: 2 },
+{ q: "On appelle fracture :", options: ["La rupture brutale d'un os", "La douleur d'un os", "La sortie de l'os dans l'organisme"], answer: 0 },
+{ q: "Il y a fracture fermée lorsque :", options: ["Un os a un abcès", "Un os est cassé et prend contact avec l'extérieur", "Un os est cassé et ne prend pas contact avec l'extérieur"], answer: 2 },
+{ q: "Il y a fracture ouverte lorsque :", options: ["Un os est courbé", "Un os est cassé et ne prend pas contact avec l'extérieur", "Un os est cassé et prend contact avec l'extérieur"], answer: 2 },
+{ q: "Quels peuvent être les signes révélateurs de fatigue au volant ?", options: ["Maux de dents, picotements gastriques, lourdeurs des pieds et des bras", "Lourdeur de tête, picotement des yeux, lourdeurs des paupières", "Maux d'estomac, picotements de la peau, crampes aux jambes", "Faim, soif, vertige"], answer: 1 },
+{ q: "Secourir un accident de la route est-il obligatoire ?", options: ["Oui", "Non", "Facultatif"], answer: 0 },
+{ q: "Quel effet l'alcool produit-il sur un conducteur ?", options: ["Il permet au conducteur de mieux voir", "Il permet au conducteur de respecter le code de la route", "Il réduit les facultés mentales et physiques du conducteur"], answer: 2 },
+{ q: "Quel est le bon comportement d'un usager sur un lieu d'accident ?", options: ["Alerter, secourir, et protéger", "Secourir, protéger, et alerter", "Secourir, alerter, et protéger", "Protéger, alerter, et secourir"], answer: 3 },
+{ q: "Sur autoroute, je commets une infraction en m'insérant sur l'axe principal :", options: ["Si je fais ralentir un véhicule", "Si j'oblige un usager à changer de voie", "Si je cède le passage à un usager circulant sur l'axe principal"], answer: [0, 1] },
+{ q: "En cas d'accident sur autoroute, je peux prévenir les secours :", options: ["A l'aide des bornes d'appel d'urgence placées tous les 2 km", "A l'aide de mon téléphone portable en composant le numéro d'un service de secours", "Avec l'aide d'un autre usager"], answer: [0, 1] },
+{ q: "Pour m'installer à mon poste de conduite, dans l'ordre :", options: ["Je mets la ceinture, je règle les rétroviseurs puis le siège", "Je règle le siège puis les rétroviseurs et je mets la ceinture", "Je règle les rétroviseurs puis le siège et je mets la ceinture"], answer: 1 },
+{ q: "Titulaire du permis de conduire depuis 18 mois, je peux rouler à :", options: ["80 km/h", "70 km/h", "60 km/h", "100 km/h"], answer: [0, 1, 2] },
+{ q: "Le taux d'alcoolémie est :", options: ["Le degré de l'état d'ivresse", "La quantité de bière dans le sang", "La quantité d'alcool contenue dans un litre de sang", "La quantité de vin contenu dans le sang"], answer: 2 },
+{ q: "Le dépistage de l'alcoolémie se fait par :", options: ["L'air expiré par la bouche", "L'alcotest", "La prise de sang", "L'éthylotest"], answer: [1, 3] },
+{ q: "Le dosage de l'alcoolémie se fait par :", options: ["L'alcooltest", "L'analyse de sang", "L'éthylomètre", "L'éthylotest"], answer: [1, 2] },
+{ q: "Quelle est la bonne position des mains au volant d'un conducteur en marche normale, en considérant le volant comme le cadran d'une montre ?", options: ["11h05", "9h15", "7h25"], answer: 1 },
+{ q: "Au volant de mon véhicule, je peux :", options: ["Recevoir un appel", "Appeler un ami", "Communiquer si mon portable est équipé d'un écouteur", "Rien de tout ce qui précède"], answer: 3 },
+{ q: "Au volant de mon véhicule, je peux :", options: ["Manger", "Boire", "Fumer", "Écouter la radio"], answer: 3 },
+{ q: "Dans une agglomération éclairée je peux circuler :", options: ["Sans feux", "En feux de position", "En feux de croisement", "En feux de route"], answer: [1, 2] },
+{ q: "Je peux être condamné pour délit de fuite si je ne m'arrête pas après avoir :", options: ["Occasionné un accident matériel", "Occasionné un accident corporel", "Ignoré l'injonction d'un agent de force réglementant la circulation"], answer: [0, 1] },
+{ q: "La vigilance au volant est dégradée si :", options: ["Je téléphone", "Je mange un sandwich", "Je bavarde avec les passagers", "Je me concentre sur la conduite"], answer: [0, 1, 2] },
+{ q: "La consommation de la drogue peut provoquer :", options: ["Des effets d'ivresse", "Une diminution du champ visuel", "L'euphorie"], answer: [0, 1, 2] },
+{ q: "Que doit faire un conducteur impliqué dans un accident de circulation ?", options: ["Dégager la chaussée après marquage pour ne pas gêner la circulation", "Avertir son assureur (compagnie d'assurance)", "Communiquer son identité (adresse) à toute personne impliquée dans l'accident", "Rester calme et courtois"], answer: [0, 1, 2, 3] },
+{ q: "Quel doit être le comportement d'un conducteur vis-à-vis d'un véhicule prioritaire en mission ?", options: ["Céder le passage aux intersections", "Céder le passage aux intersections munies de feux tricolores", "Faciliter leurs manœuvres, de croisement", "Attendre l'ordre d'un agent réglementant la circulation"], answer: [0, 1, 2] },
+{ q: "Quels sont les signes évidents de la fatigue ?", options: ["Bâillement", "Picotement des yeux", "Somnolence"], answer: [0, 1, 2] },
+{ q: "Quels sont les effets de la fatigue ?", options: ["Réaction tardive", "Mauvaise analyse", "Mauvaise appréciation des vitesses", "L'impatience ou anxiété grandissante"], answer: [0, 1, 2, 3] },
+{ q: "Comment limiter la fatigue ?", options: ["Conduire sur une longue durée sans repos", "Pendant le trajet se reposer régulièrement", "Pratiquer l'alternance au volant"], answer: [1, 2] },
+{ q: "Quelles sont les conditions nécessaires pour un déplacement sûr ?", options: ["Être en forme pour conduire", "Avoir un véhicule en bon état de fonctionnement", "Anticiper les situations critiques", "Être courtois avec les autres usagers"], answer: [0, 1, 2, 3] },
+{ q: "Quel comportement adopter pour une conduite économique ?", options: ["Choisir un bon style de conduite", "Bien régler son moteur", "Bon gonflage des pneus", "Aérodynamisme bien adapté"], answer: [0, 1, 2, 3] },
+{ q: "L'alcool :", options: ["Diminue le champ de vision", "Réduit la vigilance", "Allonge le temps de réaction", "Augmente le champ de vision"], answer: [0, 1, 2] },
+{ q: "J'ai plus de risque de rencontrer du verglas si je circule :", options: ["En lisière d'une forêt", "Le long d'un cours d'eau", "A allure soutenue"], answer: [0, 1] },
+{ q: "Je dois allumer mes feux :", options: ["Dès que le jour tombe", "Dès qu'il fait nuit", "Dès qu'il commence par pleuvoir"], answer: [0, 1] },
+{ q: "Pour stationner de nuit dans une rue non éclairée en agglomération, j'allume :", options: ["Mes feux de croisement", "Mes feux de position", "Aucun feu pour ne pas décharger ma batterie"], answer: 1 },
+{ q: "L'absorption d'alcool entraîne une réduction :", options: ["Du champ visuel", "Des capacités d'analyse", "Du temps de réaction", "Des habiletés motrices"], answer: [0, 1, 2, 3] },
+{ q: "Les effets de l'alcool apparaissent à partir de :", options: ["0,3 g/l de sang", "0,5 g/l de sang", "1,2 g/l de sang"], answer: 1 },
+{ q: "Conduire avec une alcoolémie de 0,5 g/l de sang multiplie le risque d'avoir un accident mortel :", options: ["Par dix", "Par cinq", "Par deux"], answer: 2 },
+{ q: "Pour faire redescendre à 0,5 g/l, un taux d'alcoolémie de 0,8 g/l de sang, il faut en moyenne :", options: ["1 heure", "2 heures", "3 heures"], answer: 1 },
+{ q: "L'association alcool et médicaments peut augmenter :", options: ["Le taux d'alcoolémie", "Les effets de l'alcool", "Le temps de réaction"], answer: [1, 2] },
+{ q: "Lors d'un long trajet, il est conseillé de faire une pause d'au moins 10 minutes :", options: ["Toutes les heures", "Toutes les deux heures", "Toutes les 4 heures"], answer: 1 },
+{ q: "L'alcoolémie atteint son maximum :", options: ["Immédiatement après absorption", "Entre demi-heure et une heure après absorption", "Après deux heures"], answer: 1 },
+{ q: "La mesure exacte du taux d'alcoolémie est effectuée si :", options: ["Le dépistage est positif", "Le conducteur refuse le dépistage", "Le dépistage est négatif"], answer: [0, 1] },
+{ q: "Le contrôle d'alcoolémie est systématique :", options: ["Si l'on est impliqué dans un accident corporel", "Lors des contrôles routiers", "Lors d'un accident"], answer: 0 },
+{ q: "Les conditions qui augmentent la fatigue sont :", options: ["Le manque de sommeil", "La visibilité réduite", "Une circulation fluide", "La conduite de nuit"], answer: [0, 1] },
+{ q: "Pour retarder l'apparition de la fatigue, il faut :", options: ["Boire beaucoup de café", "Être bien installé au volant", "Prendre la route après un bon repos"], answer: [1, 2] },
+{ q: "En cas de fatigue, il faut :", options: ["Marquer une pause", "Rouler plus lentement", "Rouler plus vite pour maintenir la vigilance", "Passer le volant à un passager"], answer: 0 },
+{ q: "Lors d'un accident, s'il y a risque d'incendie :", options: ["Je débranche la batterie des véhicules", "Je maintiens le contact des véhicules", "Je coupe le contact des véhicules"], answer: [0, 2] },
+{ q: "De nuit pour signaler un accident :", options: ["J'utilise les feux de mon véhicule", "Je fais des signes avec une lampe de poche", "Je place mes triangles de pré-signalisation"], answer: [0, 1, 2] },
+{ q: "Lors d'un accident, le règlement à l'amiable est :", options: ["Obligatoire", "Facultatif", "Recommandé"], answer: [1, 2] },
+{ q: "L'assurance minimum obligatoire :", options: ["Couvre les dommages occasionnés aux autres", "Couvre les dégâts occasionnés aux véhicules seulement", "Est aussi appelée assurance au tiers"], answer: [0, 2] },
+{ q: "Si je suis témoin d'un accident, je dois :", options: ["Exposer ce que j'ai vu aux forces de l'ordre", "Remplir le contrat amiable", "Déterminer les responsabilités", "Laisser mes coordonnées pour un témoignage ultérieur"], answer: [0, 3] },
+{ q: "En présence de blessés après un accident, il faut :", options: ["Les couvrir", "Pratiquer les gestes qui sauvent", "Les faire boire pour éviter qu'ils ne se déshydratent", "Les transporter sur l'accotement"], answer: [0, 1] },
+{ q: "Lors de l'alerte des secours, j'indique :", options: ["Le lieu précis de l'accident", "Le numéro d'immatriculation des véhicules impliqués", "Le nombre et le type de véhicules impliqués", "Le nombre et l'état des blessés"], answer: [0, 2, 3] },
+{ q: "Protéger les lieux d'un accident, c'est :", options: ["Baliser les lieux pour éviter un autre accident", "Dégager complètement la chaussée", "Barrer complètement la voie aux autres véhicules"], answer: 0 },
+{ q: "Après avoir déplacé un blessé, je le mets allongé sur :", options: ["Le côté", "Le dos", "Le ventre"], answer: 0 },
+{ q: "Si mon véhicule est immobilisé dangereusement sur la chaussée, je le déplace de préférence :", options: ["En le poussant", "En enclenchant la 1ère ou la marche arrière et en actionnant le démarreur", "En faisant appel à des secours"], answer: 1 },
+{ q: "La présence à bord d'une boîte d'ampoules et de fusibles de rechange est :", options: ["Obligatoire", "Recommandée", "Inutile"], answer: 1 },
+{ q: "Le réglage de la hauteur des faisceaux lumineux du véhicule :", options: ["Dépend de la charge du véhicule", "Nécessite toujours l'intervention d'un spécialiste", "Est effectué une fois pour toutes lors de la mise en circulation"], answer: 0 },
+{ q: "Pour remplir le réservoir de mon lave-glace, j'utilise de préférence :", options: ["De l'eau uniquement", "Un produit détergent spécial", "Un détergent ménager"], answer: 1 },
+{ q: "Je dois faire vérifier l'équilibrage des roues de mon véhicule :", options: ["Après un choc violent contre un trottoir", "En cas d'usure anormale de mes pneus", "Je ressens des vibrations au niveau du volant", "Si mon véhicule se déporte au freinage"], answer: [0, 2] },
+{ q: "Parmi ces équipements, ceux qui déchargent le plus la batterie sont :", options: ["L'autoradio", "Les feux", "Le système de dégivrage de la lunette arrière"], answer: [1, 2] },
+{ q: "Pour économiser du carburant, il faut :", options: ["Faire entretenir régulièrement son véhicule", "Éviter de rouler avec une galerie vide sur le toit", "Rouler le plus souvent possible en sous-régime", "Avoir les pneus bien gonflés"], answer: [0, 1, 3] },
+{ q: "Je dois faire vérifier le parallélisme des roues de mon véhicule :", options: ["Après un choc violent", "En cas d'usure de mes pneus", "Si je ressens des vibrations au niveau du volant", "Si mon véhicule se déporte"], answer: [0, 1, 3] },
+{ q: "L'installation au poste de conduite influence :", options: ["La vision", "Le confort", "La tenue de route", "La manipulation des commandes"], answer: [0, 1, 3] },
+{ q: "Il est indispensable de regarder dans ses rétroviseurs avant de :", options: ["Modifier sa trajectoire", "Activer ses clignotants", "Modifier son allure"], answer: [0, 1, 2] },
+{ q: "Les appels lumineux servent à signaler :", options: ["Une intention de dépasser", "La présence de gendarmes", "L'approche à une intersection la nuit"], answer: [0, 2] },
+{ q: "Je peux utiliser l'avertisseur sonore pour :", options: ["Avertir de ma présence un usager qui ne me regarde pas", "Signaler à un usager qu'il vient de commettre une faute", "Passer lorsque j'ai la priorité"], answer: 0 },
+{ q: "L'usage de l'avertisseur sonore est interdit :", options: ["La nuit, uniquement en agglomération", "La nuit, en agglomération et hors agglomération", "Le jour en agglomération sauf danger immédiat"], answer: [1, 2] },
+{ q: "Avant de monter à bord ou de descendre de mon véhicule je dois :", options: ["M'assurer qu'il n'y a aucun risque", "Contrôler que ma position ne gêne pas d'autres usagers", "Tenir compte des mouvements des autres usagers"], answer: [1, 2] },
+{ q: "Lorsque la visibilité est réduite :", options: ["Je ralentis pour pouvoir m'arrêter le cas échéant", "Je ne ralentis pas car cela n'améliore pas la visibilité"], answer: 0 },
+{ q: "Lors d'un départ en côte, il faut desserrer le frein à main :", options: ["Avant de commencer à embrayer", "Dès que l'on a trouvé le point de patinage", "Dès que l'on a fini d'embrayer"], answer: 1 },
+{ q: "Lors d'un arrêt en circulation, pour éviter de caler le moteur, il faut :", options: ["Débrayer dès le début du freinage", "Débrayer en fin de freinage seulement", "Débrayer avant de freiner"], answer: 1 },
+{ q: "La rétrogradation permet :", options: ["De ralentir le véhicule dans une descente", "De repartir après un ralentissement", "D'arrêter le véhicule en circulation"], answer: [0, 1] },
+{ q: "Le frein moteur intervient dès qu'on :", options: ["Lâche l'accélérateur", "Appuie sur la pédale de frein"], answer: 0 },
+{ q: "A bord d'un véhicule de tourisme, pour effectuer une marche arrière, j'aurai une meilleure vision :", options: ["Si je me retourne bien", "Si je me retourne peu", "Si j'utilise mes 3 rétroviseurs"], answer: 0 },
+{ q: "Il est dangereux d'effectuer un demi-tour :", options: ["Dans un virage", "Lorsque la circulation est dense et rapide", "Dans une rue sans issue"], answer: [0, 1] },
+{ q: "La fatigue et la perte de vigilance sont accrues par :", options: ["Une vitesse modérée", "La conduite de nuit", "Une dette de sommeil", "La prise de caféine"], answer: [1, 2] },
+{ q: "Pendant l'arrêt au feu rouge :", options: ["Je peux rapidement prendre un appel téléphonique", "Je peux rapidement passer un appel téléphonique avant le feu vert", "Je ne dois pas toucher au téléphone"], answer: 2 },
+{ q: "Au volant de mon véhicule, je peux utiliser mon téléphone portable :", options: ["Lorsque je me retrouve seul sur la chaussée", "Lorsque je ne suis pas sur une route à grande circulation", "Lorsque je suis équipé d'un kit oreillette", "Lorsqu'il y a urgence"], answer: 2 },
+{ q: "Au volant de mon véhicule, mon téléphone portable sonne :", options: ["J'arrête mon véhicule convenablement avant de toucher au téléphone", "Je ne dois pas toucher au téléphone", "Je prends le téléphone pour vérifier mon correspondant"], answer: [0, 1] },
+{ q: "Je commets un délit de fuite si je ne m'arrête pas :", options: ["Lorsque je suis témoin d'un accident", "Lorsqu'un agent de sécurité me fait signe de m'arrêter", "Lorsque je suis impliqué dans un accident"], answer: 2 },
+{ q: "Je dois m'abstenir de conduire :", options: ["Si je prends un verre de jus de raisin", "Si je suis sous l'effet de boissons alcoolisées ou de certains médicaments", "Si je suis fatigué", "Si je me sens nerveux ou surexcité", "Après un bon sommeil"], answer: [1, 2, 3] },
+{ q: "L'absorption d'alcool :", options: ["Permet de bien conduire", "Augmente le temps de réaction", "Permet de bien apprécier les distances", "Augmente le champ visuel"], answer: 1 },
+{ q: "On peut passer le feu rouge allumé à une intersection munie de feux tricolores :", options: ["Quand on s'y retrouve seul", "Quand on s'y retrouve seul tard dans la nuit", "A aucun moment", "Si je veux tourner à droite"], answer: 2 },
+{ q: "Avant de me mettre au volant :", options: ["Je peux prendre de l'alcool", "Je peux prendre de l'alcool sans me soûler", "Je dois m'abstenir de prendre de l'alcool"], answer: 2 },
+{ q: "Je suis titulaire du permis de conduire :", options: ["Je peux conduire sans l'avoir sur moi", "Je conduis toujours avec mon permis de conduire", "Je peux conduire avec une photocopie légalisée de mon permis de conduire"], answer: 1 },
+{ q: "En cas de retrait de votre permis de conduire suite à une infraction ou à un accident, je dois :", options: ["Me présenter à la gendarmerie pour reprendre le permis de conduire", "Me présenter au Centre National de Sécurité Routière pour les dispositions de reprise de mon permis de conduire", "Me présenter au maire de la commune où l'accident a eu lieu pour le retrait de mon permis de conduire"], answer: 1 },
+{ q: "La Commission Nationale de Retrait de Permis de Conduire est chargée :", options: ["D'auditionner le(s) mis(e)(s) en cause, de décider du retrait partiel ou définitif du permis de conduire et de sensibiliser", "D'écouter simplement les conducteurs de véhicules impliqués dans les accidents", "De décider du paiement des dommages causés par l'accident survenu", "De l'emprisonnement du conducteur impliqué dans un accident mortel"], answer: 0 },
+{ q: "Après le retrait de mon permis de conduire suite à un accident, je peux :", options: ["Procéder au remplacement de mon permis de conduire", "Demander le duplicata du permis de conduire", "Continuer à conduire mon véhicule avec un certificat de perte", "Rien de tout ce qui précède"], answer: 3 },
+{ q: "Les travaux de la Commission Spéciale de Retrait de permis de conduire sont organisés par :", options: ["La Direction Générale des Transports Terrestres", "La Direction Générale des Travaux Publics", "La Gendarmerie", "Le Centre National de Sécurité Routière"], answer: 3 },
+{ q: "L'original du permis de conduire retiré par les Forces de Sécurité Publique suite à un accident est transmis :", options: ["Au parquet", "Au Centre National de Sécurité Routière", "A la Direction Générale des Transports Terrestres"], answer: 1 },
+
+// ===================== CHAPITRE VII — PERMIS DE CONDUIRE A1, A2, A3 =====================
+
+{ q: "Sur une motocyclette, le passager :", options: ["Peut être assis devant le conducteur", "Peut être assis dans la position dite « en amazone »", "Doit être assis sur le siège arrière", "Doit faire corps avec la moto et son conducteur"], answer: [2, 3] },
+{ q: "En cas de panne de ma motocyclette :", options: ["Je peux traîner ma moto sur le trottoir, le moteur arrêté", "Je ne peux pas traîner ma moto sur le trottoir, le moteur arrêté", "Je peux la garer sur le trottoir et attendre un dépanneur"], answer: 0 },
+{ q: "Dans une circulation en files ininterrompues :", options: ["Je peux me faufiler entre les véhicules", "Je peux me faufiler entre les véhicules si la circulation s'arrête", "Je dois rester dans ma file sauf pour préparer un changement de direction"], answer: 2 },
+{ q: "Avec mon véhicule à deux roues, je peux traverser une voie ferrée :", options: ["En passant par le portillon d'une barrière fermée avant le passage d'un train", "En passant les demi-barrières fermées avant le passage du train", "Après le relèvement de la barrière"], answer: 2 },
+{ q: "Le clignotant est obligatoire :", options: ["Pour les cyclomoteurs", "Pour les motocyclettes", "Pour tous les véhicules à deux roues seulement", "Pour les automobiles seulement"], answer: 1 },
+{ q: "Avec mon permis de conduire catégorie A1, je peux conduire des motocyclettes dont la cylindrée :", options: ["N'excède pas 75 cm³", "Excède 75 cm³", "Est égale à 100 cm³"], answer: 0 },
+{ q: "Avec mon permis de conduire catégorie A2, je peux conduire des motocyclettes dont la cylindrée :", options: ["N'excède pas 450 cm³", "Excède 400 cm³", "Est inférieure à 400 cm³", "Est égale à 400 cm³"], answer: [2, 3] },
+{ q: "Avec mon permis de conduire catégorie A3, je peux conduire des motocyclettes dont la cylindrée :", options: ["N'excède pas 450 cm³", "Excède 400 cm³", "Est inférieure à 400 cm³", "Est égale à 400 cm³"], answer: [0, 1, 2, 3] },
+{ q: "Quels sont les contrôles de niveau à effectuer avant le départ sur les motocyclettes dont la cylindrée est supérieure ou égale à 400 cm³ ?", options: ["Niveau d'huile à moteur", "Eau dans le radiateur", "Essence dans le réservoir", "Eau du bocal de l'essuie-glace"], answer: [0, 1, 2] },
+{ q: "Dans quelle position met-on la motocyclette pour effectuer les contrôles de niveau ?", options: ["Sur la béquille centrale", "Sur la béquille latérale", "Couchée"], answer: 0 },
+{ q: "En longeant les véhicules en stationnement, à quoi doit-on faire attention ?", options: ["Aux piétons qui pourraient surgir", "Aux véhicules qui pourraient surgir", "Aux portières qui pourraient s'ouvrir", "Aux véhicules qui pourraient quitter leur stationnement"], answer: [0, 2, 3] },
+{ q: "Quelles sont les précautions à prendre pour la conduite d'une nouvelle motocyclette ?", options: ["S'habituer progressivement", "Augmenter la distance de sécurité", "Réduire la distance de sécurité", "Adopter une bonne position de conduite, de freinage et de tenue de route"], answer: [0, 1, 3] },
+{ q: "Quels sont les contrôles à effectuer avant chaque départ ?", options: ["Position des béquilles", "Bon ajustement du casque (conducteur et passager)", "Resserrage des rayons", "Réglage des rétroviseurs"], answer: [0, 1, 3] },
+{ q: "Quels sont les différents types de casques pour les motocyclettes et les cyclomoteurs ?", options: ["Casque à couverture ignifugée", "Casque intégral", "Casque enveloppant", "Casque étoilé"], answer: [1, 2] },
+{ q: "Quelle est la bonne position d'un conducteur à motocyclette ?", options: ["Être bien assis sur la selle", "Avoir les bras légèrement fléchis", "Avoir le cou raide", "Garder les genoux contre le réservoir"], answer: [0, 1, 3] },
+{ q: "Quel est l'âge minimum pour un candidat à l'examen du permis de conduire A1 ?", options: ["14 ans", "16 ans", "17 ans"], answer: 1 },
+{ q: "Le feu stop est obligatoire :", options: ["Sur les cyclomoteurs", "Sur les motocyclettes", "Sur tous les véhicules à deux roues"], answer: 1 },
+{ q: "Le rétroviseur est-il obligatoire pour les motocyclettes ?", options: ["Oui", "Non"], answer: 0 },
+{ q: "Combien de passagers un conducteur de deux roues peut-il transporter ?", options: ["Deux", "Un", "Trois"], answer: 1 },
+{ q: "Le port de casque est obligatoire sur les véhicules à deux roues :", options: ["Seulement quand je remorque un passager", "Si je suis seul", "Pour tous les occupants"], answer: [1, 2] },
+{ q: "Le port de casque protège contre :", options: ["Le soleil et la pluie", "Le traumatisme crânien", "La poussière"], answer: 1 },
+{ q: "Quel est l'âge minimum du candidat à l'examen de permis de conduire A2 ?", options: ["15 ans", "20 ans", "18 ans"], answer: 2 },
+{ q: "Pour le transport d'un enfant de moins de 5 ans sur une motocyclette il faut :", options: ["Avoir un simple siège", "Avoir un siège muni de courroie-attache", "Bien régler son casque"], answer: 1 },
+{ q: "Quel est l'âge minimum pour un candidat à l'examen de permis de conduire A3 ?", options: ["17 ans", "18 ans", "21 ans"], answer: 2 },
+{ q: "Que signifie le panneau A21b ?", options: ["Voie réservée au cycliste", "Voie interdite au cycliste", "Débouché de cycliste venant de gauche seulement"], answer: 2 },
+{ q: "Sur ma moto, à la vue du panneau B14(3) hors agglomération :", options: ["Je peux rouler à plus de 60 km/h", "Je peux rouler à moins de 60 km/h", "Je peux rouler à 60 km/h strictement", "Je ne suis pas concerné par cette signalisation"], answer: [1, 2] },
+{ q: "Le panneau B14(3) concerne :", options: ["Uniquement les conducteurs à moto", "Tous les conducteurs sauf les motocyclistes", "Aussi les 4 roues"], answer: 0 },
+{ q: "Le port de casque est obligatoire :", options: ["Seulement en rase campagne où la grande vitesse est possible", "Seulement en ville à cause du grand nombre de véhicules", "Seulement sur les voies pavées ou bitumées", "Rien de tout ce qui précède"], answer: 3 },
+{ q: "La circulation à deux de front pour les véhicules à deux roues :", options: ["Est autorisée sur les chaussées à double sens de circulation", "Est autorisée sur les chaussées à sens unique de circulation", "N'est pas autorisée", "Est autorisée seulement sur les voies réservées aux véhicules à deux roues"], answer: 2 },
+{ q: "Avec mon permis de conduire catégorie A2, je peux conduire des motocyclettes dont la cylindrée n'excède pas :", options: ["200 cm³", "400 cm³", "600 cm³"], answer: [0, 1] },
+{ q: "Les motocyclettes sont des véhicules à deux roues :", options: ["Avec moteur auxiliaire", "Pourvus d'un moteur thermique", "Dont la cylindrée ne dépasse pas 50 cm³", "Dont la cylindrée dépasse 50 cm³"], answer: [1, 3] },
+{ q: "Les cyclomoteurs sont des véhicules à deux roues :", options: ["Pourvus d'un moteur thermique", "Dont la cylindrée ne dépasse pas 50 cm³", "Dont la cylindrée dépasse 50 cm³"], answer: 1 },
+{ q: "Sont obligatoires sur les motocyclettes :", options: ["Les avertisseurs", "Les deux rétroviseurs", "Le rétroviseur gauche", "Le rétroviseur droit", "Le frein avant"], answer: [0, 2, 4] },
+
+// ===================== CHAPITRE VIII — PERMIS DE CONDUIRE CATÉGORIE B =====================
+
+{ q: "Pour tourner à droite je dois :", options: ["Accélérer", "Mettre le clignotant", "Ralentir"], answer: [1, 2] },
+{ q: "Pour tourner à gauche sur une chaussée à double sens je dois :", options: ["Serrer ma droite", "Me déporter au milieu", "Serrer ma gauche"], answer: 1 },
+{ q: "Le PTAC de ma remorque est de 800 kg ; le poids à vide de ma voiture est 700 kg :", options: ["Pour tracter ma remorque je dois détenir le permis E(B)", "Je dois mettre à l'arrière de ma remorque une plaque d'immatriculation identique à celle de ma voiture", "Pour tracter ma remorque je dois détenir le permis C", "Ma remorque doit porter sa propre plaque d'immatriculation"], answer: [0, 3] },
+{ q: "A la vue du panneau B14 :", options: ["Je peux rouler à plus de 50 km/h", "Je ne peux pas rouler à moins de 50 km/h", "Je peux rouler à 50 km/h strictement", "Je ne suis pas concerné par cette signalisation", "Je peux rouler à moins de 50 km/h"], answer: [2, 4] },
+{ q: "Avec mon permis de conduire catégorie B :", options: ["Je peux conduire un véhicule dont le PTAC est inférieur ou égal à 3,5T", "Je peux conduire tous les véhicules", "Je ne peux conduire que les véhicules dont le PTAC est compris entre 3,5T et 18T", "Je peux conduire une camionnette dont le PTAC est égal ou inférieur à 3,5T"], answer: [0, 3] },
+{ q: "Avec le permis de conduire catégorie B, je peux conduire un véhicule :", options: ["Poids lourd", "Autobus", "Poids léger"], answer: 2 },
+{ q: "Ma voiture mesure 4 m de long, comment transporter de jour une échelle de 5 m ?", options: ["Je fais dépasser l'échelle de 0,5 m à l'avant et 0,5 m à l'arrière", "Je fais dépasser l'échelle de 1 m à l'avant", "Je fais dépasser l'échelle de 1 m à l'arrière"], answer: 2 },
+{ q: "Mon permis de conduire a 8 mois d'âge, je ne peux rouler à plus de :", options: ["100 km/h", "120 km/h", "90 km/h", "60 km/h"], answer: 2 },
+{ q: "A la vue du panneau B14 :", options: ["Je peux rouler à plus de 50 km/h", "Je peux rouler à moins de 50 km/h", "Je peux rouler à 50 km/h strictement", "Je ne suis pas concerné par cette signalisation"], answer: [1, 2] },
+{ q: "La remorque doit avoir sa propre carte grise si le PTAC est supérieur à :", options: ["450 kg", "500 kg", "400 kg"], answer: 1 },
+
+// ===================== CHAPITRE IX — PERMIS DE CONDUIRE CATÉGORIES C ET C1 =====================
+
+{ q: "Quel est l'âge minimal du candidat au permis de conduire catégorie C1 ?", options: ["17 ans", "18 ans", "20 ans", "21 ans"], answer: 3 },
+{ q: "Pour les transports exceptionnels, la réglementation (concernant les pièces de grande longueur) prévoit que le chargement du véhicule isolé peut déborder de :", options: ["3 m au plus à l'avant et 5 m à l'arrière", "4 m au plus à l'avant et 7 m à l'arrière", "0 m à l'avant et 6 m à l'arrière"], answer: 0 },
+{ q: "Un véhicule articulé est composé :", options: ["D'un véhicule tracteur et d'une remorque", "D'un véhicule tracteur et d'une semi-remorque", "D'un véhicule tracteur routier et d'une semi-remorque", "D'un véhicule tracteur routier et d'une remorque"], answer: 2 },
+{ q: "Un train double est composé :", options: ["D'un tracteur et d'une remorque", "D'un tracteur routier et de deux semi-remorques", "D'un véhicule articulé et d'une semi-remorque", "D'un tracteur et d'une semi-remorque"], answer: [1, 2] },
+{ q: "La longueur d'un véhicule articulé peut atteindre :", options: ["22 m", "26 m", "16,5 m", "18 m"], answer: 2 },
+{ q: "Quel est l'âge minimal du candidat au permis de conduire catégorie C ?", options: ["17 ans", "18 ans", "21 ans"], answer: 2 },
+{ q: "Les véhicules dont le PTAC dépasse 3,5T doivent être munis d'un appareil de contrôle appelé :", options: ["Totaliseur", "Chrono tachygraphe", "Éthylotest", "Un contrôleur de pression des pneus"], answer: 1 },
+{ q: "Le chrono tachygraphe permet l'enregistrement :", options: ["Des tours des roues avant", "De la vitesse du véhicule et la distance parcourue", "Du temps de conduite et de repos"], answer: [1, 2] },
+{ q: "Pour conduire un véhicule de transport de marchandises ou de matériels dont le PTAC est compris entre 3,5 et 18T, je dois :", options: ["Être titulaire du permis de conduire catégorie B", "Être titulaire du permis de conduire catégorie B et E", "Être titulaire du permis de conduire catégorie C"], answer: 2 },
+{ q: "Quel intervalle minimal entre deux véhicules poids lourds de plus de 7 m de long qui se suivent, doivent-ils respecter lorsqu'ils roulent à la même vitesse ?", options: ["20 m", "30 m", "90 m", "Rien de tout cela"], answer: 3 },
+{ q: "Avant d'aborder une descente rapide avec mon véhicule poids lourd, je dois :", options: ["Mettre le véhicule au point mort et freiner", "Rétrograder et utiliser au maximum le frein moteur", "Rester à la même vitesse"], answer: 1 },
+{ q: "A bord d'un véhicule poids lourd et pour une hauteur de 4 ou 5 m du sol chargement compris, je dois :", options: ["Circuler sans aucune précaution", "Circuler en jetant des coups d'œil sur les installations et passer", "M'assurer que je peux circuler sans causer de dommage aux ouvrages d'art, aux installations aériennes situées au-dessus des voies publiques"], answer: 2 },
+{ q: "Quelle longueur maximale peut atteindre le porte-à-faux arrière d'un véhicule poids lourd ou de transport en commun ?", options: ["3,5 m", "5 m", "2 m"], answer: 0 },
+{ q: "A quoi sert le ralentisseur sur un véhicule poids lourd ?", options: ["Permet de descendre à une allure réduite dans une longue et forte pente", "Permet de freiner", "Permet de s'arrêter", "Permet d'éviter l'usure précoce des tambours et des garnitures"], answer: [0, 3] },
+{ q: "Le chargement de grande longueur peut dépasser l'extrémité avant du véhicule de :", options: ["1 m", "0 m", "1,5 m"], answer: 1 },
+{ q: "Le chargement de grande longueur peut dépasser au maximum l'extrémité arrière du véhicule de :", options: ["3 m", "5 m", "3,5 m"], answer: 0 },
+{ q: "Pour tourner à droite sur une chaussée à sens unique, je dois :", options: ["Serrer ma droite", "Serrer ma gauche", "Me déporter au milieu"], answer: 1 },
+{ q: "Pour tourner à gauche sur une chaussée à sens unique, je dois :", options: ["Serrer ma droite et mettre le clignotant à gauche", "Respecter les règles de priorité", "Serrer ma gauche"], answer: [0, 1] },
+{ q: "Avec mon permis de conduire de la catégorie C :", options: ["Je peux conduire un véhicule de 15 tonnes, chargement compris", "Je peux conduire un véhicule de 20 tonnes, chargement compris", "Je peux conduire un minicar de 15 places"], answer: 0 },
+{ q: "Avec mon permis de conduire de la catégorie C1 :", options: ["Je peux conduire un car de 50 places", "Je peux conduire un véhicule de 36 tonnes, chargement compris", "Je peux conduire un véhicule de 7 tonnes, chargement compris"], answer: [1, 2] },
+{ q: "Sur une pente, quel est le véhicule qui doit faciliter le passage lors d'un croisement difficile ?", options: ["L'autobus", "Le camion", "Le véhicule qui le désire"], answer: 1 },
+{ q: "Que faut-il faire pour éviter de polluer l'environnement par le gaz de votre moteur ?", options: ["Bien régler les injecteurs de mon moteur", "Utiliser un carburant de bonne qualité", "Rouler à vive allure"], answer: [0, 1] },
+{ q: "Les feux de gabarit sont obligatoires sur les véhicules de largeur supérieure ou égale à :", options: ["2,10 m", "2,15 m", "2,20 m", "1,80 m"], answer: [0, 1, 2] },
+{ q: "A l'approche d'un passage à niveau électrifié, avec un véhicule poids lourd chargé, que faire ?", options: ["Faire demi-tour si la hauteur est supérieure à 4,5 m", "Ralentir, vérifier à gauche et à droite, puis passer si la hauteur ne dépasse pas 4,5 m", "Passer sans danger"], answer: [0, 1] },
+{ q: "Les feux d'encombrement :", options: ["Sont toujours de couleur jaune", "Sont de couleur blanche à l'avant", "Éclairent à 400 m", "Sont de couleur rouge à l'arrière"], answer: [1, 3] },
+{ q: "L'intervalle de sécurité entre deux véhicules de plus de 7 m de long permet :", options: ["D'éviter le choc en cas de freinage", "De faciliter aux véhicules légers le dépassement", "De mieux contrôler les organes de conduite"], answer: [0, 1] },
+{ q: "Sur la chaussée comportant trois (3) voies affectées à un même sens de circulation, les véhicules de 3,5T de PTAC et de plus de 7 m de long doivent normalement :", options: ["Emprunter toutes les voies", "Emprunter la voie de droite", "Emprunter les deux voies les plus à gauche"], answer: 1 },
+{ q: "Un véhicule articulé est composé :", options: ["D'un véhicule tracteur et d'une remorque", "D'un véhicule tracteur et d'une semi-remorque", "D'un véhicule tracteur routier et d'une remorque", "Rien de tout ce qui précède"], answer: 3 },
+{ q: "La longueur d'un véhicule articulé peut atteindre :", options: ["22 m", "26 m", "18 m", "Rien de tout ce qui précède"], answer: 3 },
+{ q: "La longueur maximale d'un train double est de :", options: ["18 m", "22 m", "25 m", "16 m"], answer: 0 },
+{ q: "Quelle est la durée minimale obligatoire de repos pour un conducteur de véhicule de plus de 3,5T de PTAC après 4 heures 30 mn de route ?", options: ["1 h", "45 mn", "55 mn", "1 h 30 mn"], answer: 1 },
+{ q: "En rase campagne, quel intervalle minimal de sécurité doit respecter deux véhicules de plus 3,5T de PTAC et de plus de 7 m de long qui se suivent lorsqu'ils roulent à la même vitesse ?", options: ["40 m environ", "50 m environ", "60 m environ", "80 m environ"], answer: 1 },
+{ q: "Dans une descente dangereuse :", options: ["Je ralentis", "J'utilise le ralentisseur", "Je rétrograde", "J'utilise le frein à main"], answer: [0, 1, 2] },
+{ q: "A la rencontre du panneau B2a1, il est interdit :", options: ["A tout véhicule de transport de marchandises de tourner à gauche", "Aux véhicules de transport de marchandises dont le PTAC est inférieur à 3,5T de tourner à gauche", "Aux véhicules de transport de marchandises dont le PTAC est supérieur à 3,5T de tourner à gauche", "A tout véhicule de tourner"], answer: [0, 1, 2] },
+{ q: "A la vue du panneau B3-3, il est interdit :", options: ["A un véhicule de transport de marchandise de dépasser un petit véhicule", "Aux véhicules de transport de marchandises dont le PTAC excède 3,5T de dépasser tout véhicule à moteur à l'exception des véhicules à deux roues sans side-car", "Aux véhicules de transport de marchandises dont le PTAC est inférieur à 3,5T de dépasser tout petit véhicule", "A un véhicule poids lourd de dépasser une voiture"], answer: [1, 3] },
+{ q: "Que signifie le panneau B8-1 ?", options: ["Voie réservée aux véhicules de transport de marchandises dont le PTAC est inférieur ou égal à 5,5T", "Accès interdit aux véhicules poids lourds dont le PTAC est égal à 5,5T", "Accès interdit aux véhicules de transport de marchandises dont le PTAC excède 5,5T"], answer: 2 },
+{ q: "Que signifie le panneau B13a ?", options: ["Accès interdit aux véhicules pesant 2,5T", "Accès interdit aux véhicules pesant sur un essieu plus de 2,5T", "Accès interdit aux véhicules pesant plus de 2,5T", "Accès interdit aux véhicules pesant sur un essieu 2,5T"], answer: 1 },
+{ q: "Le panneau B29-1 :", options: ["M'indique une signalisation de position à 500 m", "Concerne tous les véhicules à moteur roulant à plus de 60 km/h", "M'indique une voie réservée aux véhicules lents à 500 m"], answer: 2 },
+{ q: "Que m'indique le panneau B18b ?", options: ["Accès interdit aux véhicules transportant plus d'une certaine quantité de produits de nature à polluer l'eau", "Accès interdit aux véhicules transportant plus d'une certaine quantité de produits explosifs ou facilement inflammables"], answer: 0 },
+{ q: "Effectuer un transport sous le régime « TIR » permet de simplifier le contrôle de :", options: ["La police sur la route", "La douane aux frontières", "La douane sur la route"], answer: 1 },
+{ q: "Vous effectuez un transport sous convention TIR :", options: ["Toutes les portes à l'exception de celles de la cabine doivent être scellées", "Le véhicule peut circuler sans bâche sans élingues", "Les portes de la cabine doivent être scellées", "Les élingues d'attache de la bâche doivent être scellées"], answer: [0, 3] },
+{ q: "La mention TIR peut être inscrite sur le véhicule pour un transport :", options: ["Local", "International", "Inter urbain"], answer: 1 },
+{ q: "Le poids total autorisé en charge (PTAC) est inscrit sur :", options: ["La carte grise", "La plaque de tare", "La vignette fiscale", "La quittance de la douane", "La plaque du constructeur"], answer: [0, 1, 4] },
+{ q: "On appelle transports « exceptionnels » ceux dont les dimensions ou le poids du chargement dépassent les limites fixées par :", options: ["La préfecture", "La Direction Générale des Transports Terrestres", "Le code de la route", "Le ministère des transports"], answer: 2 },
+{ q: "Quels sont les renseignements qu'on peut retrouver sur la plaque de tare ou de surface ?", options: ["Le poids à vide", "Le poids total autorisé en charge", "Le poids total roulant autorisé", "La surface"], answer: [0, 1, 2, 3] },
+{ q: "Pour tourner à droite sur une chaussée à sens unique je dois :", options: ["Serrer ma droite", "Serrer ma gauche", "Me déporter au milieu de la chaussée"], answer: 1 },
+{ q: "Pour tourner à droite, je dois :", options: ["Accélérer", "Mettre le clignotant à droite", "Ralentir"], answer: [1, 2] },
+{ q: "Pour tourner à droite sur une chaussée à double sens, je dois :", options: ["Serrer ma droite", "Me déporter au milieu", "Serrer ma gauche"], answer: [1, 2] },
+{ q: "Pour tourner à gauche sur une chaussée à double sens, je dois :", options: ["Mettre le clignotant à gauche, céder le passage à droite", "Ralentir et serrer la gauche", "Tourner sans respecter la priorité à droite"], answer: 0 },
+{ q: "Pour tourner à gauche sur une chaussée à sens unique, je dois :", options: ["Serrer ma droite et mettre le clignotant à gauche", "Respecter les règles de priorité", "Serrer ma gauche"], answer: [0, 1] },
+
+// ===================== CHAPITRE X — PERMIS DE CONDUIRE CATÉGORIE D =====================
+
+{ q: "Pour tourner à gauche sur une chaussée à double sens, je dois :", options: ["Mettre le clignotant à gauche et appliquer la priorité à droite", "Accélérer et mettre le clignotant à droite", "Ralentir et tourner à gauche seulement"], answer: 0 },
+{ q: "Pour tourner à gauche sur une chaussée à sens unique, je dois :", options: ["Serrer ma droite et mettre le clignotant à gauche", "Respecter les règles de priorité", "Serrer ma gauche"], answer: [0, 1] },
+{ q: "L'autocar est un véhicule de transport en commun de personnes destiné au :", options: ["Transport de passagers assis uniquement", "Transport de marchandises sur une longue distance", "Transport urbain", "Transport de passagers debout", "Transport de passagers assis sur une longue distance"], answer: [0, 4] },
+{ q: "L'autobus est un véhicule de transport en commun de personnes destiné au :", options: ["Transport de passagers assis uniquement", "Transport sur une longue distance", "Transport urbain", "Transport de passagers debout ou assis", "Transport de passagers assis sur une longue distance"], answer: [2, 3] },
+{ q: "Les feux de gabarit sont obligatoires sur les véhicules de largeur égale à :", options: ["2,10 m", "2,15 m", "2,20 m", "1,80 m"], answer: [0, 1, 2] },
+{ q: "Les feux d'encombrement :", options: ["Sont toujours de couleur jaune", "Sont de couleur blanche à l'avant", "Éclairent à 40 m", "Sont de couleur rouge à l'arrière"], answer: [1, 3] },
+{ q: "Quels sont les accessoires que le conducteur doit faire connaître aux passagers avant de prendre la route ?", options: ["Le livre de bord et la carte grise", "L'extincteur et la boîte de premiers secours", "La manivelle et la roue-secours", "Les triangles de pré-signalisation"], answer: 1 },
+{ q: "Quel est l'âge minimum du candidat à l'examen du permis de conduire catégorie D ?", options: ["18 ans", "20 ans", "21 ans", "25 ans"], answer: 2 },
+{ q: "Un conducteur de véhicule de transport en commun doit disposer d'une boîte de premiers secours :", options: ["Sous son siège", "Cadenassée sous son siège", "Dans le coffre à bagages", "Cadenassée dans le porte-bagages intérieur"], answer: 0 },
+{ q: "Que faire en cas d'accident d'un véhicule de transport en commun ?", options: ["Arrêter le moteur", "Faire évacuer les passagers", "Éviter la panique", "Attendre la gendarmerie avant d'évacuer les blessés"], answer: [0, 1, 2] },
+{ q: "Que faire en cas de panne d'un véhicule de transport en commun ?", options: ["Fermer le robinet de carburant", "Couper le circuit électrique", "Placer les triangles de pré-signalisation", "Alerter la gendarmerie"], answer: [0, 1, 2] },
+{ q: "Que faire en cas d'incendie d'un véhicule de transport en commun ?", options: ["Rassurer les passagers pour éviter la panique", "Chercher de l'eau pour éteindre l'incendie", "Couper le circuit électrique", "Mettre les feux de détresse", "Briser les issues de secours en utilisant le marteau pic"], answer: [0, 2, 4] },
+{ q: "Une boîte de premiers secours est :", options: ["Obligatoire dans les véhicules de transport en commun de personnes", "Conseillée dans les véhicules de transport en commun de personnes uniquement", "Obligatoire dans le cas de transport des enfants uniquement"], answer: 0 },
+{ q: "Le transport de voyageurs dans les remorques attelées à des véhicules de transport en commun est :", options: ["Autorisé", "Toléré", "Interdit"], answer: 2 },
+{ q: "En rase campagne, quelle est la vitesse maximale autorisée pour un véhicule de transport en commun pesant entre 10 et 15 tonnes ?", options: ["70 km/h", "90 km/h", "50 km/h", "60 km/h"], answer: 1 },
+{ q: "En rase campagne, quelle est la vitesse maximale autorisée pour un véhicule de transport en commun pesant entre 15 et 19 tonnes ?", options: ["60 km/h", "70 km/h", "75 km/h", "90 km/h"], answer: 2 },
+{ q: "En rase campagne, quelle est la vitesse maximale autorisée pour un véhicule de transport en commun pesant entre 19 et 26 tonnes ?", options: ["65 km/h", "60 km/h", "75 km/h", "85 km/h"], answer: 0 },
+{ q: "En rase campagne, quelle est la vitesse maximale autorisée pour un véhicule de transport en commun dont le poids est supérieur à 26 tonnes ?", options: ["85 km/h", "75 km/h", "65 km/h", "60 km/h"], answer: 3 },
+{ q: "Quelle est la durée maximale de conduite continue ?", options: ["2 h", "6 h", "4 h 30 mn", "5 h 30 mn"], answer: 2 },
+{ q: "Quelle est la durée maximale de conduite journalière ?", options: ["11 h", "9 h", "12 h 30 mn", "13 h 25 mn"], answer: 1 },
+{ q: "Les véhicules dont le PTAC dépasse 3,5T doivent être munis d'un appareil de contrôle appelé :", options: ["Éthylotest", "Totaliseur", "Chrono tachygraphe"], answer: 2 },
+{ q: "Le chrono tachygraphe permet l'enregistrement :", options: ["Des tours des roues avant", "De la vitesse du véhicule et la distance parcourue", "Du temps de conduite et de repos"], answer: [1, 2] },
+{ q: "L'intervalle de sécurité entre deux véhicules de plus de 3,5T et de plus de 7 mètres de long qui se suivent permet :", options: ["D'éviter la collision en cas de freinage brusque", "De faciliter le dépassement par les véhicules légers", "De mieux contrôler les organes de conduite"], answer: [0, 1] },
+{ q: "Sur les chaussées comportant trois (3) voies affectées à un même sens de circulation, les véhicules de plus de 3,5T et de plus de 7 mètres de long doivent normalement emprunter :", options: ["Toutes les voies", "La voie de droite", "Les deux voies les plus à gauche"], answer: 1 },
+{ q: "L'utilisation d'un véhicule de transport de marchandises pour assurer le transport en commun de personnes est :", options: ["Autorisée", "Interdite", "Facultative"], answer: 1 },
+{ q: "L'utilisation d'un véhicule de transport de marchandises pour assurer le transport en commun de personnes est :", options: ["Interdite", "Facultative", "Autorisée après homologation des aménagements"], answer: [0, 2] },
+{ q: "Que signifie le panneau B34a ?", options: ["Dépassement interdit aux camions", "Fin d'interdiction de dépasser aux véhicules de transport de marchandises de plus de 3,5T", "Interdiction de dépasser tout véhicule", "Fin d'interdiction de dépasser"], answer: 1 },
+{ q: "Que signifie le panneau B45 ?", options: ["Accès interdit aux véhicules de transport en commun de personnes", "Stationnement interdit aux véhicules de transport en commun de personnes", "Fin de voies réservées aux véhicules de transport en commun de personnes", "Arrêt interdit aux véhicules de transport en commun de personnes"], answer: 2 },
+{ q: "Que signifie le panneau B27 ?", options: ["Arrêt d'autobus", "Parking réservé aux autobus", "Voie réservée aux autobus", "Arrêt obligatoire aux autobus"], answer: 2 },
+{ q: "Un chargement dépassant de plus d'un mètre à l'arrière doit être signalé par :", options: ["Un dispositif réfléchissant rouge", "Un feu rouge visible à 150 m en cas de visibilité insuffisante", "Un chiffon flottant", "Une lanterne rouge"], answer: [0, 1, 3] },
+{ q: "Que signifie le panneau B10a ?", options: ["Accès interdit aux véhicules ou ensembles de véhicules dont la longueur dépasse 10 m", "Accès interdit uniquement aux véhicules de transport de marchandises dont la longueur dépasse 10 m", "Accès interdit uniquement aux véhicules de transport en commun de personnes dont la longueur dépasse 10 m"], answer: 0 },
+{ q: "Quelle est la vitesse maximale autorisée sur route pour automobile ?", options: ["90 km/h", "60 km/h", "130 km/h", "110 km/h ou selon la législation en vigueur dans chaque pays"], answer: [2, 3] },
+{ q: "Quelle est la vitesse maximale autorisée en agglomération ?", options: ["70 km/h", "50 km/h", "90 km/h", "100 km/h"], answer: 1 },
+{ q: "Avec quelle catégorie de permis de conduire pouvez-vous conduire un taxi ?", options: ["C", "C1", "DR (TCR)"], answer: 2 },
+{ q: "Quel est l'âge minimum du candidat au permis de conduire catégorie D ?", options: ["17 ans", "18 ans", "21 ans"], answer: 2 },
+{ q: "Quel intervalle minimal deux véhicules poids lourds longs de plus de 7 m doivent-ils respecter entre eux lorsqu'ils roulent à la même vitesse ?", options: ["20 m", "30 m", "50 m", "Rien de tout cela"], answer: 2 },
+{ q: "Avant d'aborder une descente rapide avec mon véhicule poids lourd, je dois :", options: ["Mettre le véhicule au point mort et freiner", "Rétrograder et utiliser au maximum le frein moteur", "Rester à la même vitesse"], answer: 1 },
+{ q: "Avec les véhicules poids lourds ayant pour une hauteur de 4 ou 5 m du sol, chargement compris, je dois :", options: ["Circuler sans aucune précaution", "Circuler en jetant des coups d'œil sur les installations et passer", "M'assurer que je peux passer sans causer des dommages aux ouvrages d'art et aux installations aériennes, situées au-dessus des voies publiques"], answer: 2 },
+{ q: "Quelle longueur maximale peut atteindre le porte-à-faux arrière d'un véhicule poids lourd ou de transport en commun ?", options: ["3,5 m", "5 m", "2 m"], answer: 0 },
+{ q: "Un véhicule de transport de marchandises peut être utilisé pour le transport en commun de personnes si le conducteur est titulaire du permis :", options: ["Catégorie D", "Catégorie C", "Catégorie C1", "Aucun permis ne l'autorise"], answer: 3 },
+{ q: "A quoi sert le ralentisseur sur un véhicule poids lourd ?", options: ["Permet de descendre à une allure réduite dans une longue et forte descente", "Permet de freiner", "Permet de s'arrêter"], answer: 0 },
+{ q: "De combien de mètres mon chargement de grande longueur peut-il dépasser l'extrémité avant du véhicule ?", options: ["1 m", "0 m", "0,5 m"], answer: 1 },
+{ q: "De combien de mètres au maximum votre chargement de grande longueur peut-il dépasser l'extrémité arrière du véhicule ?", options: ["3 m", "5 m", "3,5 m"], answer: 0 },
+{ q: "Quelle charge maximale autorisée peut supporter un essieu isolé ?", options: ["13 tonnes", "13,5 tonnes", "15 tonnes"], answer: 0 },
+{ q: "Dans la définition du poids à vide d'un véhicule on tient compte :", options: ["Du poids du véhicule, avec le réservoir rempli uniquement", "Du poids du véhicule sans le carburant, sans bâche", "Du poids du véhicule, les réservoirs remplis, avec les équipements de bord"], answer: 2 },
+{ q: "La ceinture de sécurité doit être portée par :", options: ["Le conducteur", "Les passagers d'un autocar", "Les passagers d'un autobus", "Les enfants à bord d'un véhicule de transport d'enfants"], answer: [0, 1, 3] },
+{ q: "Le coupe-batterie permet d'isoler :", options: ["Les feux de détresse", "Les feux du véhicule", "L'alimentation électrique du moteur"], answer: [0, 1, 2] },
+{ q: "Quelle est la profondeur minimale des rainures principales d'un pneumatique de poids lourd ?", options: ["1 mm", "1,5 mm", "0,5 mm"], answer: 0 },
+{ q: "A l'intérieur d'un autocar, je peux transporter :", options: ["Des sacs de maïs", "Des colis contenant des liquides inflammables", "Des colis contenant des couteaux et objets pointus", "Mon sac à main"], answer: 3 },
+{ q: "Pour le transport des bagages dans un véhicule de transport en commun, j'utilise :", options: ["La soute pour tous les bagages", "La remorque pour le transport des combustibles inflammables", "Le porte-bagage de l'intérieur pour les colis légers", "Le porte-bagage du dessus du toit pour les bagages légers"], answer: [0, 2, 3] },
+{ q: "J'utilise les feux de détresse d'un véhicule de transport en commun d'enfants :", options: ["Lors de la montée et de la descente des enfants", "Lors de l'arrêt du véhicule", "Pour le transport d'enfants en excursion", "Pour signaler la présence à bord des enfants en fête"], answer: [0, 1] },
+{ q: "A partir de 55 ans, quelle est la périodicité des visites médicales pour un conducteur de transport en commun ?", options: ["1 an", "2 ans", "5 ans"], answer: 0 },
+{ q: "Quelle est la périodicité des visites médicales pour un conducteur de transport en commun dont l'âge est compris entre 45 ans et 55 ans ?", options: ["1 an", "2 ans", "3 ans", "5 ans"], answer: 1 },
+{ q: "Quelle est la période des visites médicales pour un conducteur de transport en commun de moins de 45 ans ?", options: ["1 an", "2 ans", "3 ans", "5 ans"], answer: 3 },
+{ q: "Pour le calcul du nombre de personnes transportées, un enfant compte pour une demi-personne s'il est âgé de :", options: ["Moins de 10 ans", "Moins de 12 ans", "Moins de 14 ans", "Rien de tout ce qui précède"], answer: 3 },
+{ q: "Sur une pente, quel est le véhicule qui doit s'arrêter à temps à cause d'un croisement difficile ?", options: ["Le véhicule montant", "Le véhicule descendant", "Le véhicule qui le désire"], answer: 1 },
+{ q: "En agglomération, quel est le véhicule qui doit s'arrêter à temps à cause d'un croisement difficile ?", options: ["L'autobus", "Le camion", "Le véhicule qui le désire"], answer: 1 },
+{ q: "Sur une pente, quel est le véhicule qui doit faire la marche arrière à cause d'un croisement difficile ?", options: ["L'autobus", "Le véhicule qui le désire", "Le camion"], answer: 2 },
+{ q: "Pour tourner à droite sur une route à double sens, je dois :", options: ["Serrer ma droite", "Serrer ma gauche", "Me déporter au milieu"], answer: 2 },
+{ q: "Pour tourner à droite, je dois :", options: ["Accélérer", "Mettre le clignotant à droite", "Ralentir"], answer: [1, 2] },
+{ q: "Pour tourner à gauche sur une chaussée à double sens, je dois :", options: ["Serrer ma droite", "Me déporter au milieu", "Serrer ma gauche"], answer: 1 },
+
+// ===================== CHAPITRE XI — ÉQUIPEMENT, ENTRETIEN, DOCUMENTS ADMINISTRATIFS =====================
+
+{ q: "Lequel des quatre temps ci-après correspond au temps utile ou au temps moteur ?", options: ["Échappement", "Admission", "Explosion", "Compression"], answer: 2 },
+{ q: "Donnez la position des soupapes à l'explosion :", options: ["Les soupapes s'ouvrent", "Les deux soupapes sont fermées", "Les soupapes d'admission et d'échappement sont ouvertes"], answer: 1 },
+{ q: "Donnez la position du piston à l'explosion :", options: ["Le piston monte", "Le piston descend", "Le piston est sur place"], answer: 1 },
+{ q: "Quel est le rôle du carburateur ?", options: ["Le carburateur fournit du carburant", "Le carburateur fait tourner le moteur", "Le carburateur produit un mélange gazeux"], answer: 2 },
+{ q: "Quel est le rôle de la batterie ?", options: ["La batterie génère le courant", "La batterie fournit du courant à l'alternateur", "La batterie accumule le courant", "La batterie fournit l'énergie nécessaire au démarrage du moteur"], answer: [2, 3] },
+{ q: "Quel est le rôle du radiateur ?", options: ["Le radiateur conserve la chaleur du moteur", "Le radiateur aère le moteur", "Le radiateur contribue au refroidissement du moteur", "Le radiateur fait tourner le ventilateur"], answer: 2 },
+{ q: "Entre quels organes du moteur se situe la pompe à essence ?", options: ["Le radiateur et la pompe à eau", "Le réservoir et le carburateur", "Le filtre à air et le carburateur"], answer: 1 },
+{ q: "Quel est le rôle de la bobine ?", options: ["La bobine transforme le courant primaire de la batterie en courant secondaire", "La bobine réduit l'intensité électrique", "La bobine régularise le courant"], answer: 0 },
+{ q: "Quel est le rôle de l'allumeur ?", options: ["L'allumeur distribue du courant aux bougies", "L'allumeur fournit du courant au démarreur", "L'allumeur absorbe l'étincelle des bougies"], answer: 0 },
+{ q: "Quel est le circuit d'allumage d'un moteur à essence ?", options: ["Batterie – bobine – allumeur – bougies", "Démarreur – allumeur – batterie", "Allumeur – bobine – vis platinée"], answer: 0 },
+{ q: "De quels éléments le moteur tire-t-il sa force ?", options: ["Essence – air – courant électrique", "Air – essence", "Courant électrique – eau – essence"], answer: 0 },
+{ q: "Quels dégâts peut provoquer l'échauffement excessif du moteur ?", options: ["Joint de culasse brûlé", "Décalage du moteur", "Culasse bombée", "Batterie déchargée"], answer: [0, 2] },
+{ q: "Citer les feux obligatoires à l'arrière d'un véhicule de tourisme :", options: ["Deux feux de route – deux feux de croisement – deux feux indicateurs de changement de direction – deux feux de position – deux feux stop", "Deux feux de position – deux clignotants – deux feux stop – deux cataphotes – feu plaque d'immatriculation", "Deux feux de position – deux clignotants – feu plaque d'immatriculation – deux feux stop – deux cataphotes – deux feux antibrouillard – deux feux de recul"], answer: 1 },
+{ q: "Il est dangereux d'utiliser des pneumatiques usés parce qu'ils assurent :", options: ["Une bonne adhérence", "Une mauvaise adhérence", "Une conduite aisée"], answer: 1 },
+{ q: "Le véhicule de tourisme possède combien de sortes de freins ?", options: ["Quatre sortes", "Deux sortes", "Trois sortes"], answer: 2 },
+{ q: "Le lit nacelle est un dispositif qui permet de transporter dans le véhicule les enfants de :", options: ["1 à 6 mois uniquement", "0 à 9 mois", "2 à 10 mois", "3 à 20 mois"], answer: 1 },
+{ q: "Le siège homologué (baquet, harnais, réceptacle) sert à transporter dans le véhicule les enfants de :", options: ["3 à 4 mois", "4 à 5 mois", "6 à 8 mois", "9 mois à 4 ans"], answer: 3 },
+{ q: "Quels dégâts peut provoquer le manque d'huile à moteur ?", options: ["Bielles coulées", "Moteur bloqué", "Moteur tournant en sous-régime", "Éclatement du disque d'embrayage"], answer: [0, 1] },
+{ q: "Quelle anomalie occasionne l'éclatement d'une durit à eau ?", options: ["Le refroidissement du moteur", "L'emballement du moteur", "L'échauffement du moteur"], answer: 2 },
+{ q: "A quel ennui vous expose la rupture de la courroie d'alternateur ?", options: ["Le circuit de charge interrompu", "La charge excessive", "La charge suffisante"], answer: 0 },
+{ q: "Combien de pompes permettent le bon fonctionnement d'un moteur à essence ?", options: ["2 pompes", "3 pompes", "4 pompes", "5 pompes"], answer: 1 },
+{ q: "Quelles sont les pompes qui contribuent au bon fonctionnement d'un moteur à essence ?", options: ["Pompe à essence", "Pompe à huile", "Pompe à air", "Pompe à eau"], answer: [0, 1, 3] },
+{ q: "Avec mon feu d'éclairage, la plaque minéralogique doit être lisible à une distance de :", options: ["50 m", "20 m", "30 m"], answer: 1 },
+{ q: "Par temps de brouillard, tout conducteur de véhicule circulant sur une route doit obligatoirement allumer :", options: ["Les feux de position", "Les feux de route", "Les feux de croisement"], answer: [0, 2] },
+{ q: "Par temps de forte pluie, tout conducteur de véhicule circulant sur une route doit obligatoirement allumer :", options: ["Les feux de position", "Les feux de route", "Les feux de croisement"], answer: [0, 2] },
+{ q: "Quand vérifie-t-on le niveau d'huile dans le moteur ?", options: ["Toutes les semaines", "Tous les mois", "Tous les mille kilomètres", "Tous les jours"], answer: 3 },
+{ q: "Quand vérifie-t-on le niveau de l'eau dans le radiateur ?", options: ["Toutes les semaines", "Tous les jours", "Tous les mille kilomètres", "Seulement quand le moteur commence à se chauffer"], answer: 1 },
+{ q: "Pour compléter le liquide de la batterie, j'utilise :", options: ["L'eau de pluie", "L'eau de mer", "L'eau distillée", "L'eau du robinet"], answer: 2 },
+{ q: "Sur un véhicule, où trouve-t-on l'instrument qui indique la température de l'eau ?", options: ["Dans le moteur", "Sur le radiateur", "Au tableau de bord", "Sur le filtre à air"], answer: 2 },
+{ q: "Sur un véhicule, où trouve-t-on l'instrument qui indique la pression de l'huile à moteur ?", options: ["Dans le moteur", "Sur le tableau de bord", "Sur le carter"], answer: 1 },
+{ q: "Le moteur de votre véhicule roulant normalement s'éteint, de quoi peut provenir la panne ?", options: ["De l'insuffisance d'huile à moteur", "De l'insuffisance d'eau dans le radiateur", "De la faiblesse de la batterie", "Du manque de carburant"], answer: 3 },
+{ q: "La batterie montée sur le véhicule après une charge correcte ne démarre pas le moteur. Quelle peut être la cause ?", options: ["Le manque d'eau sur la batterie", "Les cosses mal serrées sur les bornes", "Le manque de carburant", "La défectuosité de l'alternateur"], answer: 1 },
+{ q: "L'eau du radiateur bouillonne, que doit-on faire ?", options: ["Arrêter le moteur et mettre de l'eau dans le radiateur", "Poursuivre sa route", "Arrêter le moteur, le laisser se refroidir, mettre de l'eau et consulter après un garagiste", "Arrêter le véhicule, ouvrir le radiateur pour laisser dégager la chaleur"], answer: 2 },
+{ q: "Quelles sont les pièces administratives obligatoires d'un véhicule automobile et de son conducteur ?", options: ["La carte grise, le certificat d'assurance, la vignette de l'année en cours, la visite technique, le permis de conduire", "L'attestation de réglage phares et le papier d'achat, sans permis de conduire", "La quittance de la douane et l'attestation de réglage phares uniquement"], answer: 0 },
+{ q: "Un véhicule de tourisme possède combien de roues ?", options: ["Quatre", "Cinq", "Six", "Sept"], answer: 1 },
+{ q: "Une automobile est autorisée à circuler :", options: ["Sans plaque d'immatriculation, avec assurance", "Avec la plaque d'immatriculation portant le numéro du châssis", "Avec la plaque d'immatriculation homologuée par le service chargé des transports"], answer: 2 },
+{ q: "Quand utilise-t-on l'essuie-glace ?", options: ["Par temps de pluie", "Quand le pare-brise est sale", "Quand il fait sombre"], answer: [0, 1] },
+{ q: "Les feux de route servent à éclairer jusqu'à :", options: ["100 m environ", "30 m environ", "150 m et au-delà"], answer: 0 },
+{ q: "Quels feux utilisez-vous la nuit, quand vous êtes derrière un autre usager à faible distance sur une route mal éclairée ?", options: ["Les feux de route", "Les feux de croisement", "Les feux de position"], answer: 1 },
+{ q: "Quels feux utilisez-vous en stationnement en bordure d'une route mal éclairée ?", options: ["Les feux de détresse", "Les feux de croisement", "Les feux de position"], answer: 2 },
+{ q: "J'utilise mes feux de détresse pour :", options: ["Indiquer que je vais tout droit", "Faire marche arrière", "Indiquer que je suis en panne", "Indiquer que je suis le dernier d'un convoi", "Indiquer que je suis pressé"], answer: [2, 3] },
+{ q: "Sans feux arrière la nuit :", options: ["Je peux circuler sur une chaussée à double sens", "Je peux circuler sur une chaussée à sens unique", "Je ne peux pas circuler"], answer: 2 },
+{ q: "A quoi sert le triangle de pré-signalisation ?", options: ["A signaler la position d'un véhicule en panne sur la chaussée", "A signaler la présence d'un véhicule en stationnement", "A signaler un arrêt"], answer: 0 },
+{ q: "A quoi sert l'extincteur ?", options: ["A éteindre un début d'incendie sur un véhicule", "A secourir un blessé", "A refroidir le moteur"], answer: 0 },
+{ q: "La roue secours :", options: ["Est obligatoire pour tout déplacement", "N'est pas obligatoire lorsqu'on circule en ville", "Est obligatoire seulement pour les longs voyages"], answer: 0 },
+{ q: "Que faut-il faire pour éviter de polluer l'environnement par le gaz d'échappement de votre moteur ?", options: ["Bien régler le moteur de mon véhicule", "Utiliser un carburant de bonne qualité", "Rouler à vive allure"], answer: [0, 1] },
+{ q: "Pour vidanger le moteur d'un véhicule bien entretenu, il faut tenir compte :", options: ["Du kilométrage parcouru", "De la vitesse élevée", "Du nombre de voyages effectués"], answer: 0 },
+{ q: "La vérification de l'huile à frein se fait :", options: ["Tous les jours", "Tous les mois", "Au bon vouloir du conducteur"], answer: 0 },
+{ q: "Qu'est-ce qui peut causer l'incendie sur un véhicule automobile ?", options: ["La chaleur ambiante", "Un court-circuit", "Des gouttes d'eau dans le moteur en marche", "Fuite d'essence", "Les flammes de la tuyauterie d'échappement"], answer: [1, 3, 4] },
+{ q: "Quelles sont les causes d'usure prématurée des pneumatiques ?", options: ["La surcharge et le défaut de gonflage", "Le démarrage violent et les coups de trottoir", "L'utilisation des pneumatiques sur chaussées mouillées"], answer: [0, 1] },
+{ q: "Le rétroviseur extérieur côté droit est obligatoire sur :", options: ["Tous véhicules", "Les véhicules de transport de marchandises", "Les véhicules de transport en commun de personnes", "Les machines agricoles"], answer: [1, 2] },
+{ q: "Les dispositifs réfléchissants placés à l'arrière du véhicule sont :", options: ["Facultatifs", "Obligatoires", "De couleur rouge", "Visibles la nuit par temps clair à une distance de 100 m quand ils sont éclairés par les feux de route"], answer: [1, 2, 3] },
+{ q: "Un chargement dépassant de plus d'un mètre à l'arrière d'un véhicule doit être signalé par :", options: ["Un dispositif réfléchissant rouge", "Un feu rouge visible à 150 m en cas de visibilité insuffisante", "Un chiffon flottant", "Une lanterne rouge"], answer: [0, 1, 3] },
+{ q: "A quelle distance les feux de route éclairent-ils, par temps normal ?", options: ["50 m environ", "100 m environ", "150 m environ"], answer: 1 },
+{ q: "Quels feux utilisez-vous lorsque votre véhicule suit un autre usager à faible distance ?", options: ["Feux de route", "Feux de croisement", "Feux de détresse"], answer: 1 },
+{ q: "Le moteur au régime élevé fait des à-coups, à quoi cela peut-il être dû ?", options: ["La batterie mal chargée", "Les bougies défectueuses", "L'allumeur déréglé", "La vis platinée déréglée"], answer: [1, 2, 3] },
+{ q: "Un véhicule automobile est équipé de combien de rétroviseurs obligatoires ?", options: ["Un", "Deux", "Trois"], answer: 1 },
+{ q: "Que faut-il en cas de crevaison ?", options: ["Un cric", "Une roue secours", "Un extincteur"], answer: [0, 1] },
+{ q: "A quoi sert la ceinture de sécurité ?", options: ["Pour régler le siège", "Permet de maintenir les bagages en sécurité", "Maintient efficacement le conducteur et les passagers sur leur siège en cas d'accident, de collision ou de freinage brusque"], answer: 2 },
+{ q: "Quel est le circuit d'alimentation en carburant d'un moteur à essence ?", options: ["Réservoir – pompe à essence – carburateur", "Réservoir – carburateur – pompe à essence", "Pompe à essence – réservoir – carburateur", "Réservoir – pompe à essence – pompe à injection – injecteurs"], answer: [0, 3] },
+{ q: "En cas de début d'incendie sur véhicule :", options: ["Je jette de l'eau sur les flammes", "Je jette du sable ou de la terre à la base des flammes", "J'utilise une couverture pour étouffer le feu", "J'utilise l'extincteur"], answer: [1, 3] },
+{ q: "Sur mon véhicule, en roulant je peux contrôler visuellement :", options: ["Certains niveaux", "L'état des pneumatiques", "L'état des courroies"], answer: 0 },
+{ q: "En cas de crevaison, pour changer la roue :", options: ["Je cale le véhicule et sors la roue secours, la clé de roue et le cric", "Je desserre les écrous", "Je débloque et libère la roue crevée", "Je mets la roue secours et resserre les écrous", "Je soulève le véhicule du côté de la crevaison"], answer: [0, 1, 2, 3, 4] },
+{ q: "Quelle pièce officielle permet d'identifier le propriétaire d'un véhicule ?", options: ["La police d'assurance", "La carte grise", "L'attestation de réglage phare"], answer: 1 },
+{ q: "Pour un véhicule léger de transport privé, la visite technique doit s'effectuer :", options: ["Tous les ans", "Tous les six mois", "Tous les trois mois"], answer: 0 },
+{ q: "A quoi sert le contrat d'assurance au tiers ?", options: ["A couvrir les dégâts causés lors d'un accident au véhicule assuré", "A couvrir les surcharges", "A couvrir les dégâts causés à autrui"], answer: 2 },
+{ q: "Le contrat d'assurance est valable :", options: ["Sans la visite technique", "Avec la visite technique", "Avec la vignette"], answer: 1 },
+{ q: "La vignette fiscale est une pièce obligatoire :", options: ["Pour tout véhicule", "Pour les véhicules de transport en commun de personnes", "Pour les véhicules de transport de marchandises", "Pour les véhicules administratifs"], answer: [1, 2] },
+{ q: "Lorsque les pneus sont neufs :", options: ["La tenue de route est améliorée", "Le risque d'aquaplaning est écarté", "L'adhérence est bonne", "Le risque de dérapage augmente"], answer: [0, 2] },
+{ q: "L'absence de bouchon sur la valve d'une roue :", options: ["Est dangereuse", "Peut diminuer l'étanchéité de la roue", "Permet de libérer une surpression d'air", "Permet d'augmenter l'air dans la roue"], answer: 1 },
+{ q: "Il n'est pas obligatoire de mettre la ceinture de sécurité :", options: ["Si le véhicule est équipé de coussin de gonflage", "Si la conduite s'effectue en agglomération", "Si la conduite s'effectue sur un long trajet", "Rien de tout ce qui précède"], answer: 3 },
+{ q: "La profondeur des rainures principales d'un pneu doit être au minimum de :", options: ["0,6 mm", "1,6 mm", "1,5 mm"], answer: 1 },
+{ q: "La portée minimale des feux doit être de :", options: ["30 m pour les feux de croisement", "45 m pour les feux de croisement", "100 m pour les feux de route", "150 m pour les feux de route"], answer: [0, 2] },
+{ q: "Sur un même itinéraire et dans des conditions identiques, une voiture qui roule à 90 km/h consomme, à 130 km/h :", options: ["La même quantité d'essence", "Moins d'essence", "Plus d'essence"], answer: 2 },
+{ q: "La roue motrice est celle qui :", options: ["A un moteur", "Est reliée au moteur et entraîne le véhicule", "Tire le moteur", "Oriente le véhicule"], answer: 1 },
+{ q: "Les roues motrices d'un véhicule peuvent être :", options: ["A l'avant", "A l'arrière", "A l'avant et à l'arrière", "Sur le porte-à-faux"], answer: [0, 1, 2] },
+{ q: "Quand dit-on qu'un véhicule est à traction avant ?", options: ["Si les roues motrices sont à l'avant", "Si les roues motrices sont à l'arrière", "Si le moteur est à l'avant", "Si le moteur est à l'arrière"], answer: 0 },
+{ q: "Quand dit-on qu'un véhicule est à propulsion arrière ?", options: ["Si les roues motrices sont à l'avant", "Si les roues motrices sont à l'arrière", "Si le moteur est à l'avant", "Si le moteur est à l'arrière"], answer: 1 },
+{ q: "Les roues directrices d'une voiture sont placées :", options: ["A l'avant", "A l'arrière", "A l'avant et à l'arrière", "Rien de tout ce qui précède"], answer: 0 },
+{ q: "Par temps de brouillard, je peux allumer les feux :", options: ["De croisement", "De route", "De brouillard avant", "De brouillard arrière"], answer: [0, 2, 3] },
+{ q: "Des amortisseurs usés :", options: ["Allongent la distance de freinage", "Diminuent la distance de freinage", "Compliquent la tenue de route"], answer: [0, 2] },
+{ q: "Dans une station-service, l'extincteur est utilisable par :", options: ["Le technicien préposé", "Le pompiste", "Le gardien", "N'importe quel client", "Tout usager capable de s'en servir"], answer: [0, 1, 2, 4] },
+{ q: "Lors d'un contrôle routier, je dois présenter :", options: ["Mon permis de conduire", "La carte grise", "Ma carte d'identité", "Ma carte de groupe sanguin", "L'assurance et la visite technique"], answer: [0, 1, 4] },
+{ q: "La consommation du carburant augmente :", options: ["Si le chargement fait cabrer l'avant du véhicule", "Si je charge des bagages sur le toit", "Si je tracte une caravane", "Rien de tout ce qui précède"], answer: [0, 1, 2] },
+{ q: "Quel effet un sous-gonflage peut-il avoir sur la durée de vie de la carcasse du pneumatique ?", options: ["Usure plus rapide", "La carcasse se fatigue plus vite", "Détérioration des composantes internes du pneu", "Usure de la partie centrale"], answer: [0, 1, 2] },
+{ q: "Pour un bon fonctionnement de mes pneus, je dois régulièrement vérifier :", options: ["La pression à froid", "La présence du bouchon de valve", "Les écrous de fixation des roues", "Le compteur kilométrique"], answer: [0, 1, 2] },
+{ q: "Quelle incidence un sous-gonflage peut-il avoir sur le comportement d'un véhicule ?", options: ["Tenue de route réduite", "Instabilité", "Risque de renversement", "Réduction de la consommation de carburant"], answer: [0, 1, 2] },
+{ q: "Pour diminuer les risques en cas de verglas, je peux équiper mon véhicule :", options: ["De pneus spéciaux", "De pneus à crampons", "De chaînes"], answer: [0, 1] },
+{ q: "Par temps de pluie, pour voir et être vu, j'allume :", options: ["Mes feux de route", "Mes feux de croisement", "Mes feux de brouillard avant", "Mon ou mes feux de brouillard arrière"], answer: [1, 2, 3] },
+{ q: "Pour éviter la buée sur les vitres, je peux utiliser :", options: ["La ventilation et le chauffage", "Le dégivreur arrière", "Les essuie-glaces", "Le lave-glace"], answer: [0, 1] },
+{ q: "Les éléments qui permettent une meilleure visibilité sont :", options: ["Le lave-glace", "Les essuie-glaces", "Le pare-soleil", "Les déflecteurs de vitres"], answer: [0, 1, 2] },
+{ q: "Avant un voyage, je peux obtenir des renseignements sur la circulation par :", options: ["Le téléphone", "La radio", "La carte routière"], answer: 2 },
+{ q: "Les véhicules prioritaires sont équipés de feux :", options: ["Tournants bleus", "Clignotants bleus", "Tournants jaunes"], answer: 0 },
+{ q: "Lorsqu'un voyant s'allume au tableau de bord en circulation, il s'agit :", options: ["D'un indice informel", "D'un indice formel"], answer: 1 },
+{ q: "Les indices inquiétants relatifs à mon véhicule peuvent se caractériser :", options: ["Par une odeur", "Par un bruit", "Par un voyant bleu sur le tableau de bord"], answer: [0, 1] },
+{ q: "L'utilisation de la climatisation du véhicule a une influence :", options: ["Sur le confort", "Sur la sécurité", "Sur la consommation"], answer: [0, 2] },
+{ q: "Sur mon pare-brise, je dois apposer :", options: ["La vignette fiscale en haut, à droite", "La vignette fiscale en bas, à droite", "Le certificat d'assurance en bas, à droite", "Le certificat d'assurance en bas à gauche"], answer: [0, 2] },
+{ q: "Mon assureur peut refuser de m'indemniser en totalité ou partiellement si :", options: ["Ma responsabilité est engagée", "Je ne portais pas la ceinture", "Je conduisais avec une alcoolémie positive", "Je ne portais pas les lunettes mentionnées sur mon permis"], answer: [0, 1, 2, 3] },
+{ q: "Une différence importante de profondeur des rainures des pneus sur un même essieu a :", options: ["Une influence sur la tenue de route", "N'a pas d'influence sur la tenue de route", "Une influence sur la suspension"], answer: [0, 2] },
+{ q: "Sur le même essieu d'un véhicule :", options: ["Il n'est pas recommandé de monter des pneus de structures différentes", "Il n'est pas recommandé de monter des pneus de marques différentes", "Il est recommandé de monter des pneus de structures différentes", "Il est recommandé de monter des pneus de marques différentes"], answer: [0, 1] },
+{ q: "La suspension a pour rôle d'assurer :", options: ["Le contact permanent du pneu avec la route", "La stabilité du véhicule", "Le confort uniquement", "La sécurité"], answer: [0, 1, 3] },
+{ q: "L'état des pneumatiques peut se contrôler :", options: ["Visuellement avant d'utiliser le véhicule", "Au moins une fois par mois avec un manomètre pour la pression", "Uniquement lors des opérations d'entretien prescrites par le constructeur"], answer: [0, 1] },
+{ q: "Que faire si le niveau du liquide de frein baisse régulièrement dans le réservoir ?", options: ["Je rajoute simplement du liquide", "Je fais immédiatement vérifier mon véhicule", "J'attends la prochaine révision"], answer: 1 },
+{ q: "La fréquence des opérations d'entretien :", options: ["Est indiquée sur le carnet d'entretien du véhicule", "Varie selon les véhicules", "Est fixée par le conducteur"], answer: [0, 1] },
+{ q: "Sur une batterie dite sans entretien, je vérifie :", options: ["Le niveau d'eau par transparence", "L'état des cosses", "Rien, puisqu'elle est sans entretien"], answer: 1 },
+{ q: "Si le niveau de liquide de refroidissement est très bas :", options: ["C'est dû à l'évaporation", "Je rajoute de l'eau simplement", "Je fais vérifier l'étanchéité du circuit"], answer: 2 },
+{ q: "Je fais vérifier rapidement mon véhicule si je constate une baisse importante du niveau :", options: ["De l'huile à moteur", "Du liquide de frein", "Du liquide de refroidissement", "Du liquide de lave-glace"], answer: [0, 1, 2] },
+{ q: "Il est recommandé d'avoir à bord du véhicule :", options: ["Une lampe de poche", "Un tournevis", "Un chiffon", "Un bidon d'essence"], answer: [0, 1, 2] },
+{ q: "Il est préférable, pour remorquer un véhicule :", options: ["D'utiliser une corde solide", "D'utiliser une barre fixée aux points d'ancrage prévus"], answer: 1 },
+{ q: "La position du point mort concerne :", options: ["Le levier de vitesse lorsqu'aucune vitesse n'est enclenchée", "L'embrayage quand le moteur commence à entraîner les roues", "La boîte de vitesse en prise directe"], answer: 0 },
+{ q: "Pour que le moteur entraîne les roues alors qu'une vitesse est enclenchée, il faut :", options: ["Embrayer", "Débrayer"], answer: 0 },
+{ q: "En marche normale, l'embrayage sert à :", options: ["Passer les vitesses", "Démarrer le véhicule", "Ralentir le véhicule", "Exécuter une manœuvre"], answer: 0 },
+{ q: "Le « point de patinage », c'est lorsque :", options: ["Le moteur transmet toute son énergie aux roues", "Le moteur commence à entraîner les roues", "Le moteur tourne sans entraîner les roues"], answer: 1 },
+{ q: "L'embrayage a pour rôle :", options: ["D'assurer la liaison progressive entre le moteur et les roues", "De faire tourner le moteur plus vite", "D'arrêter le véhicule"], answer: 0 },
+{ q: "Un véhicule comporte obligatoirement :", options: ["Un indicateur de vitesse", "Un compte-tours", "Un compteur kilométrique", "Une jauge de carburant"], answer: [0, 2, 3] },
+{ q: "On appelle « angle mort » la partie de l'environnement que le conducteur :", options: ["Voit dans ses rétroviseurs", "Voit directement au travers de son pare-brise", "Ne peut voir au travers du pare-brise ou dans ses rétroviseurs"], answer: 2 },
+{ q: "L'importance de « l'angle mort » varie selon :", options: ["Le type de véhicule", "Le nombre de vitres latérales", "Le réglage des rétroviseurs"], answer: [0, 2] },
+{ q: "Le frein moteur intervient dès qu'on :", options: ["Lâche l'accélérateur", "Appuie sur la pédale de frein"], answer: 0 },
+{ q: "Le conducteur doit intervenir le plus rapidement possible si un voyant du tableau de bord (batterie, température, pression d'huile, frein) s'allume :", options: ["En circulation", "Alors qu'il met le contact"], answer: 0 },
+{ q: "Quelles sont les précautions à prendre en cas de crevaison ?", options: ["Baliser les lieux", "Caler le véhicule", "Faire appel à son mécanicien"], answer: [0, 1] },
+{ q: "Quel type d'extincteur faut-il recommander pour combattre un feu d'hydrocarbure ?", options: ["Extincteur à poudre", "Extincteur à eau", "Extincteur à mousse ou CO2", "Extincteur polyvalent ABC"], answer: [0, 2, 3] },
+{ q: "Je fais contrôler le système de freinage :", options: ["Si la voiture se déporte à droite ou à gauche au freinage", "Si la course de la pédale est trop longue", "Si j'entends des grincements au freinage", "Si mes feux de position ne s'allument pas au freinage"], answer: [0, 1, 2] },
+{ q: "Pour réduire la consommation du carburant il faut :", options: ["Avoir le système d'allumage bien réglé", "Rouler avec porte-bagages chargé", "Rouler avec des pneumatiques bien gonflés", "Adapter la vitesse au régime du moteur"], answer: [0, 2, 3] },
+{ q: "La pré-signalisation doit être indiquée par :", options: ["Les plaques d'immatriculation", "Les feux de croisement", "Le signal de détresse", "Le triangle de pré-signalisation"], answer: [2, 3] },
+{ q: "Quels sont les feux obligatoires à l'avant d'un véhicule de tourisme :", options: ["Deux feux de route – deux feux de croisement – deux feux stop – deux feux de position – deux indicateurs de changement de direction – deux feux antibrouillard", "Deux phares – deux codes – deux clignotants – deux feux de position – feu plaque d'immatriculation – deux feux antibrouillard", "Deux feux de route – deux indicateurs de changement de direction – deux feux de croisement – deux feux de position"], answer: 2 },
+{ q: "Quels sont les organes essentiels pour le fonctionnement d'un moteur à 4 temps ?", options: ["La batterie – le carburateur – l'alternateur", "Les phares – le pneu – les feux de croisement", "La boîte régulatrice – l'allumeur et la bougie", "Les feux stop – le rétroviseur – le klaxon"], answer: [0, 2] },
+{ q: "Quels sont, dans l'ordre, les 4 temps d'un moteur à essence ?", options: ["Admission – compression – échappement – explosion", "Compression – admission – explosion – échappement", "Admission – compression – explosion – échappement"], answer: 2 },
+{ q: "Ce panonceau concerne les véhicules tractant une remorque d'un PTAC de :", options: ["Plus de 250 kilogrammes", "240 kilogrammes", "80 kilogrammes"], answer: 0 },
+{ q: "Les feux de stop s'allument lorsque :", options: ["Je rétrograde", "Je freine avec la pédale", "J'enclenche la marche arrière", "Je change de direction"], answer: 1 },
+{ q: "Les éléments qui font partie de la suspension d'un véhicule automobile sont :", options: ["Les ressorts et la transmission", "Les pneus", "Les amortisseurs et la boîte de vitesses", "Les ressorts et les amortisseurs"], answer: 3 },
 ];

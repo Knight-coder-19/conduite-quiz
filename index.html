@@ -395,7 +395,7 @@
     <div class="panel-body mode-grid">
       <div class="mode-card">
         <h2>Quiz complet</h2>
-        <p class="muted">Toutes les questions de la banque, sans limite de temps. Idéal pour réviser chapitre par chapitre.</p>
+        <p class="muted">Toutes les questions de la banque. Temps total : 1h30 pour l'ensemble du quiz, navigation libre entre les questions. Un rafraîchissement de la page ne réinitialise pas votre tentative en cours.</p>
         <button class="btn-secondary btn-block" id="startFull">Commencer le quiz complet</button>
       </div>
       <div class="mode-card">
@@ -425,10 +425,10 @@
     </div>
     <div class="quiz-side">
       <div class="panel hidden" id="timerPanel">
-        <div class="panel-header">Temps pour cette question</div>
+        <div class="panel-header" id="timerLabel">Temps pour cette question</div>
         <div class="panel-body" style="text-align:center;">
           <span class="timer-badge" id="timerText" style="font-size:1.6rem;">--</span>
-          <span style="font-size:0.85rem; color: var(--muted);"> s</span>
+          <span style="font-size:0.85rem; color: var(--muted);" id="timerSuffix"></span>
         </div>
       </div>
       <div class="panel" style="margin-top:0.9rem;">
@@ -512,9 +512,15 @@ async function tryUnlock() {
   const match = users.find(u => u.username === username && u.hash === hash);
 
   if (match) {
+    currentUsername = username;
     gateEl.classList.add("hidden");
-    modeSelectEl.classList.remove("hidden");
     document.querySelector(".avatar").textContent = username.slice(0, 2).toUpperCase();
+    const saved = loadFullState();
+    if (saved && saved.username === username && saved.mode === "full") {
+      resumeFromState(saved);
+    } else {
+      modeSelectEl.classList.remove("hidden");
+    }
   } else {
     errorEl.textContent = "Nom d'utilisateur ou mot de passe incorrect.";
     pwInput.value = "";
@@ -528,6 +534,78 @@ let current = 0;
 let quizMode = "full";
 let questionTimerInterval = null;
 let questionSecondsLeft = 0;
+let currentUsername = "";
+let quizEndTime = 0;
+let globalTimerInterval = null;
+const FULL_QUIZ_SECONDS = 90 * 60; // 1h30 pour le quiz complet
+const STORAGE_KEY = "quizSessionState";
+
+function saveFullState() {
+  if (quizMode !== "full") return;
+  const state = { username: currentUsername, mode: quizMode, order, userAnswers, current, endTime: quizEndTime };
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+}
+
+function loadFullState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function clearFullState() {
+  localStorage.removeItem(STORAGE_KEY);
+}
+
+function resumeFromState(saved) {
+  quizMode = saved.mode;
+  order = saved.order;
+  userAnswers = saved.userAnswers;
+  current = saved.current;
+  quizEndTime = saved.endTime;
+
+  modeSelectEl.classList.add("hidden");
+  quizEl.classList.remove("hidden");
+  summaryEl.classList.add("hidden");
+  resultEl.classList.add("hidden");
+
+  document.getElementById("timerPanel").classList.remove("hidden");
+  document.getElementById("timerLabel").textContent = "Temps restant";
+
+  buildQnavGrid();
+
+  if (Date.now() >= quizEndTime) {
+    finishQuiz();
+  } else {
+    showQuestion();
+    startGlobalTimer();
+  }
+}
+
+function startGlobalTimer() {
+  clearInterval(globalTimerInterval);
+  updateGlobalTimerDisplay();
+  globalTimerInterval = setInterval(() => {
+    updateGlobalTimerDisplay();
+    if (Date.now() >= quizEndTime) {
+      clearInterval(globalTimerInterval);
+      finishQuiz();
+    }
+  }, 1000);
+}
+
+function updateGlobalTimerDisplay() {
+  const remainingMs = Math.max(0, quizEndTime - Date.now());
+  const totalSec = Math.ceil(remainingMs / 1000);
+  const mm = Math.floor(totalSec / 60);
+  const ss = totalSec % 60;
+  const timerText = document.getElementById("timerText");
+  timerText.textContent = `${String(mm).padStart(2, "0")}:${String(ss).padStart(2, "0")}`;
+  timerText.classList.toggle("low", totalSec <= 5 * 60);
+  document.getElementById("timerSuffix").textContent = "";
+}
 
 function shuffledIndices(n) {
   const arr = Array.from({length: n}, (_, i) => i);
@@ -555,11 +633,23 @@ function startQuiz(mode) {
 
   const timerPanel = document.getElementById("timerPanel");
   clearInterval(questionTimerInterval);
-  timerPanel.classList.toggle("hidden", quizMode !== "exam");
+  clearInterval(globalTimerInterval);
+
+  if (quizMode === "exam") {
+    timerPanel.classList.remove("hidden");
+    document.getElementById("timerLabel").textContent = "Temps pour cette question";
+  } else if (quizMode === "full") {
+    timerPanel.classList.remove("hidden");
+    document.getElementById("timerLabel").textContent = "Temps restant";
+    quizEndTime = Date.now() + FULL_QUIZ_SECONDS * 1000;
+  } else {
+    timerPanel.classList.add("hidden");
+  }
 
   buildQnavGrid();
   showQuestion();
-  startQuestionTimer();
+  if (quizMode === "exam") startQuestionTimer();
+  if (quizMode === "full") { startGlobalTimer(); saveFullState(); }
 }
 
 function startQuestionTimer() {
@@ -602,7 +692,7 @@ function buildQnavGrid() {
 
 function refreshQnavGrid() {
   document.querySelectorAll(".qnav-btn").forEach((b, i) => {
-    b.classList.toggle("answered", userAnswers[i] !== null);
+    b.classList.toggle("answered", isAnswered(userAnswers[i]));
     b.classList.toggle("current", i === current);
   });
 }
@@ -610,7 +700,7 @@ function refreshQnavGrid() {
 function showQuestion() {
   const q = QUESTIONS[order[current]];
   document.getElementById("qTitle").textContent = `Question ${current + 1}`;
-  const answered = userAnswers[current] !== null;
+  const answered = isAnswered(userAnswers[current]);
   const statusEl = document.getElementById("qStatus");
   statusEl.textContent = answered ? "Répondu(e)" : "Non répondu(e)";
   statusEl.classList.toggle("answered", answered);
@@ -625,17 +715,21 @@ function showQuestion() {
     mediaEl.appendChild(imgEl);
   }
 
-  document.getElementById("questionText").textContent = q.q;
+  const isMulti = Array.isArray(q.answer);
+  document.getElementById("questionText").textContent = q.q + (isMulti ? "  (plusieurs réponses possibles)" : "");
 
   const optsEl = document.getElementById("options");
   optsEl.innerHTML = "";
+  const selected = userAnswers[current];
+  const selectedSet = isMulti ? new Set(selected || []) : null;
   q.options.forEach((opt, i) => {
     const row = document.createElement("label");
     row.className = "option-row";
-    if (userAnswers[current] === i) row.classList.add("selected");
-    row.innerHTML = `<input type="radio" name="opt" ${userAnswers[current] === i ? "checked" : ""}>
+    const isChecked = isMulti ? selectedSet.has(i) : selected === i;
+    if (isChecked) row.classList.add("selected");
+    row.innerHTML = `<input type="${isMulti ? "checkbox" : "radio"}" name="opt" ${isChecked ? "checked" : ""}>
       <span class="option-letter">${LETTERS[i]}.</span><span>${opt}</span>`;
-    row.addEventListener("click", () => selectAnswer(i));
+    row.querySelector("input").addEventListener("click", e => { e.stopPropagation(); selectAnswer(i, isMulti); });
     optsEl.appendChild(row);
   });
 
@@ -657,9 +751,31 @@ function goToNextQuestion() {
   }
 }
 
-function selectAnswer(i) {
-  userAnswers[current] = i;
+function selectAnswer(i, isMulti) {
+  if (isMulti) {
+    const cur = new Set(userAnswers[current] || []);
+    if (cur.has(i)) cur.delete(i); else cur.add(i);
+    userAnswers[current] = cur.size ? Array.from(cur).sort((a, b) => a - b) : [];
+  } else {
+    userAnswers[current] = i;
+  }
   showQuestion();
+}
+
+function isAnswerCorrect(q, ua) {
+  if (Array.isArray(q.answer)) {
+    if (!Array.isArray(ua) || ua.length === 0) return false;
+    const correctSet = new Set(q.answer);
+    const userSet = new Set(ua);
+    if (correctSet.size !== userSet.size) return false;
+    for (const v of correctSet) if (!userSet.has(v)) return false;
+    return true;
+  }
+  return ua === q.answer;
+}
+
+function isAnswered(ua) {
+  return Array.isArray(ua) ? ua.length > 0 : ua !== null;
 }
 
 document.getElementById("prevBtn").addEventListener("click", () => {
@@ -682,7 +798,7 @@ function showSummary() {
   body.innerHTML = "";
   order.forEach((_, i) => {
     const tr = document.createElement("tr");
-    const answered = userAnswers[i] !== null;
+    const answered = isAnswered(userAnswers[i]);
     tr.innerHTML = `<td><a href="#" data-i="${i}">Question ${i + 1}</a></td>
       <td style="color:${answered ? "var(--success)" : "var(--muted)"}">${answered ? "Répondu(e)" : "Non répondu(e)"}</td>`;
     body.appendChild(tr);
@@ -713,7 +829,7 @@ function finishQuiz() {
   order.forEach((qIdx, i) => {
     const q = QUESTIONS[qIdx];
     const ua = userAnswers[i];
-    const correct = ua === q.answer;
+    const correct = isAnswerCorrect(q, ua);
     if (correct) score++;
     reviews.push({ q, ua, correct, num: i + 1 });
   });
@@ -739,30 +855,36 @@ function finishQuiz() {
   reviewEl.innerHTML = "";
   reviews.forEach(r => {
     const div = document.createElement("div");
-    div.className = "review-item";
-    const yourAnswer = r.ua === null ? "Aucune réponse" : r.q.options[r.ua];
+    div.className = "review-item open";
+    const isMulti = Array.isArray(r.q.answer);
+    const correctSet = new Set(isMulti ? r.q.answer : [r.q.answer]);
+    const userSet = new Set(isMulti ? (r.ua || []) : (r.ua !== null ? [r.ua] : []));
 
     const header = document.createElement("div");
     header.className = "review-header";
+    header.style.cursor = "default";
     header.innerHTML = `<div class="review-q"><strong>Question ${r.num}.</strong> ${r.q.q}</div>
-      <svg class="review-chevron" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
       <span class="badge ${r.correct ? "ok" : "ko"}">${r.correct ? "Correct" : "Incorrect"}</span>`;
-    header.addEventListener("click", () => div.classList.toggle("open"));
 
     const answers = document.createElement("div");
     answers.className = "review-answers";
-    answers.innerHTML = `<div class="your-answer ${r.correct ? "" : "wrong"}">Votre réponse : ${yourAnswer}</div>` +
-      (r.correct ? "" : `<div class="correct-answer">Bonne réponse : ${r.q.options[r.q.answer]}</div>`);
-
-    const explanation = document.createElement("div");
-    explanation.className = "review-explanation";
-    explanation.textContent = r.q.explanation || "";
+    if (userSet.size === 0) {
+      const none = document.createElement("div");
+      none.className = "your-answer wrong";
+      none.textContent = "Aucune réponse donnée";
+      answers.appendChild(none);
+    }
+    r.q.options.forEach((opt, i) => {
+      const row = document.createElement("div");
+      row.className = "option-row";
+      if (correctSet.has(i)) row.classList.add("correct");
+      else if (userSet.has(i)) row.classList.add("incorrect");
+      row.innerHTML = `<span class="option-letter">${LETTERS[i]}.</span><span>${opt}</span>`;
+      answers.appendChild(row);
+    });
 
     div.appendChild(header);
     div.appendChild(answers);
-    div.appendChild(explanation);
     reviewEl.appendChild(div);
   });
 }
