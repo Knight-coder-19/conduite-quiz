@@ -63,18 +63,6 @@
     gap: 0.55rem;
   }
   .navbar .brand svg { width: 26px; height: 26px; flex-shrink: 0; }
-  .navbar .avatar {
-    width: 2rem;
-    height: 2rem;
-    border-radius: 50%;
-    background: var(--primary);
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.85rem;
-    font-weight: 600;
-  }
 
   /* ---- breadcrumb ---- */
   .breadcrumb {
@@ -94,49 +82,6 @@
   }
 
   .hidden { display: none !important; }
-
-  /* ---- login (gate) ---- */
-  .login-wrap {
-    display: flex;
-    justify-content: center;
-    padding-top: 4rem;
-  }
-  .login-card {
-    background: var(--card-bg);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 2.2rem 2rem;
-    max-width: 380px;
-    width: 100%;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
-    text-align: center;
-  }
-  .login-card .logo-badge {
-    width: 64px;
-    height: 64px;
-    border-radius: 16px;
-    background: linear-gradient(145deg, var(--primary), var(--primary-dark));
-    box-shadow: 0 4px 14px rgba(15, 108, 191, 0.35), inset 0 1px 0 rgba(255,255,255,0.25);
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 1.2rem;
-  }
-  .login-card .logo-badge svg { width: 28px; height: 28px; }
-  .login-card h1 { font-size: 1.25rem; margin: 0 0 0.3rem; }
-  .login-card p.muted { color: var(--muted); font-size: 0.88rem; margin-top: 0; }
-  input[type="password"], input[type="text"] {
-    width: 100%;
-    padding: 0.6rem 0.8rem;
-    font-size: 0.95rem;
-    border-radius: 4px;
-    border: 1px solid var(--border);
-    background: var(--body-bg);
-    color: var(--text);
-    margin-bottom: 0.7rem;
-  }
-  #error { color: var(--danger); font-size: 0.85rem; min-height: 1.1em; margin-bottom: 0.3rem; }
 
   button {
     font-family: inherit;
@@ -361,33 +306,12 @@
     </svg>
     Auto-École Bénin
   </div>
-  <div class="avatar">CD</div>
 </div>
 <div class="breadcrumb">
   <a href="#">Accueil</a><span class="sep">/</span><a href="#">Mes cours</a><span class="sep">/</span><a href="#">Code de la route</a><span class="sep">/</span>Quiz : Chapitres 1 &amp; 2
 </div>
 
 <div class="page">
-
-  <!-- LOGIN GATE -->
-  <div id="gate" class="login-wrap">
-    <div class="login-card">
-      <div class="logo-badge">
-        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="4" y="10.5" width="16" height="10" rx="2.2" fill="white"/>
-          <path d="M7 10.5V7.5a5 5 0 0 1 10 0v3" stroke="white" stroke-width="2.1" stroke-linecap="round"/>
-          <circle cx="12" cy="14.7" r="1.6" fill="var(--primary)"/>
-          <rect x="11.2" y="15.4" width="1.6" height="3" rx="0.8" fill="var(--primary)"/>
-        </svg>
-      </div>
-      <h1>Connexion requise</h1>
-      <p class="muted">Entrez vos identifiants pour accéder au quiz.</p>
-      <div id="error"></div>
-      <input type="text" id="username" placeholder="Nom d'utilisateur" autocomplete="username">
-      <input type="password" id="pw" placeholder="Mot de passe" autocomplete="current-password">
-      <button id="unlock" class="btn-primary btn-block">Connexion</button>
-    </div>
-  </div>
 
   <!-- MODE SELECTION -->
   <div id="modeSelect" class="hidden panel">
@@ -470,62 +394,14 @@
 
 <script src="questions.js"></script>
 <script>
-async function sha256(text) {
-  const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
-  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, "0")).join("");
-}
-
-const gateEl = document.getElementById("gate");
 const modeSelectEl = document.getElementById("modeSelect");
 const quizEl = document.getElementById("quiz");
 const summaryEl = document.getElementById("summary");
 const resultEl = document.getElementById("result");
-const errorEl = document.getElementById("error");
-const userInput = document.getElementById("username");
-const pwInput = document.getElementById("pw");
 
 const EXAM_QUESTION_COUNT = 25;
 const EXAM_SECONDS_PER_QUESTION = 60;
 const EXAM_PASS_THRESHOLD = 0.9;
-
-document.getElementById("unlock").addEventListener("click", tryUnlock);
-pwInput.addEventListener("keydown", e => { if (e.key === "Enter") tryUnlock(); });
-userInput.addEventListener("keydown", e => { if (e.key === "Enter") tryUnlock(); });
-
-async function tryUnlock() {
-  const username = userInput.value.trim().toLowerCase();
-  if (!username || !pwInput.value) {
-    errorEl.textContent = "Veuillez renseigner le nom d'utilisateur et le mot de passe.";
-    return;
-  }
-
-  let users;
-  try {
-    const res = await fetch("users/users.json", { cache: "no-store" });
-    users = await res.json();
-  } catch (e) {
-    errorEl.textContent = "Impossible de charger la liste des utilisateurs.";
-    return;
-  }
-
-  const hash = await sha256(`${username}:${pwInput.value}`);
-  const match = users.find(u => u.username === username && u.hash === hash);
-
-  if (match) {
-    currentUsername = username;
-    gateEl.classList.add("hidden");
-    document.querySelector(".avatar").textContent = username.slice(0, 2).toUpperCase();
-    const saved = loadFullState();
-    if (saved && saved.username === username && saved.mode === "full") {
-      resumeFromState(saved);
-    } else {
-      modeSelectEl.classList.remove("hidden");
-    }
-  } else {
-    errorEl.textContent = "Nom d'utilisateur ou mot de passe incorrect.";
-    pwInput.value = "";
-  }
-}
 
 const LETTERS = ["a", "b", "c", "d", "e"];
 let order = [];
@@ -534,7 +410,6 @@ let current = 0;
 let quizMode = "full";
 let questionTimerInterval = null;
 let questionSecondsLeft = 0;
-let currentUsername = "";
 let quizEndTime = 0;
 let globalTimerInterval = null;
 const FULL_QUIZ_SECONDS = 90 * 60; // 1h30 pour le quiz complet
@@ -542,9 +417,18 @@ const STORAGE_KEY = "quizSessionState";
 
 function saveFullState() {
   if (quizMode !== "full") return;
-  const state = { username: currentUsername, mode: quizMode, order, userAnswers, current, endTime: quizEndTime };
+  const state = { mode: quizMode, order, userAnswers, current, endTime: quizEndTime };
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 }
+
+(function init() {
+  const saved = loadFullState();
+  if (saved && saved.mode === "full") {
+    resumeFromState(saved);
+  } else {
+    modeSelectEl.classList.remove("hidden");
+  }
+})();
 
 function loadFullState() {
   try {
@@ -739,6 +623,7 @@ function showQuestion() {
     : "Suivant ►";
 
   refreshQnavGrid();
+  saveFullState();
 }
 
 function goToNextQuestion() {
