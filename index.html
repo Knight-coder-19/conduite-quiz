@@ -617,30 +617,30 @@ function showQuestion() {
     mediaEl.appendChild(imgEl);
   }
 
-  const isMulti = Array.isArray(q.answer);
-  document.getElementById("questionText").textContent = q.q + (isMulti ? "  (plusieurs réponses possibles)" : "");
+  const hasMultipleCorrect = Array.isArray(q.answer);
+  document.getElementById("questionText").textContent = q.q + (hasMultipleCorrect ? "  (plusieurs réponses possibles)" : "");
 
   const optsEl = document.getElementById("options");
   optsEl.innerHTML = "";
   const selected = userAnswers[current];
-  const selectedSet = isMulti ? new Set(selected || []) : null;
+  const selectedSet = new Set(selected || []);
   q.options.forEach((opt, i) => {
     const row = document.createElement("label");
     row.className = "option-row";
-    const isChecked = isMulti ? selectedSet.has(i) : selected === i;
+    const isChecked = selectedSet.has(i);
     if (isChecked) row.classList.add("selected");
-    row.innerHTML = `<input type="${isMulti ? "checkbox" : "radio"}" name="opt" ${isChecked ? "checked" : ""}>
+    row.innerHTML = `<input type="checkbox" name="opt" ${isChecked ? "checked" : ""}>
       <span class="option-letter">${LETTERS[i]}.</span><span>${opt}</span>`;
-    row.querySelector("input").addEventListener("click", e => { e.stopPropagation(); selectAnswer(i, isMulti); });
+    row.querySelector("input").addEventListener("click", e => { e.stopPropagation(); selectAnswer(i); });
     optsEl.appendChild(row);
   });
 
   const verified = quizMode === "full" && checkedAnswers[current];
-  const correctSet = new Set(isMulti ? q.answer : [q.answer]);
+  const correctSet = new Set(hasMultipleCorrect ? q.answer : [q.answer]);
   if (verified) {
     optsEl.querySelectorAll(".option-row").forEach((row, i) => {
       if (correctSet.has(i)) row.classList.add("correct");
-      else if (isMulti ? selectedSet.has(i) : selected === i) row.classList.add("incorrect");
+      else if (selectedSet.has(i)) row.classList.add("incorrect");
     });
   }
 
@@ -679,28 +679,20 @@ function goToNextQuestion() {
   }
 }
 
-function selectAnswer(i, isMulti) {
-  if (isMulti) {
-    const cur = new Set(userAnswers[current] || []);
-    if (cur.has(i)) cur.delete(i); else cur.add(i);
-    userAnswers[current] = cur.size ? Array.from(cur).sort((a, b) => a - b) : [];
-  } else {
-    userAnswers[current] = i;
-  }
+function selectAnswer(i) {
+  const cur = new Set(userAnswers[current] || []);
+  if (cur.has(i)) cur.delete(i); else cur.add(i);
+  userAnswers[current] = cur.size ? Array.from(cur).sort((a, b) => a - b) : [];
   checkedAnswers[current] = false;
   showQuestion();
 }
 
 function isAnswerCorrect(q, ua) {
-  if (Array.isArray(q.answer)) {
-    if (!Array.isArray(ua) || ua.length === 0) return false;
-    const correctSet = new Set(q.answer);
-    const userSet = new Set(ua);
-    if (correctSet.size !== userSet.size) return false;
-    for (const v of correctSet) if (!userSet.has(v)) return false;
-    return true;
-  }
-  return ua === q.answer;
+  const correctSet = new Set(Array.isArray(q.answer) ? q.answer : [q.answer]);
+  const userSet = new Set(ua || []);
+  if (userSet.size === 0 || correctSet.size !== userSet.size) return false;
+  for (const v of correctSet) if (!userSet.has(v)) return false;
+  return true;
 }
 
 function isAnswered(ua) {
@@ -789,9 +781,8 @@ function finishQuiz() {
   reviews.forEach(r => {
     const div = document.createElement("div");
     div.className = "review-item open";
-    const isMulti = Array.isArray(r.q.answer);
-    const correctSet = new Set(isMulti ? r.q.answer : [r.q.answer]);
-    const userSet = new Set(isMulti ? (r.ua || []) : (r.ua !== null ? [r.ua] : []));
+    const correctSet = new Set(Array.isArray(r.q.answer) ? r.q.answer : [r.q.answer]);
+    const userSet = new Set(r.ua || []);
 
     const header = document.createElement("div");
     header.className = "review-header";
