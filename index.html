@@ -291,6 +291,19 @@
   }
   .badge.ok { background: var(--success-bg); color: var(--success); }
   .badge.ko { background: var(--danger-bg); color: var(--danger); }
+
+  .feedback-panel {
+    border-radius: 6px;
+    padding: 0.8rem 0.9rem;
+    margin-top: 0.3rem;
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+  .feedback-panel.ok { background: var(--success-bg); border: 1px solid var(--success); }
+  .feedback-panel.ko { background: var(--danger-bg); border: 1px solid var(--danger); }
+  .feedback-panel .feedback-title { font-weight: 700; margin-bottom: 0.3rem; }
+  .feedback-panel.ok .feedback-title { color: var(--success); }
+  .feedback-panel.ko .feedback-title { color: var(--danger); }
 </style>
 </head>
 <body>
@@ -341,6 +354,8 @@
         <div id="questionMedia"></div>
         <div class="question-text" id="questionText"></div>
         <div id="options"></div>
+        <button class="btn-primary btn-block hidden" id="checkBtn" style="margin-top:0.3rem;">Vérifier ma réponse</button>
+        <div id="feedbackPanel" class="hidden feedback-panel"></div>
         <div class="quiz-nav-buttons">
           <button class="btn-secondary" id="prevBtn">◄ Précédent</button>
           <button class="btn-primary" id="nextBtn">Suivant ►</button>
@@ -406,6 +421,7 @@ const EXAM_PASS_THRESHOLD = 0.9;
 const LETTERS = ["a", "b", "c", "d", "e"];
 let order = [];
 let userAnswers = [];
+let checkedAnswers = [];
 let current = 0;
 let quizMode = "full";
 let questionTimerInterval = null;
@@ -417,7 +433,7 @@ const STORAGE_KEY = "quizSessionState";
 
 function saveFullState() {
   if (quizMode !== "full") return;
-  const state = { mode: quizMode, order, userAnswers, current, endTime: quizEndTime };
+  const state = { mode: quizMode, order, userAnswers, checkedAnswers, current, endTime: quizEndTime };
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 }
 
@@ -447,6 +463,7 @@ function resumeFromState(saved) {
   quizMode = saved.mode;
   order = saved.order;
   userAnswers = saved.userAnswers;
+  checkedAnswers = saved.checkedAnswers || new Array(order.length).fill(false);
   current = saved.current;
   quizEndTime = saved.endTime;
 
@@ -508,6 +525,7 @@ function startQuiz(mode) {
   const shuffled = shuffledIndices(QUESTIONS.length);
   order = quizMode === "exam" ? shuffled.slice(0, EXAM_QUESTION_COUNT) : shuffled;
   userAnswers = new Array(order.length).fill(null);
+  checkedAnswers = new Array(order.length).fill(false);
   current = 0;
 
   modeSelectEl.classList.add("hidden");
@@ -617,6 +635,31 @@ function showQuestion() {
     optsEl.appendChild(row);
   });
 
+  const verified = quizMode === "full" && checkedAnswers[current];
+  const correctSet = new Set(isMulti ? q.answer : [q.answer]);
+  if (verified) {
+    optsEl.querySelectorAll(".option-row").forEach((row, i) => {
+      if (correctSet.has(i)) row.classList.add("correct");
+      else if (isMulti ? selectedSet.has(i) : selected === i) row.classList.add("incorrect");
+    });
+  }
+
+  const checkBtn = document.getElementById("checkBtn");
+  checkBtn.classList.toggle("hidden", quizMode !== "full" || verified || !answered);
+
+  const feedbackEl = document.getElementById("feedbackPanel");
+  if (verified) {
+    const correct = isAnswerCorrect(q, selected);
+    const correctText = q.options.filter((_, i) => correctSet.has(i)).join(" ; ");
+    feedbackEl.className = "feedback-panel " + (correct ? "ok" : "ko");
+    feedbackEl.innerHTML = correct
+      ? `<div class="feedback-title">✅ Correct !</div><div>La bonne réponse est : <strong>${correctText}</strong>.</div>`
+      : `<div class="feedback-title">❌ Incorrect</div><div>La bonne réponse est : <strong>${correctText}</strong>.</div>`;
+  } else {
+    feedbackEl.className = "hidden feedback-panel";
+    feedbackEl.innerHTML = "";
+  }
+
   document.getElementById("prevBtn").disabled = quizMode === "exam" || current === 0;
   document.getElementById("nextBtn").textContent = current === order.length - 1
     ? (quizMode === "exam" ? "Terminer ►" : "Fin ►")
@@ -644,6 +687,7 @@ function selectAnswer(i, isMulti) {
   } else {
     userAnswers[current] = i;
   }
+  checkedAnswers[current] = false;
   showQuestion();
 }
 
@@ -675,6 +719,10 @@ document.getElementById("nextBtn").addEventListener("click", () => {
   if (current < order.length - 1) { current++; showQuestion(); }
 });
 document.getElementById("finishBtn").addEventListener("click", showSummary);
+document.getElementById("checkBtn").addEventListener("click", () => {
+  checkedAnswers[current] = true;
+  showQuestion();
+});
 
 function showSummary() {
   quizEl.classList.add("hidden");
